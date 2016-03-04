@@ -21,7 +21,7 @@
 
 # Meet Chaos Llama
 
-Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures.  Once configured and deployed, it will randomly terminate or otherwise interfere<sup>**[*](#features)**</sup> with the operation of your EC2 instances and ECS tasks. It is inspired by Netflix's [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey).
+Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures. Once configured and deployed, it will randomly terminate or otherwise interfere<sup>**[*](#features)**</sup> with the operation of your EC2 instances and ECS tasks. It is inspired by Netflix's [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey). Think of it as Chaos Monkey rebuilt with 2016 tech.
 
 ## Installation
 
@@ -45,10 +45,48 @@ Required policies:
 
 ### Setting up Chaos Llama
 
+To create the AWS Lambda function run:
+
 ```shell
-llama setup -r $lambda-role-arn
-llama config -f Llamafile.json
+llama deploy -r $lambda-role-arn
 ```
+
+This will create a state file (`llama_config.json`) which is needed for
+subsequent re-deploys, and deploy Chaos Llama to AWS. Llama will be configured
+to run once an hour, but it **won't do anything** every time it runs.
+
+To configure termination rules, run `deploy` with a [`Llamafile`](./Llamafile.json):
+
+```shell
+llama deploy -c Llamafile.json
+```
+
+#### Llamafile.json
+
+Example Llamafile:
+
+```javascript
+{
+  "interval": "60",
+  "enableForASGs": [
+  ],
+  "disableForASGs": [
+  ]
+}
+```
+
+**Options:**
+
+- `interval` (in minutes) - how frequently Chaos Llama should run. Minimum
+value is `5`. Default value is `60`.
+- `enableForASGs` - whitelist of names of ASGs to pick an instance from.
+Instances in other ASGs will be left alone. Empty list (`[]`) means Chaos Llama
+won't do anything.
+- `disableForASGs` - names of ASGs that should not be touched; instances in any
+other ASG are eligible for termination.
+
+If both `enableForASGs` and `disableForASGs` are specified, then only
+`enableForASGs` rules are applied.
 
 ## Chaos Llama vs Chaos Monkey
 
