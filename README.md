@@ -47,23 +47,8 @@ Required policies:
 
 ```shell
 llama setup -r $lambda-role-arn
-llama config -i 240
+llama config -f Llamafile.json
 ```
-
-## Current Limitations
-
-### Supported AWS Regions
-
-Chaos Llama will only work in these regions (due to a limitation with AWS Lambda Schedules):
-
-- US East (Northern Virginia)
-- US West (Oregon)
-- Europe (Ireland)
-- Asia Pacific (Tokyo)
-
-### Features
-
-Right now, Chaos Llama only knows how to terminate instances and does not support more advanced interference modes, like introducing extra latency.
 
 ## Chaos Llama vs Chaos Monkey
 
@@ -90,6 +75,20 @@ Chaos Llama is inspired by Netflix’s <a href="https://github.com/Netflix/Simia
 
 Further reading: [Principles Of Chaos Engineering](http://principlesofchaos.org)
 
+## Current Limitations
+
+### Supported AWS Regions
+
+Chaos Llama will only work in these regions (due to a limitation with AWS Lambda Schedules):
+
+- US East (Northern Virginia)
+- US West (Oregon)
+- Europe (Ireland)
+- Asia Pacific (Tokyo)
+
+### Features
+
+Right now, Chaos Llama only knows how to terminate instances and does not support more advanced interference modes, like introducing extra latency.
 
 ## License
 
