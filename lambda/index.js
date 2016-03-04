@@ -56,8 +56,6 @@ ec2.describeInstances(function(err, data) {
 
   console.log('Going to terminate instance with id = %s', target.InstanceId);
 
-  return context.done(null);
-
   ec2.terminateInstances({InstanceIds:[target.InstanceId]}, function(err, data) {
     if (err) {
       return context.done(err, null);
