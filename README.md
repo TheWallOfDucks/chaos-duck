@@ -21,7 +21,7 @@
 
 # Meet Chaos Llama
 
-Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures.  Once configured and deployed, it will randomly terminate or otherwise interfere with the operation of your EC2 instances and ECS tasks. It is inspired by Netflix's [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey).
+Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures.  Once configured and deployed, it will randomly terminate or otherwise interfere<sup>**[*](#features)**</sup> with the operation of your EC2 instances and ECS tasks. It is inspired by Netflix's [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey).
 
 ## Installation
 
@@ -52,12 +52,18 @@ llama config -i 240
 
 ## Current Limitations
 
+### Supported AWS Regions
+
 Chaos Llama will only work in these regions (due to a limitation with AWS Lambda Schedules):
 
 - US East (Northern Virginia)
 - US West (Oregon)
 - Europe (Ireland)
 - Asia Pacific (Tokyo)
+
+### Features
+
+Right now, Chaos Llama only knows how to terminate instances and does not support more advanced interference modes, like introducing extra latency.
 
 ## Chaos Llama vs Chaos Monkey
 
