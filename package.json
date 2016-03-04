@@ -1,6 +1,6 @@
 {
   "name": "llama-cli",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures.",
   "main": "./bin/llama",
   "scripts": {
