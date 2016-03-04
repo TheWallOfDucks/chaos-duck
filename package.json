@@ -2,7 +2,7 @@
   "name": "llama-cli",
   "version": "0.0.1",
   "description": "Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures.",
-  "main": "index.js",
+  "main": "./bin/llama",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,11 +19,20 @@
   ],
   "author": "Hassy Veldstra <h@artillery.io>",
   "license": "MPL-2.0",
+  "preferGlobal": true,
+  "bin": {
+    "llama": "./bin/llama"
+  },
   "bugs": {
     "url": "https://github.com/hassy/llama-cli/issues"
   },
   "homepage": "https://github.com/hassy/llama-cli#readme",
   "dependencies": {
-    "aws-sdk": "2.2.40"
+    "async": "1.5.2",
+    "aws-sdk": "2.2.40",
+    "chalk": "1.1.1",
+    "debug": "2.2.0",
+    "lodash": "4.6.1",
+    "yargs": "4.2.0"
   }
 }
