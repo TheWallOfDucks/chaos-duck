@@ -59,9 +59,38 @@ Chaos Llama will only work in these regions (due to a limitation with AWS Lambda
 - Europe (Ireland)
 - Asia Pacific (Tokyo)
 
+## Chaos Llama vs Chaos Monkey
+
+Chaos Llama is inspired by Netflix’s <a href="https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey">Chaos Monkey</a>. Curious about the differences? Here’s a handy summary:
+
+| Llama           | Monkey  |
+|:-------------|:-----|
+| Serverless (runs on AWS Lambda) - no maintenance | Needs EC2 instances to run on |
+| Extremely easy to deploy      | Needs quite a bit of setup and config ([&raquo;&raquo;&raquo;](https://github.com/Netflix/SimianArmy/wiki/Quick-Start-Guide)) |
+| Small codebase, easy to understand and extend (<400 SLOC)      | Large codebase (thousands of SLOC) |
+| Written in JS | Written in Java |
+| New on the scene | Mature project |
+| Small featureset | Many features |
+| ECS support in the works | Does not support ECS |
+| Open source under MPL 2.0 / MIT | Open source under APL 2.0 |
+| Developed by [Shoreditch Ops](https://twitter.com/ShoreditchOps) | Developed by Netflix |
+
+
+## Why Use Chaos Llama?
+
+> Failures happen, and they inevitably happen when least desired. If your application can't tolerate a system failure would you rather find out by being paged at 3am or after you are in the office having already had your morning coffee? Even if you are confident that your architecture can tolerate a system failure, are you sure it will still be able to next week, how about next month? Software is complex and dynamic, that "simple fix" you put in place last week could have undesired consequences. Do your traffic load balancers correctly detect and route requests around system failures? Can you reliably rebuild your systems? Perhaps an engineer "quick patched" a live system last week and forgot to commit the changes to your source repository?
+
+(source: [Chaos Monkey wiki](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey#why-run-chaos-monkey))
+
+Further reading: [Principles Of Chaos Engineering](http://principlesofchaos.org)
+
+
 ## License
 
 MPL 2.0 - see [LICENSE.txt](./LICENSE.txt) for details.
 
 The [lambda/index.js](./lambda/index.js) file is dual-licensed under MPL 2.0 and MIT and can be used under the terms of either of those licenses.
 
+---
+
+<sub>A project by [Shoreditch Ops](https://twitter.com/ShoreditchOps), creators of [artillery.io](https://artillery.io) - simple &amp; powerful load-testing with Node.js</sub>
