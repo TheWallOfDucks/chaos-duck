@@ -21,7 +21,7 @@
 
 # Meet Chaos Llama
 
-Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures. Once configured and deployed, it will randomly terminate or otherwise interfere<sup>**[*](#features)**</sup> with the operation of your EC2 instances and ECS tasks. It is inspired by Netflix's [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey). Think of it as Chaos Monkey rebuilt with 2016 tech.
+Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures. Once configured and deployed, it will randomly terminate or otherwise interfere<sup>**[*](#features)**</sup> with the operation of your EC2 instances and ECS tasks. It is inspired by Netflix's [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey), but instead of requiring an EC2 instance to run on, it uses AWS Lambda. Think of it as Chaos Monkey rebuilt with 2016 tech.
 
 ## Installation
 
