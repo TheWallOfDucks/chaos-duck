@@ -128,6 +128,10 @@ Chaos Llama will only work in these regions (due to a limitation with AWS Lambda
 
 Right now, Chaos Llama only knows how to terminate instances and does not support more advanced interference modes, like introducing extra latency.
 
+## Support
+
+File an [issue](https://github.com/hassy/llama-cli/issues) or drop me a line on [h@veldstra.org](h@veldstra.org).
+
 ## License
 
 MPL 2.0 - see [LICENSE.txt](./LICENSE.txt) for details.
