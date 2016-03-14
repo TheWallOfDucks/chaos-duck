@@ -130,7 +130,7 @@ Right now, Chaos Llama only knows how to terminate instances and does not suppor
 
 ## Support
 
-File an [issue](https://github.com/hassy/llama-cli/issues) or drop me a line on [h@veldstra.org](h@veldstra.org).
+File an [issue](https://github.com/hassy/llama-cli/issues) or drop me a line on [h@veldstra.org](mailto:h@veldstra.org).
 
 ## License
 
