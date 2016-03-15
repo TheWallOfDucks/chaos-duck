@@ -140,4 +140,4 @@ The [lambda/index.js](./lambda/index.js) file is dual-licensed under MPL 2.0 and
 
 ---
 
-<sub>A project by [Shoreditch Ops](https://twitter.com/ShoreditchOps), creators of [artillery.io](https://artillery.io) - simple &amp; powerful load-testing with Node.js</sub>
+<sub>A project by [Shoreditch Ops](https://twitter.com/ShoreditchOps), creators of [artillery.io](https://artillery.io) ⚡️ - simple &amp; powerful load-testing framework.</sub>
