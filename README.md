@@ -14,7 +14,7 @@
      --   --
 ```
 
-- **Website**: [https://llamajs.com](http://llamajs.com)
+- **Website**: [https://llamakit.com](http://llamakit.com)
 - **Source**: [https://github.com/hassy/llama-cli](https://github.com/hassy/llama-cli)
 - **Issues**: [https://github.com/hassy/llama-cli/issues](https://github.com/hassy/llama-cli/issues)
 - **Twitter**: [@hveldstra](https://twitter.com/hveldstra)
