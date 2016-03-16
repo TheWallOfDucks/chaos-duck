@@ -138,11 +138,19 @@ Right now, Chaos Llama only knows how to terminate instances and does not suppor
 
 File an [issue](https://github.com/hassy/llama-cli/issues) or drop me a line on [h@veldstra.org](mailto:h@veldstra.org). Enterprise support and consulting is available through [Shoreditch Ops](https://artillery.io/enterprise.html).
 
+## Contributing
+
+Please see the [Contributor's Guide](CONTRIBUTING.md)
+
 ## License
 
 MPL 2.0 - see [LICENSE.txt](./LICENSE.txt) for details.
 
 The [lambda/index.js](./lambda/index.js) file is dual-licensed under MPL 2.0 and MIT and can be used under the terms of either of those licenses.
+
+## Contributors
+
+- Hassy Veldstra <[h@artillery.io](mailto:h@artillery.io)>
 
 ---
 
