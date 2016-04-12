@@ -136,7 +136,7 @@ Right now, Chaos Llama only knows how to terminate instances and does not suppor
 
 ## Support
 
-File an [issue](https://github.com/hassy/llama-cli/issues) or drop me a line on [h@veldstra.org](mailto:h@veldstra.org). Enterprise support and consulting is available through [Shoreditch Ops](https://artillery.io/enterprise.html).
+File an [issue](https://github.com/hassy/llama-cli/issues) or drop me a line on [h@veldstra.org](mailto:h@veldstra.org).
 
 ## Contributing
 
