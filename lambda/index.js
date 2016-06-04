@@ -8,6 +8,14 @@ AWS.config.region = llamaConfig.region || 'eu-west-1';
 
 exports.handler = function(event, context) {
 console.log('Chaos Llama starting up');
+
+if (llamaConfig.probability) {
+  if (randomIntFromInterval(1,100) >= llamaConfig.probability && llamaConfig.probability != 100) {
+    console.log('Probability says it is not chaos time');
+    return context.done(null,null);
+  }
+}
+
 var ec2 = new AWS.EC2();
 
 ec2.describeInstances(function(err, data) {
@@ -66,3 +74,8 @@ ec2.describeInstances(function(err, data) {
   });
 });
 };
+
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}

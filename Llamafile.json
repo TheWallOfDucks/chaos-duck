@@ -1,5 +1,6 @@
 {
   "interval": "60",
+  "probability": 100,
   "enableForASGs": [
   ],
   "disableForASGs": [
