@@ -28,12 +28,13 @@
   },
   "homepage": "https://github.com/hassy/llama-cli#readme",
   "dependencies": {
-    "adm-zip": "0.4.7",
+    "archiver": "^1.0.0",
     "async": "1.5.2",
     "aws-sdk": "2.2.40",
     "chalk": "1.1.1",
     "debug": "2.2.0",
     "lodash": "4.6.1",
+    "request-promise": "^3.0.0",
     "tmp": "0.0.28",
     "yargs": "4.2.0"
   }
