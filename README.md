@@ -94,6 +94,12 @@ other ASG are eligible for termination.
 If both `enableForASGs` and `disableForASGs` are specified, then only
 `enableForASGs` rules are applied.
 
+**Enable/Disable/Status:**
+Once deployed you can enable and disable Chaos Llama without redeploying.
+- `llama disable` - Will disable Chaos Llama
+- `llama enable` - Will enable Chaos Llama
+- `llama status` - Will display current status
+
 ## Chaos Llama vs Chaos Monkey
 
 Chaos Llama is inspired by Netflix’s <a href="https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey">Chaos Monkey</a>. Curious about the differences? Here’s a handy summary:
