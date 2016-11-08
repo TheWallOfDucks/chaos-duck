@@ -14,16 +14,18 @@
      --   --
 ```
 
-- **Website**: [https://llamakit.com](http://llamakit.com)
-- **Source**: [https://github.com/hassy/llama-cli](https://github.com/hassy/llama-cli)
-- **Issues**: [https://github.com/hassy/llama-cli/issues](https://github.com/hassy/llama-cli/issues)
-- **Twitter**: [@hveldstra](https://twitter.com/hveldstra)
+- **Website**: [https://github.com/shoreditch-ops/llama-cli#readme](https://github.com/shoreditch-ops/llama-cli#readme)
+- **Source**: [https://github.com/shoreditch-ops/llama-cli](https://github.com/shoreditch-ops/llama-cli)
+- **Issues**: [https://github.com/shoreditch-ops/llama-cli/issues](https://github.com/shoreditch-ops/llama-cli/issues)
+- **Twitter**: [@ShoreditchOps](https://twitter.com/ShoreditchOps)
 
 # Meet Chaos Llama
 
-Chaos Llama will wreak havoc* on your AWS infrastructure to help you build systems that are lean, mean, and resilient to failure.
+**Chaos Llama** is a serverless implementation of Netflix's [Chaos Monkey](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey).
 
-<sub>* - in a controlled manner, Llama is there to serve you and would never go rogue</sub>
+It will wreak havoc\* on your AWS infrastructure to help you build systems that are **lean**, **mean**, and **resilient to failure**.
+
+<sub>* - in an extremely controlled manner, Llama is there to serve you, would never go rogue, and is **disabled by default**</sub>
 
 # About
 
@@ -31,11 +33,15 @@ Chaos Llama is a small tool for testing resiliency and recoverability of AWS-bas
 
 ## Installation
 
+You need [Node.js](https://nodejs.org/en/) to use Chaos Llama (we will rewrite the CLI in Golang ats some point):
+
 ```shell
+# npm comes bundled with Node.js
 npm install -g llama-cli
 ```
 
 ## Setting Up
+
 ### AWS Configuration
 
 An IAM user and a role for the lambda need to be set up first.
@@ -109,10 +115,9 @@ Chaos Llama is inspired by Netflix’s <a href="https://github.com/Netflix/Simia
 | Serverless (runs on AWS Lambda) - no maintenance | Needs EC2 instances to run on |
 | Extremely easy to deploy      | Needs quite a bit of setup and config ([&raquo;&raquo;&raquo;](https://github.com/Netflix/SimianArmy/wiki/Quick-Start-Guide)) |
 | Small codebase, easy to understand and extend (<400 SLOC)      | Large codebase (thousands of SLOC) |
-| Written in JS | Written in Java |
+| Written in JS | Written in Go |
 | New on the scene | Mature project |
-| Small featureset | Many features |
-| ECS support in the works | Does not support ECS |
+| Small feature set | Many features |
 | Open source under MPL 2.0 / MIT | Open source under APL 2.0 |
 | Developed by [Shoreditch Ops](https://twitter.com/ShoreditchOps) | Developed by Netflix |
 
@@ -138,11 +143,11 @@ Chaos Llama will only work in these regions (due to a limitation with AWS Lambda
 
 ### Features
 
-Right now, Chaos Llama only knows how to terminate instances and does not support more advanced interference modes, like introducing extra latency (but it's on the roadmap and being worked on, see [Issue #4](https://github.com/hassy/llama-cli/issues/4)).
+Right now, Chaos Llama only knows how to terminate instances and does not support more advanced interference modes, like introducing extra latency (but it's on the roadmap and being worked on, see [Issue #4](https://github.com/shoreditch-ops/llama-cli/issues/4)).
 
 ## Support
 
-File an [issue](https://github.com/hassy/llama-cli/issues) or drop me a line on [h@veldstra.org](mailto:h@veldstra.org).
+File an [issue](https://github.com/shoreditch-ops/llama-cli/issues) or drop us a line on [team@artillery.io](mailto:team@artillery.io).
 
 ## Contributing
 
