@@ -1,6 +1,6 @@
 {
   "name": "chaos-lambda",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Chaos Lambda is a small tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
   "main": "./bin/chaos-lambda",
   "scripts": {
