@@ -10,11 +10,11 @@ var commands = require('../lib/commands');
 
 var argv = yargs.usage('Usage: $0 <command> [options]')
     .demand(1)
-    .command('deploy', 'Deploy Chaos Llama to AWS', commands.deploy)
-    .command('enable', 'Enable Chaos Llama', commands.status)
-    .command('disable', 'Disable Chaos Llama', commands.status)
+    .command('deploy', 'Deploy Chaos Lambda to AWS', commands.deploy)
+    .command('enable', 'Enable Chaos Lambda', commands.status)
+    .command('disable', 'Disable Chaos Lambda', commands.status)
     .command('status', 'Display Current Status', commands.status)
-    .command('winamp', false, commands.winamp)
+    //.command('winamp', false, commands.winamp)
     .help('help')
     .epilog('A Shoreditch Ops project - https://twitter.com/ShoreditchOps')
     .argv;

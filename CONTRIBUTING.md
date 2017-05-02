@@ -8,7 +8,7 @@ success and shared ownership.
 
 ## How To Contribute
 
-1. Every patch should correspond to an [Issue](https://github.com/hassy/llama-cli/issues).
+1. Every patch should correspond to an [Issue](https://github.com/hassy/chaos-lambda/issues).
 2. For sending PRs, please use the [Fork+Pull](http://help.github.com/send-pull-requests/) process.
 3. Once your PR is merged, please send a PR adding yourself to the [contributors list](README.md#contributors).
 

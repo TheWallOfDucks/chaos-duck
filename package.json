@@ -1,14 +1,14 @@
 {
-  "name": "llama-cli",
+  "name": "chaos-lambda",
   "version": "1.1.0",
-  "description": "Chaos Llama is a small tool for testing resiliency and recoverability of AWS-based architectures.",
-  "main": "./bin/llama",
+  "description": "Chaos Lambda is a small tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
+  "main": "./bin/chaos-lambda",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hassy/llama-cli.git"
+    "url": "git+https://github.com/hassy/chaos-lambda.git"
   },
   "keywords": [
     "aws",
@@ -21,12 +21,12 @@
   "license": "MPL-2.0",
   "preferGlobal": true,
   "bin": {
-    "llama": "./bin/llama"
+    "chaos-lambda": "./bin/chaos-lambda"
   },
   "bugs": {
-    "url": "https://github.com/hassy/llama-cli/issues"
+    "url": "https://github.com/hassy/chaos-lambda/issues"
   },
-  "homepage": "https://github.com/hassy/llama-cli#readme",
+  "homepage": "https://github.com/hassy/chaos-lambda#readme",
   "dependencies": {
     "archiver": "^1.0.0",
     "async": "1.5.2",
