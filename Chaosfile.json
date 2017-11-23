@@ -4,5 +4,11 @@
   "enableForASGs": [
   ],
   "disableForASGs": [
+  ],
+  "enableForTags": [
+  	{
+  		"key": "chaos_monkey",
+  		"value": "true"
+  	}
   ]
 }
