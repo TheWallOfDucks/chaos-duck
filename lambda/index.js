@@ -51,6 +51,14 @@ ec2.describeInstances(function(err, data) {
               }
             }
           }
+        } else {
+          if (llamaConfig.enableForTags) {
+            llamaConfig.enableForTags.forEach(function(asgTags) {
+              if (asgTags.key == tag.Key && asgTags.value == tag.Value) {
+                candidates.push(inst);
+              }
+            });
+          }
         }
       });
     });
