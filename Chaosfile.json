@@ -9,6 +9,12 @@
   	{
   		"key": "chaos_monkey",
   		"value": "true"
+	}
+  ],
+  "slackWebhook": [
+  	{
+  		"channel": "#random",
+  		"webhookId": "XXXXXXXXX"
   	}
   ]
 }
