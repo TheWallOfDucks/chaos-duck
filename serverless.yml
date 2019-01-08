@@ -1,0 +1,32 @@
+service: chaos-duck
+
+package:
+  individually: false
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 1024
+  timeout: 15
+  stage: dev
+  iamManagedPolicies:
+    - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
+    - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
+    - 'arn:aws:iam::aws:policy/AmazonECS_FullAccess'
+  region: us-east-1
+  versionFunctions: false
+  environment:
+    ACCOUNT_ID:
+      Ref: AWS::AccountId
+
+functions:
+  chaos:
+    handler: lib/lambda/index.handler
+    timeout: 30
+    events:
+      - http:
+          path: qa/chaos
+          method: post
+      
+plugins:
+    - serverless-offline

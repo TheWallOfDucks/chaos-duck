@@ -1,4 +1,6 @@
 .DS_Store
 node_modules
-llama_config.json
 .vscode
+lib
+.gradle
+.serverless

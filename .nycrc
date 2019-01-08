@@ -1,0 +1,40 @@
+{
+    "silent": true,
+    "extension": [
+      ".js"
+    ],
+    "include": [
+      "lib/src/classes"
+    ],
+    "exclude": ["lib/src/classes/utility.js"],
+    "reporter": [
+      "text",
+      "text-summary",
+      "html",
+      "cobertura"
+    ],
+    "watermarks": {
+      "lines": [
+        90,
+        95
+      ],
+      "functions": [
+        90,
+        95
+      ],
+      "branches": [
+        90,
+        95
+      ],
+      "statements": [
+        90,
+        95
+      ]
+    },
+    "cache": true,
+    "per-file": true,
+    "lines": 90,
+    "statements": 90,
+    "functions": 90,
+    "branches": 90
+}
