@@ -18,9 +18,9 @@
     ],
     "repository": "https://bitbucket.org/APITURE/chaos-duck",
     "config": {
-        "awsEnv": "st1",
-        "awsAccount": "819738480587",
-        "awsRole": "Open-Sandbox-Team1-Administrator",
+        "awsEnv": "sandbox",
+        "awsAccount": "439153947667",
+        "awsRole": "Open-Sandbox-Developer",
         "awsProfile": "default",
         "awsStage": "dev"
     },
@@ -46,7 +46,6 @@
         "jasmine-spec-reporter": "^4.2.1",
         "nyc": "^13.1.0",
         "serverless": "^1.32.0",
-        "serverless-dotenv-plugin": "^2.0.1",
         "serverless-offline": "^3.31.0",
         "tslint": "^5.11.0",
         "tslint-config-airbnb": "^5.10.0",
