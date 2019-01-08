@@ -30,7 +30,7 @@
   "dependencies": {
     "archiver": "^1.0.0",
     "async": "1.5.2",
-    "aws-sdk": "2.2.40",
+    "aws-sdk": "^2.384.0",
     "chalk": "1.1.1",
     "debug": "2.2.0",
     "lodash": "4.6.1",
