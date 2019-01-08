@@ -6,9 +6,9 @@ export const handler = async (event) => {
     const elasticache = new ElastiCache();
 
     const stoppedTask = await ecs.stopRandomTask();
-    console.log(JSON.stringify(stoppedTask, null, 2));
+    // console.log(JSON.stringify(stoppedTask, null, 2));
 
-    await elasticache.failover();
+    // const failover = await elasticache.failover();
 
     return {
         statusCode: 200,

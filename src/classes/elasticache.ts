@@ -39,10 +39,21 @@ export class ElastiCache {
             const cluster = clusters.CacheClusters[Math.floor(Math.random() * clusters.CacheClusters.length)];
             console.log(`Chosen ElastiCache cluster: ${JSON.stringify(cluster, null, 2)}`);
 
-            const replicationGroup = await this.describeReplicationGroups(cluster.ReplicationGroupId);
-            console.log(JSON.stringify(replicationGroup, null, 2));
+            const replicationGroups = await this.describeReplicationGroups(cluster.ReplicationGroupId);
+            const replicationGroup = replicationGroups.ReplicationGroups[Math.floor(Math.random() * replicationGroups.ReplicationGroups.length)];
+            const nodeGroup = replicationGroup.NodeGroups[Math.floor(Math.random() * replicationGroup.NodeGroups.length)];
 
-            return;
+            return this.testFailover(nodeGroup.NodeGroupId, replicationGroup.ReplicationGroupId);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async testFailover(NodeGroupId, ReplicationGroupId) {
+        try {
+            console.log(`Testing failover for NodeGroupId: ${NodeGroupId} and ReplicationGroupId: ${ReplicationGroupId}`);
+            const testFailover = this.elasticache.testFailover({ NodeGroupId, ReplicationGroupId }).promise();
+            return await testFailover;
         } catch (error) {
             throw new Error(error);
         }
