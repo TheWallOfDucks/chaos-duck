@@ -13,6 +13,7 @@ provider:
     - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
     - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
     - 'arn:aws:iam::aws:policy/AmazonECS_FullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonElastiCacheFullAccess'
   region: us-east-1
   versionFunctions: false
   environment:
