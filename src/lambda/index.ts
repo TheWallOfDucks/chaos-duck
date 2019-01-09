@@ -1,4 +1,5 @@
 import { Chaos } from '../classes/chaos';
+import { Slack } from '../classes/slack';
 
 export const handler = async (event) => {
     try {
@@ -15,6 +16,9 @@ export const handler = async (event) => {
 
         const chaos = new Chaos(services);
         const result = await chaos.invoke();
+
+        // await Slack.post(result);
+
         return {
             statusCode: 200,
             body: JSON.stringify(result, null, 2),
