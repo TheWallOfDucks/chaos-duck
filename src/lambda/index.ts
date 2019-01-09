@@ -1,17 +1,35 @@
-import { ECS } from '../classes/ecs';
-import { ElastiCache } from '../classes/elasticache';
+import { Chaos } from '../classes/chaos';
+import { Slack } from '../classes/slack';
 
 export const handler = async (event) => {
-    const ecs = new ECS();
-    const elasticache = new ElastiCache();
+    try {
+        let services: string[];
 
-    const stoppedTask = await ecs.stopRandomTask();
-    // console.log(JSON.stringify(stoppedTask, null, 2));
+        if (event.body) {
+            const body = JSON.parse(event.body);
+            services = body.services || ['ecs', 'elasticache'];
+        } else {
+            services = ['ecs', 'elasticache'];
+        }
 
-    // const failover = await elasticache.failover();
+        console.log(`Desired services to unleash chaos-duck on are: ${services}`);
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify(stoppedTask, null, 2),
-    };
+        const chaos = new Chaos(services);
+        const result = await chaos.invoke();
+
+        if (Slack.enabled) {
+            const message = Slack.buildMessage(result);
+            await Slack.post(message);
+        }
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify(result, null, 2),
+        };
+    } catch (error) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ message: error.message }, null, 2),
+        };
+    }
 };

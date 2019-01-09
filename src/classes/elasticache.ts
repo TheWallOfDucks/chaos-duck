@@ -1,4 +1,6 @@
 import { ElastiCache as sdk } from 'aws-sdk';
+import { Utility } from './utility';
+import { chaosFunction } from '../decorators';
 
 export class ElastiCache {
     private elasticache: sdk;
@@ -7,7 +9,7 @@ export class ElastiCache {
         this.elasticache = new sdk();
     }
 
-    async describeCacheClusters() {
+    private async describeCacheClusters() {
         try {
             const describeCacheClusters = this.elasticache.describeCacheClusters({}).promise();
             return await describeCacheClusters;
@@ -16,7 +18,7 @@ export class ElastiCache {
         }
     }
 
-    async describeReplicationGroups(ReplicationGroupId: string) {
+    private async describeReplicationGroups(ReplicationGroupId: string) {
         try {
             const describeReplicationGroups = this.elasticache.describeReplicationGroups({ ReplicationGroupId }).promise();
             return await describeReplicationGroups;
@@ -25,23 +27,25 @@ export class ElastiCache {
         }
     }
 
+    @chaosFunction()
     async failover() {
         try {
-            const cacheClusters = [];
+            const cacheClusters: sdk.CacheCluster[] = [];
             const clusters = await this.describeCacheClusters();
 
+            // @todo need to take this out
             clusters.CacheClusters.forEach((cluster) => {
                 if (cluster.Engine !== 'memcached') {
                     cacheClusters.push(cluster);
                 }
             });
 
-            const cluster = clusters.CacheClusters[Math.floor(Math.random() * clusters.CacheClusters.length)];
+            const cluster: sdk.CacheCluster = Utility.getRandom(clusters.CacheClusters);
             console.log(`Chosen ElastiCache cluster: ${JSON.stringify(cluster, null, 2)}`);
 
             const replicationGroups = await this.describeReplicationGroups(cluster.ReplicationGroupId);
-            const replicationGroup = replicationGroups.ReplicationGroups[Math.floor(Math.random() * replicationGroups.ReplicationGroups.length)];
-            const nodeGroup = replicationGroup.NodeGroups[Math.floor(Math.random() * replicationGroup.NodeGroups.length)];
+            const replicationGroup: sdk.ReplicationGroup = Utility.getRandom(replicationGroups.ReplicationGroups);
+            const nodeGroup: sdk.NodeGroup = Utility.getRandom(replicationGroup.NodeGroups);
 
             return this.testFailover(nodeGroup.NodeGroupId, replicationGroup.ReplicationGroupId);
         } catch (error) {
@@ -49,7 +53,7 @@ export class ElastiCache {
         }
     }
 
-    async testFailover(NodeGroupId, ReplicationGroupId) {
+    private async testFailover(NodeGroupId: string, ReplicationGroupId: string) {
         try {
             console.log(`Testing failover for NodeGroupId: ${NodeGroupId} and ReplicationGroupId: ${ReplicationGroupId}`);
             const testFailover = this.elasticache.testFailover({ NodeGroupId, ReplicationGroupId }).promise();
