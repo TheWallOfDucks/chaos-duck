@@ -19,7 +19,6 @@ export const handler = async (event) => {
 
         if (Slack.enabled) {
             const message = Slack.buildMessage(result);
-            console.log('message => ', message);
             await Slack.post(message);
         }
 

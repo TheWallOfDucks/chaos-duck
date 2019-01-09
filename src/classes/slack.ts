@@ -74,7 +74,7 @@ export class Slack {
                         short: false,
                     },
                 ];
-                return template;
+                return JSON.stringify(template);
             default:
                 return `Could not match ${data.service}`;
         }
