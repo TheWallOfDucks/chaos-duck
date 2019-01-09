@@ -1,6 +1,7 @@
 import { ElastiCache as sdk } from 'aws-sdk';
 import { Utility } from './utility';
 import { chaosFunction } from '../decorators';
+
 export class ElastiCache {
     private elasticache: sdk;
 

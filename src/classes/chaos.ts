@@ -1,6 +1,7 @@
 import { ECS } from './ecs';
 import { ElastiCache } from './elasticache';
 import { Utility } from './utility';
+import { chaosFunctions } from '../decorators';
 
 export class Chaos {
     private _ecs: ECS;
@@ -11,13 +12,6 @@ export class Chaos {
         this.ecs = new ECS();
         this.elasticache = new ElastiCache();
         this.services = services;
-    }
-
-    get chaosObject() {
-        return {
-            ecs: [],
-            elasticache: [],
-        };
     }
 
     get ecs() {
@@ -39,22 +33,19 @@ export class Chaos {
     async invoke() {
         try {
             const service = Utility.getRandom(this.services);
-            let chaosFunctions: PropertyDescriptor;
             let chaosFunction: string;
 
             console.log(`The chosen service is: ${service}`);
 
             switch (service) {
                 case 'ecs':
-                    chaosFunctions = Object.getOwnPropertyDescriptor(ECS.prototype, 'chaos');
-                    chaosFunction = Utility.getRandom(chaosFunctions.value);
+                    chaosFunction = Utility.getRandom(chaosFunctions[service]);
                     return {
                         service: 'ECS',
                         result: await this.ecs[chaosFunction](),
                     };
                 case 'elasticache':
-                    chaosFunctions = Object.getOwnPropertyDescriptor(ElastiCache.prototype, 'chaos');
-                    chaosFunction = Utility.getRandom(chaosFunctions.value);
+                    chaosFunction = Utility.getRandom(chaosFunctions[service]);
                     return {
                         service: 'ElastiCache',
                         result: await this.elasticache[chaosFunction](),

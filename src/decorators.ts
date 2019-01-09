@@ -1,10 +1,13 @@
+export const chaosFunctions = {};
+
 export function chaosFunction() {
     return (target: any, key: string, descriptor: PropertyDescriptor) => {
-        if (!target['chaos']) {
-            Object.defineProperty(target, 'chaos', { value: [key] });
+        const className = target['constructor'].name.toLowerCase();
+
+        if (!chaosFunctions[className]) {
+            chaosFunctions[className] = [key];
         } else {
-            target['chaos'].push(key);
+            chaosFunctions[className].push(key);
         }
-        return descriptor;
     };
 }
