@@ -37,29 +37,39 @@ export class Chaos {
     }
 
     async invoke() {
-        const service = Utility.getRandom(this.services);
-        let chaosFunctions: PropertyDescriptor;
-        let chaosFunction: string;
+        try {
+            const service = Utility.getRandom(this.services);
+            let chaosFunctions: PropertyDescriptor;
+            let chaosFunction: string;
 
-        console.log(`The chosen service is ${service}`);
+            console.log(`The chosen service is: ${service}`);
 
-        switch (service) {
-            case 'ecs':
-                chaosFunctions = Object.getOwnPropertyDescriptor(ECS.prototype, 'chaos');
-                chaosFunction = Utility.getRandom(chaosFunctions.value);
-                return {
-                    service: 'ECS',
-                    result: await this.ecs[chaosFunction](),
-                };
-            case 'elasticache':
-                chaosFunctions = Object.getOwnPropertyDescriptor(ElastiCache.prototype, 'chaos');
-                chaosFunction = Utility.getRandom(chaosFunctions.value);
-                return {
-                    service: 'ElastiCache',
-                    result: await this.elasticache[chaosFunction](),
-                };
-            default:
-                return `Unable to find chaos function for ${service}`;
+            switch (service) {
+                case 'ecs':
+                    chaosFunctions = Object.getOwnPropertyDescriptor(ECS.prototype, 'chaos');
+                    chaosFunction = Utility.getRandom(chaosFunctions.value);
+                    return {
+                        service: 'ECS',
+                        result: await this.ecs[chaosFunction](),
+                    };
+                case 'elasticache':
+                    chaosFunctions = Object.getOwnPropertyDescriptor(ElastiCache.prototype, 'chaos');
+                    chaosFunction = Utility.getRandom(chaosFunctions.value);
+                    return {
+                        service: 'ElastiCache',
+                        result: await this.elasticache[chaosFunction](),
+                    };
+                default:
+                    throw Error(
+                        JSON.stringify({
+                            service,
+                            result: 'ServiceNotFound',
+                            resolution: 'Provide a valid array of services to unleash chaos on',
+                        }),
+                    );
+            }
+        } catch (error) {
+            throw error;
         }
     }
 

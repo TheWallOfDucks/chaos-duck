@@ -28,6 +28,16 @@ functions:
       - http:
           path: qa/chaos
           method: post
+          response:
+            headers:
+              Content-Type: "'application/json'"
+            statusCodes:
+              200:
+                pattern: ''
+              400:
+                pattern: '.*"statusCode":400,.*'
+              500:
+                pattern: '.*"statusCode":500,.*'
       
 plugins:
     - serverless-offline
