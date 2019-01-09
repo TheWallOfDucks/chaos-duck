@@ -1,17 +1,17 @@
-import { ECS } from '../classes/ecs';
-import { ElastiCache } from '../classes/elasticache';
+import { Chaos } from '../classes/chaos';
 
 export const handler = async (event) => {
-    const ecs = new ECS();
-    const elasticache = new ElastiCache();
-
-    const stoppedTask = await ecs.stopRandomTask();
-    // console.log(JSON.stringify(stoppedTask, null, 2));
-
-    // const failover = await elasticache.failover();
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify(stoppedTask, null, 2),
-    };
+    try {
+        const chaos = new Chaos(['ecs', 'elasticache']);
+        const result = await chaos.invoke();
+        return {
+            statusCode: 200,
+            body: JSON.stringify(result, null, 2),
+        };
+    } catch (error) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ message: error.message }, null, 2),
+        };
+    }
 };

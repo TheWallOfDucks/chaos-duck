@@ -1,4 +1,6 @@
 import { ECS as sdk } from 'aws-sdk';
+import { Utility } from './utility';
+import { chaosFunction } from '../decorators';
 
 export class ECS {
     private ecs: sdk;
@@ -7,7 +9,7 @@ export class ECS {
         this.ecs = new sdk();
     }
 
-    async listClusters() {
+    private async listClusters() {
         try {
             const listClusters = this.ecs.listClusters({}).promise();
             return await listClusters;
@@ -16,7 +18,7 @@ export class ECS {
         }
     }
 
-    async listTasks(cluster: string) {
+    private async listTasks(cluster: string) {
         try {
             const listTasks = this.ecs.listTasks({ cluster }).promise();
             return await listTasks;
@@ -25,7 +27,7 @@ export class ECS {
         }
     }
 
-    async stopTask(cluster: string, task: string) {
+    private async stopTask(cluster: string, task: string) {
         try {
             const stopTask = this.ecs.stopTask({ cluster, task, reason: 'Stopped by chaos-duck' }).promise();
             return await stopTask;
@@ -34,16 +36,18 @@ export class ECS {
         }
     }
 
+    @chaosFunction()
     async stopRandomTask() {
         try {
             const clusters = await this.listClusters();
-            const cluster = clusters.clusterArns[Math.floor(Math.random() * clusters.clusterArns.length)];
+            const cluster: string = Utility.getRandom(clusters.clusterArns);
             const clusterName = cluster.split('/').pop();
 
             const tasks = await this.listTasks(cluster);
-            const task = tasks.taskArns[Math.floor(Math.random() * tasks.taskArns.length)];
+            const task: string = Utility.getRandom(tasks.taskArns);
 
             if (!task) {
+                console.log(`${clusterName} cluster has ${tasks.taskArns.length} tasks. Trying again...`);
                 return this.stopRandomTask();
             }
 
