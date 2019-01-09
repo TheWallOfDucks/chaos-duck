@@ -17,8 +17,7 @@ provider:
   region: us-east-1
   versionFunctions: false
   environment:
-    ACCOUNT_ID:
-      Ref: AWS::AccountId
+    SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
 
 functions:
   chaos:
@@ -31,3 +30,4 @@ functions:
       
 plugins:
     - serverless-offline
+    - serverless-dotenv-plugin    
