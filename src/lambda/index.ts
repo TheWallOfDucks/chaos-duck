@@ -17,7 +17,11 @@ export const handler = async (event) => {
         const chaos = new Chaos(services);
         const result = await chaos.invoke();
 
-        // await Slack.post(result);
+        if (Slack.enabled) {
+            const message = Slack.buildMessage(result);
+            console.log('message => ', message);
+            await Slack.post(message);
+        }
 
         return {
             statusCode: 200,
