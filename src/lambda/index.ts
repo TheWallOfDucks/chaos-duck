@@ -1,16 +1,12 @@
-import { ECS } from '../classes/ecs';
-import { ElastiCache } from '../classes/elasticache';
+import { Chaos } from '../classes/chaos';
 import { Utility } from '../classes/utility';
+import { ECS } from '../classes/ecs';
 
 export const handler = async (event) => {
-    const ecs = new ECS();
-    const elasticache = new ElastiCache();
-    const chaosActions = [ecs.stopRandomTask(), elasticache.failover()];
-    const action = Utility.getRandom(chaosActions);
-
-    console.log(`The chosen action is: ${action}`);
-
-    const result = await action;
+    const chaos = new Chaos(['ecs', 'elasticache']);
+    const result = await chaos.invoke();
+    // const ecs = new ECS();
+    // const result = await ecs.stopRandomTask();
 
     return {
         statusCode: 200,

@@ -1,5 +1,6 @@
 import { ECS as sdk } from 'aws-sdk';
 import { Utility } from './utility';
+import { chaosFunction } from '../decorators';
 
 export class ECS {
     private ecs: sdk;
@@ -35,6 +36,7 @@ export class ECS {
         }
     }
 
+    @chaosFunction()
     async stopRandomTask() {
         try {
             const clusters = await this.listClusters();
