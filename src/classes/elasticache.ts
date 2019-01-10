@@ -30,15 +30,7 @@ export class ElastiCache {
     @chaosFunction()
     async failover() {
         try {
-            const cacheClusters: sdk.CacheCluster[] = [];
             const clusters = await this.describeCacheClusters();
-
-            // @todo need to take this out
-            clusters.CacheClusters.forEach((cluster) => {
-                if (cluster.Engine !== 'memcached') {
-                    cacheClusters.push(cluster);
-                }
-            });
 
             const cluster: sdk.CacheCluster = Utility.getRandom(clusters.CacheClusters);
             console.log(`Chosen ElastiCache cluster: ${JSON.stringify(cluster, null, 2)}`);
