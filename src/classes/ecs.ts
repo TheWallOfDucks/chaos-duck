@@ -27,15 +27,6 @@ export class ECS {
         }
     }
 
-    private async stopTask(cluster: string, task: string) {
-        try {
-            const stopTask = this.ecs.stopTask({ cluster, task, reason: 'Stopped by chaos-duck' }).promise();
-            return await stopTask;
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
-
     @chaosFunction()
     async stopRandomTask() {
         try {
@@ -55,6 +46,15 @@ export class ECS {
             console.log(`The chosen task is: ${task}`);
 
             return await this.stopTask(cluster, task);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    private async stopTask(cluster: string, task: string) {
+        try {
+            const stopTask = this.ecs.stopTask({ cluster, task, reason: 'Stopped by chaos-duck' }).promise();
+            return await stopTask;
         } catch (error) {
             throw new Error(error);
         }

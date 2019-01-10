@@ -18,7 +18,8 @@ export const handler = async (event) => {
         const result = await chaos.invoke();
 
         if (Slack.enabled) {
-            const message = Slack.buildMessage(result);
+            const environmentName = chaos.ssm.environmentName;
+            const message = Slack.buildMessage(result, environmentName);
             await Slack.post(message);
         }
 

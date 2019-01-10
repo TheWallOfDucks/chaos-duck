@@ -8,11 +8,9 @@
         "deploy": "npm run build ; gradle deploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage",
         "generate_docs": "typedoc --out src/docs/typedoc src/classes/*.ts --ignoreCompilerErrors",
         "local": "npm run build ; serverless offline start",
-        "no-npmjs.org": "echo 'Check that package-lock.json does not resolve packages from npmjs.org' && fgrep npmjs.org package-lock.json; test $? == 1",
         "pipeline-lint": "tslint -p ."
     },
     "pre-push": [
-        "no-npmjs.org",
         "build",
         "pipeline-lint"
     ],
@@ -34,8 +32,7 @@
     "license": "ISC",
     "dependencies": {
         "aws-sdk": "^2.384.0",
-        "axios": "^0.18.0",
-        "colors": "^1.3.2"
+        "axios": "^0.18.0"
     },
     "devDependencies": {
         "@apiture/pre-push": "^0.1.4",
