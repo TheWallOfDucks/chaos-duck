@@ -8,7 +8,8 @@
         "deploy": "npm run build ; gradle deploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage",
         "generate_docs": "typedoc --out src/docs/typedoc src/classes/*.ts --ignoreCompilerErrors",
         "local": "npm run build ; serverless offline start",
-        "pipeline-lint": "tslint -p ."
+        "pipeline-lint": "tslint -p .",
+        "undeploy": "npm run build ; gradle undeploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage"
     },
     "pre-push": [
         "build",
@@ -16,9 +17,9 @@
     ],
     "repository": "https://bitbucket.org/APITURE/chaos-duck",
     "config": {
-        "awsEnv": "sandbox",
-        "awsAccount": "439153947667",
-        "awsRole": "Open-Sandbox-Developer",
+        "awsEnv": "",
+        "awsAccount": "",
+        "awsRole": "",
         "awsProfile": "default",
         "awsStage": "dev"
     },

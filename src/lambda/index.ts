@@ -1,5 +1,6 @@
 import { Chaos } from '../classes/chaos';
 import { Slack } from '../classes/slack';
+import { Utility } from '../classes/utility';
 
 export const handler = async (event) => {
     try {
@@ -7,7 +8,7 @@ export const handler = async (event) => {
 
         if (event.body) {
             const body = JSON.parse(event.body);
-            services = body.services || ['ecs', 'elasticache'];
+            services = Utility.convertToLowercase(body.services) || ['ecs', 'elasticache'];
         } else {
             services = ['ecs', 'elasticache'];
         }
