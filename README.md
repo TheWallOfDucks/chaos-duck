@@ -22,6 +22,10 @@ Chaos Duck will randomly choose from the services you provide in your POST and p
 - ECS: Chaos Duck will randomly stop your ECS tasks
 - ElastiCache: Chaos Duck will randomly failover your ElastiCache instance
 
+## Current environments
+
+- `open-sandbox`: `https://uoagwm5f37.execute-api.us-east-1.amazonaws.com/dev/chaos`
+
 ## Slack integration
 
 To allow chaos duck to post notifications on Slack, simply create a `.env` in the root of your project directory and add:

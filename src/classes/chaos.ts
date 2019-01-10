@@ -53,32 +53,27 @@ export class Chaos {
         try {
             this.ssm.setEnvironmentName();
             const service = Utility.getRandom(this.services);
-            let chaosFunction: string;
+
+            if (!service) {
+                throw Error(
+                    JSON.stringify({
+                        service,
+                        result: 'ServiceNotFound',
+                        resolution: 'Provide a valid array of services to unleash chaos on',
+                    }),
+                );
+            }
+
+            const chaosFunction = Utility.getRandom(chaosFunctions[service]);
 
             console.log(`The chosen service is: ${service}`);
+            console.log(`The chosen function is: ${chaosFunction}`);
 
-            switch (service) {
-                case 'ecs':
-                    chaosFunction = Utility.getRandom(chaosFunctions[service]);
-                    return {
-                        service: 'ECS',
-                        result: await this.ecs[chaosFunction](),
-                    };
-                case 'elasticache':
-                    chaosFunction = Utility.getRandom(chaosFunctions[service]);
-                    return {
-                        service: 'ElastiCache',
-                        result: await this.elasticache[chaosFunction](),
-                    };
-                default:
-                    throw Error(
-                        JSON.stringify({
-                            service,
-                            result: 'ServiceNotFound',
-                            resolution: 'Provide a valid array of services to unleash chaos on',
-                        }),
-                    );
-            }
+            return {
+                service,
+                action: chaosFunction,
+                result: await this[service][chaosFunction](),
+            };
         } catch (error) {
             throw error;
         }
