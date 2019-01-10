@@ -114,8 +114,6 @@ export class Slack {
             const request = axios.post(url, data, { headers: { 'Content-Type': 'application/json' } });
             await request;
         } catch (error) {
-            console.log('Error in slack:post => ', error);
-            console.log('Payload => ', data);
             throw new Error(error);
         }
     }
