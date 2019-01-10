@@ -8,7 +8,6 @@
         "deploy": "npm run build ; gradle deploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage",
         "generate_docs": "typedoc --out src/docs/typedoc src/classes/*.ts --ignoreCompilerErrors",
         "local": "npm run build ; serverless offline start",
-        "no-npmjs.org": "echo 'Check that package-lock.json does not resolve packages from npmjs.org' && fgrep npmjs.org package-lock.json; test $? == 1",
         "pipeline-lint": "tslint -p ."
     },
     "pre-push": [
