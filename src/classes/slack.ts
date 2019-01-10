@@ -24,7 +24,7 @@ export class Slack {
         switch (data.service) {
             case 'ECS':
                 body = data.result;
-                template.attachments[0].title = 'ECS';
+                template.attachments[0].title = 'The affected service is: ECS';
                 template.attachments[0].fields = [
                     {
                         title: 'Cluster',
@@ -45,7 +45,7 @@ export class Slack {
                 break;
             case 'ElastiCache':
                 body = data.result;
-                template.attachments[0].title = 'ElastiCache';
+                template.attachments[0].title = 'The affected service is: ElastiCache';
                 template.attachments[0].fields = [
                     {
                         title: 'Description',
