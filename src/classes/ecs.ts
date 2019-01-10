@@ -1,6 +1,6 @@
 import { ECS as sdk } from 'aws-sdk';
 import { Utility } from './utility';
-import { chaosFunction } from '../decorators';
+import { chaosFunction } from '../decorators/chaosFunction';
 
 export class ECS {
     private ecs: sdk;

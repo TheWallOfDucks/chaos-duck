@@ -28,6 +28,27 @@ export class Slack {
         };
 
         switch (data.service) {
+            case 'ec2':
+                body = data.result;
+                template.attachments[0].title = 'The affected service is: EC2';
+                template.attachments[0].fields = template.attachments[0].fields.concat([
+                    {
+                        title: 'Instance',
+                        value: body.StoppingInstances[0].InstanceId,
+                        short: false,
+                    },
+                    {
+                        title: 'Previous State',
+                        value: body.StoppingInstances[0].PreviousState,
+                        short: false,
+                    },
+                    {
+                        title: 'Current State',
+                        value: body.StoppingInstances[0].CurrentState,
+                        short: false,
+                    },
+                ]);
+                break;
             case 'ecs':
                 body = data.result;
                 template.attachments[0].title = 'The affected service is: ECS';
@@ -66,7 +87,8 @@ export class Slack {
                 ]);
                 break;
             default:
-                return `Could not match ${data.service}`;
+                template.attachments[0].title = `Unable to match service: ${data.service}`;
+                template.attachments[0].color = '#FF0000';
         }
 
         if (environment) {
