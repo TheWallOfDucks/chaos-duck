@@ -34,8 +34,9 @@ NOTE: If you already deployed the chaos lambda, you will need to redeploy for Sl
 
 ## Example request
 
-```javascript
 POST /chaos
+
+```json
 {
     "services": ["ecs", "elasticache"]
 }
