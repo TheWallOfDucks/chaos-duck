@@ -48,13 +48,13 @@ export class Slack {
                 template.attachments[0].title = 'ElastiCache';
                 template.attachments[0].fields = [
                     {
-                        title: 'Cluster',
-                        value: body.task.clusterArn,
+                        title: 'Description',
+                        value: body.ReplicationGroup.Description,
                         short: false,
                     },
                     {
-                        title: 'Task',
-                        value: body.task.taskDefinitionArn,
+                        title: 'ReplicationGroupId',
+                        value: body.ReplicationGroup.ReplicationGroupId,
                         short: false,
                     },
                 ];
