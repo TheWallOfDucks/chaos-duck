@@ -1,20 +1,31 @@
-import { chaosFunctions } from '../decorators';
+import { chaosFunctions } from '../decorators/chaosFunction';
+import { EC2 } from './ec2';
 import { ECS } from './ecs';
 import { ElastiCache } from './elasticache';
 import { SSM } from './ssm';
 import { Utility } from './utility';
 
 export class Chaos {
+    private _ec2: EC2;
     private _ecs: ECS;
     private _elasticache: ElastiCache;
     private _services: string[] = [];
     private _ssm: SSM;
 
     constructor(services: string[]) {
+        this.ec2 = new EC2();
         this.ecs = new ECS();
         this.elasticache = new ElastiCache();
         this.services = services;
         this.ssm = new SSM();
+    }
+
+    get ec2() {
+        return this._ec2;
+    }
+
+    set ec2(value: EC2) {
+        this._ec2 = value;
     }
 
     get ecs() {
@@ -65,6 +76,16 @@ export class Chaos {
             }
 
             const chaosFunction = Utility.getRandom(chaosFunctions[service]);
+
+            if (!chaosFunction) {
+                throw Error(
+                    JSON.stringify({
+                        service,
+                        result: 'ChaosFunctionNotFound',
+                        resolution: `Confirm that ${service} service has at least one function decorated with @chaosFunction()`,
+                    }),
+                );
+            }
 
             console.log(`The chosen service is: ${service}`);
             console.log(`The chosen function is: ${chaosFunction}`);
