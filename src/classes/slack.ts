@@ -13,7 +13,13 @@ export class Slack {
                     author_icon: 'https://vignette.wikia.nocookie.net/pokemon/images/e/ef/Psyduck_Confusion.png/revision/latest?cb=20150611192544',
                     title: '',
                     text: 'Please see information about the chaos below:',
-                    fields: [],
+                    fields: [
+                        {
+                            title: 'Chaos Function',
+                            value: data.action,
+                            short: false,
+                        },
+                    ],
                     footer: 'Slack API',
                     footer_icon: 'https://platform.slack-edge.com/img/default_application_icon.png',
                     ts: Math.round(new Date().getTime() / 1000),
@@ -22,10 +28,10 @@ export class Slack {
         };
 
         switch (data.service) {
-            case 'ECS':
+            case 'ecs':
                 body = data.result;
-                template.attachments[0].title = 'ECS';
-                template.attachments[0].fields = [
+                template.attachments[0].title = 'The affected service is: ECS';
+                template.attachments[0].fields = template.attachments[0].fields.concat([
                     {
                         title: 'Cluster',
                         value: body.task.clusterArn,
@@ -41,12 +47,12 @@ export class Slack {
                         value: body.task.taskArn,
                         short: false,
                     },
-                ];
+                ]);
                 break;
-            case 'ElastiCache':
+            case 'elasticache':
                 body = data.result;
-                template.attachments[0].title = 'ElastiCache';
-                template.attachments[0].fields = [
+                template.attachments[0].title = 'The affected service is: ElastiCache';
+                template.attachments[0].fields = template.attachments[0].fields.concat([
                     {
                         title: 'Description',
                         value: body.ReplicationGroup.Description,
@@ -57,7 +63,7 @@ export class Slack {
                         value: body.ReplicationGroup.ReplicationGroupId,
                         short: false,
                     },
-                ];
+                ]);
                 break;
             default:
                 return `Could not match ${data.service}`;
