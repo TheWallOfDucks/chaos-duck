@@ -1,17 +1,20 @@
+import { chaosFunctions } from '../decorators';
 import { ECS } from './ecs';
 import { ElastiCache } from './elasticache';
+import { SSM } from './ssm';
 import { Utility } from './utility';
-import { chaosFunctions } from '../decorators';
 
 export class Chaos {
     private _ecs: ECS;
     private _elasticache: ElastiCache;
     private _services: string[] = [];
+    private _ssm: SSM;
 
     constructor(services: string[]) {
         this.ecs = new ECS();
         this.elasticache = new ElastiCache();
         this.services = services;
+        this.ssm = new SSM();
     }
 
     get ecs() {
@@ -30,8 +33,25 @@ export class Chaos {
         this._elasticache = value;
     }
 
+    get services() {
+        return this._services;
+    }
+
+    set services(values: string[]) {
+        this._services = values;
+    }
+
+    get ssm() {
+        return this._ssm;
+    }
+
+    set ssm(value: SSM) {
+        this._ssm = value;
+    }
+
     async invoke() {
         try {
+            this.ssm.setEnvironmentName();
             const service = Utility.getRandom(this.services);
             let chaosFunction: string;
 
@@ -62,13 +82,5 @@ export class Chaos {
         } catch (error) {
             throw error;
         }
-    }
-
-    get services() {
-        return this._services;
-    }
-
-    set services(values: string[]) {
-        this._services = values;
     }
 }

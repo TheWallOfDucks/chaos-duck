@@ -1,33 +1,22 @@
 import axios from 'axios';
 
 export class Slack {
-    static enabled() {
-        if (process.env.SLACK_WEBHOOK_URL) {
-            return true;
-        }
-        return false;
-    }
-
-    static buildMessage(data, environment: string = 'open-sandbox') {
+    static buildMessage(data: any, environment?: string) {
         let body;
         const template = {
             attachments: [
                 {
-                    fallback: 'Required plain-text summary of the attachment.',
+                    fallback: 'Chaos Duck has been unleashed',
                     color: '#36a64f',
                     pretext: 'Chaos Duck has been unleashed',
                     author_name: 'Chaos Duck',
-                    author_link: '',
                     author_icon: 'https://vignette.wikia.nocookie.net/pokemon/images/e/ef/Psyduck_Confusion.png/revision/latest?cb=20150611192544',
                     title: '',
-                    title_link: '',
                     text: 'Please see information about the chaos below:',
                     fields: [],
-                    image_url: 'http://my-website.com/path/to/image.jpg',
-                    thumb_url: 'http://example.com/path/to/thumb.png',
                     footer: 'Slack API',
                     footer_icon: 'https://platform.slack-edge.com/img/default_application_icon.png',
-                    ts: 123456789,
+                    ts: Math.round(new Date().getTime() / 1000),
                 },
             ],
         };
@@ -38,46 +27,57 @@ export class Slack {
                 template.attachments[0].title = 'ECS';
                 template.attachments[0].fields = [
                     {
-                        title: 'Environment',
-                        value: environment,
-                        short: false,
-                    },
-                    {
                         title: 'Cluster',
                         value: body.task.clusterArn,
                         short: false,
                     },
                     {
-                        title: 'Task',
+                        title: 'Task Definition',
                         value: body.task.taskDefinitionArn,
                         short: false,
                     },
+                    {
+                        title: 'Task',
+                        value: body.task.taskArn,
+                        short: false,
+                    },
                 ];
-                return JSON.stringify(template);
+                break;
             case 'ElastiCache':
                 body = data.result;
                 template.attachments[0].title = 'ElastiCache';
                 template.attachments[0].fields = [
                     {
-                        title: 'Environment',
-                        value: environment,
+                        title: 'Description',
+                        value: body.ReplicationGroup.Description,
                         short: false,
                     },
                     {
-                        title: 'Cluster',
-                        value: body.task.clusterArn,
-                        short: false,
-                    },
-                    {
-                        title: 'Task',
-                        value: body.task.taskDefinitionArn,
+                        title: 'ReplicationGroupId',
+                        value: body.ReplicationGroup.ReplicationGroupId,
                         short: false,
                     },
                 ];
-                return JSON.stringify(template);
+                break;
             default:
                 return `Could not match ${data.service}`;
         }
+
+        if (environment) {
+            template.attachments[0].fields.unshift({
+                title: 'Environment',
+                value: environment,
+                short: false,
+            });
+        }
+        return JSON.stringify(template);
+    }
+
+    static enabled() {
+        if (process.env.SLACK_WEBHOOK_URL) {
+            return true;
+        }
+        return false;
     }
 
     static async post(data: any) {
