@@ -25,6 +25,8 @@ Chaos Duck will randomly choose from the services you provide in your POST and p
 ## Current environments
 
 - `open-sandbox`: `https://uoagwm5f37.execute-api.us-east-1.amazonaws.com/dev/chaos`
+- `open-integration`: `https://vygdzofpbg.execute-api.us-east-1.amazonaws.com/dev/chaos`
+- `open-production`: `https://bykbvc9pti.execute-api.us-east-1.amazonaws.com/dev/chaos`
 
 ## Slack integration
 
