@@ -17,9 +17,9 @@
     ],
     "repository": "https://bitbucket.org/APITURE/chaos-duck",
     "config": {
-        "awsEnv": "sandbox",
-        "awsAccount": "439153947667",
-        "awsRole": "Open-Sandbox-Developer",
+        "awsEnv": "",
+        "awsAccount": "",
+        "awsRole": "",
         "awsProfile": "default",
         "awsStage": "dev"
     },
