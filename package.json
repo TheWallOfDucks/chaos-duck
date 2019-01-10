@@ -34,8 +34,7 @@
     "license": "ISC",
     "dependencies": {
         "aws-sdk": "^2.384.0",
-        "axios": "^0.18.0",
-        "colors": "^1.3.2"
+        "axios": "^0.18.0"
     },
     "devDependencies": {
         "@apiture/pre-push": "^0.1.4",
