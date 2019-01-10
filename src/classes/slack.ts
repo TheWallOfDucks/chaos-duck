@@ -1,13 +1,6 @@
 import axios from 'axios';
 
 export class Slack {
-    static enabled() {
-        if (process.env.SLACK_WEBHOOK_URL) {
-            return true;
-        }
-        return false;
-    }
-
     static buildMessage(data, environment: string = 'open-sandbox') {
         let body;
         const template = {
@@ -78,6 +71,13 @@ export class Slack {
             default:
                 return `Could not match ${data.service}`;
         }
+    }
+
+    static enabled() {
+        if (process.env.SLACK_WEBHOOK_URL) {
+            return true;
+        }
+        return false;
     }
 
     static async post(data: any) {
