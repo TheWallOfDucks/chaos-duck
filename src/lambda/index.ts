@@ -1,10 +1,11 @@
 import { Chaos } from '../classes/chaos';
-import { Slack } from '../classes/slack';
 import { Utility } from '../classes/utility';
+import { Notification } from '../classes/notification';
 
 export const handler = async (event) => {
     try {
         let services: string[];
+        const notification = new Notification();
 
         if (event.body) {
             const body = JSON.parse(event.body);
@@ -18,10 +19,8 @@ export const handler = async (event) => {
         const chaos = new Chaos(services);
         const result = await chaos.invoke();
 
-        if (Slack.enabled) {
-            const environmentName = chaos.ssm.environmentName;
-            const message = Slack.buildMessage(result, environmentName);
-            await Slack.post(message);
+        if (notification.enabled) {
+            await notification.send(result, chaos.ssm.environmentName);
         }
 
         return {
