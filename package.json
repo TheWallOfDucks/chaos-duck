@@ -1,21 +1,24 @@
 {
     "name": "chaos-duck",
     "version": "0.0.1",
-    "description": "Chaos Duck is a small tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
+    "description": "Chaos Duck is a tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
+    "bin": "lib/bin/index.js",
+    "preferGlobal": true,
     "scripts": {
         "build": "rm -rf lib && tsc",
         "coverage": "nyc report",
         "deploy": "npm run build ; gradle deploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage",
-        "generate_docs": "typedoc --out src/docs/typedoc src/classes/*.ts --ignoreCompilerErrors",
+        "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
         "local": "npm run build ; serverless offline start",
-        "pipeline-lint": "tslint -p .",
+        "lint": "tslint -p .",
         "undeploy": "npm run build ; gradle undeploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage"
     },
-    "pre-push": [
-        "build",
-        "pipeline-lint"
-    ],
     "repository": "https://bitbucket.org/APITURE/chaos-duck",
+    "husky": {
+        "hooks": {
+            "pre-push": "npm run build && npm run lint"
+        }
+    },
     "config": {
         "awsEnv": "",
         "awsAccount": "",
@@ -27,20 +30,21 @@
         "aws",
         "chaos",
         "reliability",
-        "duck"
+        "duck",
+        "🦆"
     ],
     "author": "Caleb Duckwall",
     "license": "ISC",
     "dependencies": {
         "aws-sdk": "^2.384.0",
-        "axios": "^0.18.0"
+        "axios": "^0.18.0",
+        "commander": "^2.19.0"
     },
     "devDependencies": {
-        "@apiture/pre-push": "^0.1.4",
-        "@types/axios": "^0.14.0",
         "@types/jasmine": "^2.8.6",
         "@types/node": "^9.6.9",
         "gradle": "^1.0.9",
+        "husky": "^1.3.1",
         "jasmine": "3.0.0",
         "jasmine-reporters": "^2.3.1",
         "jasmine-spec-reporter": "^4.2.1",

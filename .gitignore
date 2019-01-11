@@ -6,3 +6,4 @@ lib
 .serverless
 .env
 .environments
+docs

@@ -1,9 +1,6 @@
 export class Utility {
     static convertToLowercase(array: string[]) {
-        for (let i = 0; i < array.length; i++) {
-            array[i] = array[i].toLowerCase();
-        }
-        return array;
+        return array.map((item) => item.toLowerCase());
     }
 
     static getRandom(array: any[]) {
