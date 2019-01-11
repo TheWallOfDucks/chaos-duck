@@ -1,5 +1,5 @@
 import { EC2 as sdk } from 'aws-sdk';
-import { Utility } from './utility';
+import { Utility } from '../classes/utility';
 import { disabled } from '../decorators/disabled';
 import { chaosFunction } from '../decorators/chaosFunction';
 

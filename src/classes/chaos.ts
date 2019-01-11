@@ -1,8 +1,8 @@
 import { chaosFunctions } from '../decorators/chaosFunction';
-import { EC2 } from './ec2';
-import { ECS } from './ecs';
-import { ElastiCache } from './elasticache';
-import { SSM } from './ssm';
+import { EC2 } from '../services/ec2';
+import { ECS } from '../services/ecs';
+import { ElastiCache } from '../services/elasticache';
+import { SSM } from '../services/ssm';
 import { Utility } from './utility';
 
 export class Chaos {

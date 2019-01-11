@@ -5,6 +5,8 @@
     "rules": {
         "max-line-length": false,
         "ter-indent": false,
+        "arrow-parens": true,
+        "ter-arrow-parens": true,
         "object-shorthand-properties-first": false,
         "variable-name": false,
         "align": false,
