@@ -1,12 +1,12 @@
 {
     "name": "chaos-duck",
     "version": "0.0.1",
-    "description": "Chaos Duck is a small tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
+    "description": "Chaos Duck is a tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
     "scripts": {
         "build": "rm -rf lib && tsc",
         "coverage": "nyc report",
         "deploy": "npm run build ; gradle deploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage",
-        "generate_docs": "typedoc --out src/docs/typedoc src/classes/*.ts --ignoreCompilerErrors",
+        "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
         "local": "npm run build ; serverless offline start",
         "pipeline-lint": "tslint -p .",
         "undeploy": "npm run build ; gradle undeploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage"
@@ -27,7 +27,8 @@
         "aws",
         "chaos",
         "reliability",
-        "duck"
+        "duck",
+        "🦆"
     ],
     "author": "Caleb Duckwall",
     "license": "ISC",
@@ -36,8 +37,6 @@
         "axios": "^0.18.0"
     },
     "devDependencies": {
-        "@apiture/pre-push": "^0.1.4",
-        "@types/axios": "^0.14.0",
         "@types/jasmine": "^2.8.6",
         "@types/node": "^9.6.9",
         "gradle": "^1.0.9",

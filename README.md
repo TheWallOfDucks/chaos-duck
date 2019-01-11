@@ -2,7 +2,7 @@
 
 ## Description
 
-Chaos Duck is a serverless implementation of Netflix's Chaos Monkey. Chaos duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
+Chaos Duck is a serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
 
 ## Quickstart
 
