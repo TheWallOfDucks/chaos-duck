@@ -19,11 +19,11 @@ commander
     .description('Deploys Chaos Duck based on provided options')
     .allowUnknownOption()
     .action(async (cmd) => {
-        let environment;
-        let account;
-        let role;
-        let profile;
-        let stage;
+        let environment: string;
+        let account: string;
+        let role: string;
+        let profile: string;
+        let stage: string;
         const config = cmd.config;
 
         if (config) {
