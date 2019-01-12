@@ -37,8 +37,7 @@ export class Notification {
     }
 
     private get slack() {
-        const slack = new Slack();
-        return slack;
+        return new Slack();
     }
 
     async send(data: any, environment?: string) {
