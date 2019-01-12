@@ -2,7 +2,7 @@
 import * as commander from 'commander';
 import axios from 'axios';
 
-const { execSync, spawn } = require('child_process');
+const { spawn } = require('child_process');
 const fs = require('fs');
 const info = require('../../package.json');
 
