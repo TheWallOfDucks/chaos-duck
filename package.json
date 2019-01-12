@@ -19,13 +19,6 @@
             "pre-push": "npm run build && npm run lint"
         }
     },
-    "config": {
-        "awsEnv": "",
-        "awsAccount": "",
-        "awsRole": "",
-        "awsProfile": "default",
-        "awsStage": "dev"
-    },
     "keywords": [
         "aws",
         "chaos",

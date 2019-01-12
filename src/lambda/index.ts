@@ -1,6 +1,7 @@
 import { Chaos } from '../classes/chaos';
 import { Utility } from '../classes/utility';
 import { Notification } from '../classes/notification';
+const environment = process.env.AWS_ENV;
 
 export const handler = async (event) => {
     try {
@@ -20,7 +21,7 @@ export const handler = async (event) => {
         const result = await chaos.invoke();
 
         if (notification.enabled) {
-            await notification.send(result, chaos.ssm.environmentName);
+            await notification.send(result, environment);
         }
 
         return {
