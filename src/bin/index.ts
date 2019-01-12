@@ -3,7 +3,6 @@ import * as commander from 'commander';
 import axios from 'axios';
 
 const { spawn } = require('child_process');
-const fs = require('fs');
 const info = require('../../package.json');
 
 commander.version(info.version, '-v, --version').description('Chaos Duck');
