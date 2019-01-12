@@ -2,7 +2,7 @@
 import * as commander from 'commander';
 import axios from 'axios';
 
-const { execSync } = require('child_process');
+const { spawn } = require('child_process');
 const fs = require('fs');
 const info = require('../../package.json');
 
@@ -27,23 +27,39 @@ commander
         let stage: string;
         const config = cmd.config;
 
-        if (config) {
-            const conf = require(`${process.cwd()}/${config}`);
-            environment = conf.environment;
-            account = conf.account;
-            role = conf.role;
-            profile = conf.profile;
-            stage = conf.stage;
-        } else {
-            environment = cmd.environment;
-            account = cmd.account;
-            role = cmd.role;
-            profile = cmd.profile;
-            stage = cmd.stage;
-        }
+        try {
+            if (config) {
+                const conf = require(`${process.cwd()}/${config}`);
+                environment = conf.environment;
+                account = conf.account;
+                role = conf.role;
+                profile = conf.profile;
+                stage = conf.stage;
+            } else {
+                environment = cmd.environment;
+                account = cmd.account;
+                role = cmd.role;
+                profile = cmd.profile;
+                stage = cmd.stage;
+            }
 
-        const result: Buffer = execSync(`gradle deploy -Daws_env=${environment} -Daws_account=${account} -Daws_role=${role} -Daws_profile=${profile} -Daws_stage=${stage}`);
-        console.log(result.toString());
+            const deploy = spawn('gradle', ['deploy', `-Daws_env=${environment}`, `-Daws_account=${account}`, `-Daws_role=${role}`, `-Daws_profile=${profile}`, `-Daws_stage=${stage}`]);
+
+            deploy.stdout.on('data', (data: Buffer) => {
+                const output = data.toString().replace(/\n$/, '');
+                if (output.includes('ServiceEndpoint')) {
+                    console.log(`\uD83E\uDD86\uD83E\uDD86 ${output}/chaos \uD83E\uDD86\uD83E\uDD86`);
+                } else {
+                    console.log(output);
+                }
+            });
+
+            deploy.on('error', (error: any) => {
+                console.error(error);
+            });
+        } catch (error) {
+            console.error(error);
+        }
     });
 
 commander
@@ -70,5 +86,24 @@ commander
             }
         }
     });
+
+commander.on('command:duck', () => {
+    console.log('\uD83E\uDD86');
+});
+
+commander.on('command:duckwall', () => {
+    console.log(
+        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
+    );
+    console.log(
+        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
+    );
+    console.log(
+        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
+    );
+    console.log(
+        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
+    );
+});
 
 commander.parse(process.argv);

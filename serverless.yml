@@ -18,6 +18,7 @@ provider:
   versionFunctions: false
   environment:
     SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+    AWS_ENV: ${env:AWS_ENV}
 
 functions:
   chaos:
