@@ -18,7 +18,7 @@ commander
     .option('-r, --role <role>', 'AWS role')
     .option('-p, --profile <profile>', 'AWS profile')
     .option('-s, --stage <stage>', 'AWS deployment stage')
-    .description('Deploys Chaos Duck')
+    .description('Deploy Chaos Duck')
     .allowUnknownOption()
     .action(async (cmd) => {
         let environment: string;
@@ -93,7 +93,7 @@ commander
     .option('-c, --config <config>', 'If specified, will use options defined in json file provided')
     .option('-u, --url <url>', 'URL of chaos endpoint')
     .option('-s, --services <services>', 'Comma separated list of')
-    .description('Unleashes Chaos Duck')
+    .description('Unleash Chaos Duck')
     .allowUnknownOption()
     .action(async (cmd) => {
         try {
@@ -137,7 +137,7 @@ commander
     .option('-r, --role <role>', 'AWS role')
     .option('-p, --profile <profile>', 'AWS profile')
     .option('-s, --stage <stage>', 'AWS deployment stage')
-    .description('Undeploys Chaos Duck')
+    .description('Undeploy Chaos Duck')
     .allowUnknownOption()
     .action(async (cmd) => {
         let environment: string;
