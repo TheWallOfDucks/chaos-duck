@@ -32,14 +32,15 @@ commander
                 environment = conf.environment;
                 account = conf.account;
                 role = conf.role;
-                profile = conf.profile;
-                stage = conf.stage;
+                profile = conf.profile || 'default';
+                stage = conf.stage || 'dev';
+                process.env.SLACK_WEBHOOK_URL = conf.slackWebhookUrl;
             } else {
                 environment = cmd.environment;
                 account = cmd.account;
                 role = cmd.role;
-                profile = cmd.profile;
-                stage = cmd.stage;
+                profile = cmd.profile || 'default';
+                stage = cmd.stage || 'dev';
             }
 
             const deploy = spawn('gradle', ['deploy', `-Daws_env=${environment}`, `-Daws_account=${account}`, `-Daws_role=${role}`, `-Daws_profile=${profile}`, `-Daws_stage=${stage}`]);
