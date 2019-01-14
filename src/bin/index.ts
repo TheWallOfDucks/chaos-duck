@@ -7,7 +7,7 @@ const fs = require('fs');
 const { spawn } = require('child_process');
 const info = require('../../package.json');
 
-commander.version(info.version, '-v, --version').description('Chaos Duck');
+commander.version(info.version, '-v, --version').description('Chaos Duck \uD83E\uDD86');
 
 commander
     .command('deploy')
@@ -75,7 +75,7 @@ commander
                     };
 
                     fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(body, null, 2));
-                    console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86\uD83E\uDD86`));
+                    console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
                 }
             });
 
