@@ -2,6 +2,8 @@
 import * as commander from 'commander';
 import axios from 'axios';
 
+const colors = require('colors');
+const fs = require('fs');
 const { spawn } = require('child_process');
 const info = require('../../package.json');
 
@@ -24,6 +26,8 @@ commander
         let role: string;
         let profile: string;
         let stage: string;
+        let chaosUrl: string;
+        let slackWebhookUrl: string;
         const config = cmd.config;
 
         try {
@@ -34,7 +38,8 @@ commander
                 role = conf.role;
                 profile = conf.profile || 'default';
                 stage = conf.stage || 'dev';
-                process.env.SLACK_WEBHOOK_URL = conf.slackWebhookUrl;
+                slackWebhookUrl = conf.slackWebhookUrl;
+                process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
             } else {
                 environment = cmd.environment;
                 account = cmd.account;
@@ -48,9 +53,28 @@ commander
             deploy.stdout.on('data', (data: Buffer) => {
                 const output = data.toString().replace(/\n$/, '');
                 if (output.includes('ServiceEndpoint')) {
-                    console.log(`\uD83E\uDD86\uD83E\uDD86 ${output}/chaos \uD83E\uDD86\uD83E\uDD86`);
-                } else {
-                    console.log(output);
+                    chaosUrl = `${output
+                        .split(':')
+                        .slice(1)
+                        .join(':')}/chaos`;
+                }
+                console.log(output);
+            });
+
+            deploy.on('exit', (code: number) => {
+                if (code === 0) {
+                    const body = {
+                        chaosUrl,
+                        environment,
+                        account,
+                        role,
+                        profile,
+                        stage,
+                        slackWebhookUrl,
+                    };
+
+                    fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(body, null, 2));
+                    console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86\uD83E\uDD86`));
                 }
             });
 

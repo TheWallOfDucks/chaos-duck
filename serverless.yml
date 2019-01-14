@@ -26,8 +26,4 @@ functions:
     events:
       - http:
           path: chaos
-          method: post
-      
-plugins:
-    - serverless-offline
-    - serverless-dotenv-plugin    
+          method: post  

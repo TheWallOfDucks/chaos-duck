@@ -29,8 +29,10 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
 4. Once deployed, you will see your chaos url in the output, surrounded by 🦆🦆
 
+        ...
         Stack Outputs
         🦆🦆 ServiceEndpoint: https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos 🦆🦆
+        ...
 
 5. To begin wreaking chaos, simply invoke it
 
