@@ -70,7 +70,7 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
 ### Using duck.json
 
-You can also deploy by providing the path to a `duck.json` config file
+You can also `deploy` or `invoke` by providing the path to a `duck.json` config file
 
 ```sh
 # This would be an example of the duck.json existing in your current working directory
@@ -84,7 +84,7 @@ Supported properties
 - `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
 - `profile`: Profile in your AWS .credentials file to use. Defaults to "default"
 - `stage`: Deployment stage in AWS. Defaults to "dev"
-- `service`: Comma separated service values to invoke chaos on. Defaults to all services
+- `services`: Comma separated service values to invoke chaos on. Defaults to all services
 - `slackWebhookUrl`: Slack webhook url to post notifications to
 
 ### Using CLI Options
