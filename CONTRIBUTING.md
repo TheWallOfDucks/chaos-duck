@@ -4,6 +4,8 @@
 
 -   [Making a Pull Request](#markdown-header-making-a-pull-request)
 
+-   [Reporting a bug](#markdown-header-reporting-a-bug)
+
 -   [Development](#markdown-header-development)
 
     -   [Decorators](#markdown-header-decorators)
@@ -14,11 +16,23 @@
 
 ## Making a Pull Request
 
+1. All code should be written in TypeScript following patterns demonstrated in the existing codebase. Don't be a hero.
 1. Do all work in your local forked branch and then make a pull request to the `master` branch
-2. Add me to all pull requests: caleb.duckwall@apiture.com
-3. Make sure all `pre-push` hooks are passing. Basically, your code should compile.
-4. All new files added should have a one line description indicating the purpose.
-5. Intention of all changes should be described or clear enough to decipher by looking at the code.
+1. Add me to all pull requests: caleb.duckwall@apiture.com
+1. Make sure all `pre-push` hooks are passing. Basically, your code should compile.
+1. All new files added should have a one line description indicating the purpose.
+1. Intention of all changes should be described or clear enough to decipher by looking at the code.
+
+## Reporting a Bug
+
+-   If reporting a security bug, email me directly: caleb.duckwall@apiture.com
+-   If not reporting a security bug, make sure you provide the following information in your bug report:
+    -   What version of Node are you using?
+    -   What version of TypeScript are you using?
+    -   What operating system are you using?
+    -   What did you do?
+    -   What happened?
+    -   What did you expect to happen?
 
 ## Development
 
