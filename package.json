@@ -27,7 +27,7 @@
         "🦆"
     ],
     "author": "Caleb Duckwall",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "aws-sdk": "^2.384.0",
         "axios": "^0.18.0",
