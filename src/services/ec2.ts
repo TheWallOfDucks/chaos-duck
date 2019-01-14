@@ -3,6 +3,9 @@ import { Utility } from '../classes/utility';
 import { disabled } from '../decorators/disabled';
 import { chaosFunction } from '../decorators/chaosFunction';
 
+/**
+ * @description EC2 service class
+ */
 export class EC2 {
     private ec2: sdk;
 

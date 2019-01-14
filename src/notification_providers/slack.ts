@@ -20,6 +20,10 @@ export const template = {
     ],
 };
 
+/**
+ * @todo Message templates need to be based on chaosFunction and not service
+ * @description This is the main interface for building and posting slack messages
+ */
 export class Slack {
     private _default = template;
     private _ec2;

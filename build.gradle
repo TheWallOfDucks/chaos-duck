@@ -7,6 +7,9 @@ def aws_region = System.getProperty("aws_region") ?: 'us-east-1'
 
 ext.envVars = [:]
 
+/**
+* @description Undeploys a serverless application
+*/
 task undeploy (dependsOn:[ 'generateAWSCredentials' ]) {
     doLast {task -> 
         exec {
@@ -20,12 +23,18 @@ task undeploy (dependsOn:[ 'generateAWSCredentials' ]) {
     }
 }
 
+/**
+* @description Completes deployment of a serverless application
+*/
 task deploy (dependsOn:[ 'serverlessDeploy' ]) {
     doLast { task ->
         println "Service deployment complete"
     }
 }
 
+/**
+* @description Assumes a role in a given AWS environment
+*/
 task generateAWSCredentials {
     def temporaryCredentialsStdOut = new ByteArrayOutputStream()
 
@@ -51,6 +60,9 @@ task generateAWSCredentials {
     envVars["AWS_ENV"] = aws_env
 }
 
+/**
+* @description Deploys a serverless application
+*/
 task serverlessDeploy (dependsOn:[ 'generateAWSCredentials' ]) {
 	doLast {task -> 
 		exec {
