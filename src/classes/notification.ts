@@ -1,5 +1,10 @@
-import { Slack } from './slack';
+import { Slack } from '../notification_providers/slack';
 
+/**
+ * @description Notification class is the main interface to deliver notifications to different channels.
+ * All notification providers should be given their own, lowercase, getter.
+ * All notification provider classes should expose a method called "post".
+ */
 export class Notification {
     private _enabled: boolean;
     private _method: string;

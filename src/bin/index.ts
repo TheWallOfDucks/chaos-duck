@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+/**
+ * @description This file contains all of the CLI bindings for chaos-duck
+ */
 import * as commander from 'commander';
 import axios from 'axios';
 
@@ -9,6 +12,9 @@ const info = require('../../package.json');
 
 commander.version(info.version, '-v, --version').description('Chaos Duck \uD83E\uDD86');
 
+/**
+ * @description Deploy command
+ */
 commander
     .command('deploy')
     .alias('d')
@@ -87,6 +93,9 @@ commander
         }
     });
 
+/**
+ * @description Invoke command
+ */
 commander
     .command('invoke')
     .alias('i')
@@ -128,6 +137,9 @@ commander
         }
     });
 
+/**
+ * @description Undeploy command
+ */
 commander
     .command('undeploy')
     .alias('u')
@@ -178,6 +190,9 @@ commander
         }
     });
 
+/**
+ *@description Custom listeners
+ */
 commander.on('command:duck', () => {
     console.log('\uD83E\uDD86');
 });
@@ -195,6 +210,13 @@ commander.on('command:duckwall', () => {
     console.log(
         '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
     );
+});
+
+/**
+ * @description Invalid command handler
+ */
+commander.on('command:*', () => {
+    console.error('Invalid command: %s\nSee --help for a list of available commands.', commander.args.join(' '));
 });
 
 commander.parse(process.argv);

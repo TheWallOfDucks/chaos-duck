@@ -1,3 +1,6 @@
+/**
+ * @description Basic utility functions
+ */
 export class Utility {
     static convertToLowercase(array: string[]) {
         return array.map((item) => item.toLowerCase());
