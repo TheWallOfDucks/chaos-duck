@@ -2,7 +2,7 @@
 
 ## Description
 
-> Chaos Duck is a serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
+Chaos Duck is a serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
 
 ## Table of Contents
 
@@ -10,15 +10,16 @@
 - [Supported Services](#markdown-header-supported-services)
 - [Quickstart](#markdown-header-quickstart)
 - [Using duck.json](#markdown-header-using-duck.json)
+- [Using CLI Options](#markdown-header-using-cli-options)
 - [Using HTTP POST](#markdown-header-using-http-post)
 
 ### How it works
 
-> Chaos Duck will randomly choose from the services you provide and perform a single chaotic action to the chosen service. To cause more chaos, simply call the lambda again. If no services are explicitly specified in the POST body, all supported services will be considered fair game.
+Chaos Duck will randomly choose from the services you provide and perform a single chaotic action to the chosen service. To cause more chaos, simply call the lambda again. If no services are explicitly specified in the POST body, all supported services will be considered fair game.
 
 ### Supported services
 
-> These are the curent supported AWS services to wreak havoc on. Choose wisely.
+These are the curent supported AWS services to wreak havoc on. Choose wisely.
 
 - EC2: Chaos Duck will randomly stop your EC2 instances
 - ECS: Chaos Duck will randomly stop your ECS tasks
@@ -26,7 +27,7 @@
 
 ### Quickstart
 
-> Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed. Once you have set that up, make sure you have the following information from your AWS account: account number and role to assume to deploy lambda
+Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed. Once you have set that up, make sure you have the following information from your AWS account: account number and role to assume to deploy lambda
 
 1. Clone the project and install all dependencies
 
@@ -36,15 +37,13 @@
 
         npm link
 
-3. Deploy to your account using [duck.json](#markdown-header-using-duck.json) or CLI options
+3. Deploy to your account using [duck.json](#markdown-header-using-duck.json) or [CLI options](#markdown-header-using-cli-options)
 
-        chaos-duck deploy -e <name of environment> -a <account> -r <role>
+    CLI Options:
 
-    > CLI Options:
+        chaos-duck deploy -e <environment> -a <account> -r <role>
 
-        chaos-duck deploy -e sandbox -a 12345678912 -r Sandbox-Developer
-
-    > duck.json:
+    duck.json:
 
         chaos-duck deploy -c duck.json
 
@@ -71,26 +70,26 @@
 
 ### Using duck.json
 
-> You can also deploy by providing the path to a `duck.json` config file
+You can also deploy by providing the path to a `duck.json` config file
 
 ```sh
 # This would be an example of the duck.json existing in your current working directory
 chaos-duck deploy -c duck.json
 ```
 
-> Supported properties
+Supported properties
 
-- environment: Environment name. Can be any string used by you to identify an environment
-- account: AWS account number
-- role: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
-- profile: Profile in your AWS .credentials file to use. Defaults to "default"
-- stage: Deployment stage in AWS. Defaults to "dev"
-- service: Comma separated service values to invoke chaos on. Defaults to all services
-- slackWebhookUrl: Slack webhook url to post notifications to
+- `environment`: Environment name. Can be any string used by you to identify an environment
+- `account`: AWS account number
+- `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
+- `profile`: Profile in your AWS .credentials file to use. Defaults to "default"
+- `stage`: Deployment stage in AWS. Defaults to "dev"
+- `service`: Comma separated service values to invoke chaos on. Defaults to all services
+- `slackWebhookUrl`: Slack webhook url to post notifications to
 
 ### Using CLI Options
 
->chaos-duck --help
+`chaos-duck --help`
 
 ```sh
 Usage: chaos-duck [options] [command]
@@ -110,7 +109,7 @@ Commands:
 ### Using HTTP POST
 
 ```js
-POST <your chaos url>
+POST <chaosUrl>
 
 {
     "services": ["ecs", "elasticache"]
