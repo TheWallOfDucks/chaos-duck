@@ -2,14 +2,31 @@
 
 ## Description
 
-Chaos Duck is a serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
+> Chaos Duck is a serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
 
-## Quickstart
+## Table of Contents
 
-Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed. Once you have set that up, make sure you have the following information from your AWS account:
+- [How it works](#markdown-header-how-it-works)
+- [Supported Services](#markdown-header-supported-services)
+- [Quickstart](#markdown-header-quickstart)
+- [Using duck.json](#markdown-header-using-duck.json)
+- [Using HTTP POST](#markdown-header-using-http-post)
 
-- Account number
-- Role that can be assumed and has access to deploy lambda
+### How it works
+
+> Chaos Duck will randomly choose from the services you provide and perform a single chaotic action to the chosen service. To cause more chaos, simply call the lambda again. If no services are explicitly specified in the POST body, all supported services will be considered fair game.
+
+### Supported services
+
+> These are the curent supported AWS services to wreak havoc on. Choose wisely.
+
+- EC2: Chaos Duck will randomly stop your EC2 instances
+- ECS: Chaos Duck will randomly stop your ECS tasks
+- ElastiCache: Chaos Duck will randomly failover your ElastiCache instance
+
+### Quickstart
+
+> Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed. Once you have set that up, make sure you have the following information from your AWS account: account number and role to assume to deploy lambda
 
 1. Clone the project and install all dependencies
 
@@ -19,77 +36,83 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
         npm link
 
-3. Deploy to your account
+3. Deploy to your account using [duck.json](#markdown-header-using-duck.json) or CLI options
 
         chaos-duck deploy -e <name of environment> -a <account> -r <role>
 
-    Example:
+    > CLI Options:
 
         chaos-duck deploy -e sandbox -a 12345678912 -r Sandbox-Developer
 
-4. Once deployed, you will see your chaos url in the output, surrounded by 🦆🦆
+    > duck.json:
 
-        ...
-        Stack Outputs
-        🦆🦆 ServiceEndpoint: https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos 🦆🦆
-        ...
+        chaos-duck deploy -c duck.json
 
-5. To begin wreaking chaos, simply invoke it
-
-        chaos-duck invoke -u <chaos url> -s <services>
-
-    Example:
-
-        chaos-duck invoke -u https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos -s ecs,elasticache
-
-    Note: You can also invoke your chaos ducks by doing a POST to your chaos url
-
-        POST https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos
+4. Once deployed, a `duck.json` config file will be created (or modified) for you in your current directory
 
     ```json
     {
-        "services": ["ecs", "elasticache"]
+    "chaosUrl": "https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos",
+    "environment": "sandbox",
+    "account": "12345678912",
+    "role": "Sandbox-Developer",
+    "profile": "default",
+    "stage": "dev",
     }
     ```
 
-6. To undeploy chaos duck run `npm run undeploy`
+5. To begin wreaking chaos, simply invoke it
 
-## How it works
+        chaos-duck invoke -c duck.json
 
-Chaos Duck will randomly choose from the services you provide and perform a single chaotic action to the chosen service. To cause more chaos, simply call the lambda again. If no services are explicitly specified in the POST body, all supported services will be considered fair game.
+6. To undeploy
 
-## Supported services
+        chaos-duck undeploy -c duck.json
 
-- EC2: Chaos Duck will randomly stop your EC2 instances
-- ECS: Chaos Duck will randomly stop your ECS tasks
-- ElastiCache: Chaos Duck will randomly failover your ElastiCache instance
+### Using duck.json
 
-## Slack integration
-
-To allow chaos duck to post notifications on Slack, simply create a `.env` in the root of your project directory and add:
-
-```text
-SLACK_WEBHOOK_URL=<your unique webhook url>
-```
-
-NOTE: If you already deployed the chaos lambda, you will need to redeploy for Slack notifications to be enabled
-
-## Using duck.json
-
-You can also deploy by providing the path to a `duck.json` config file
+> You can also deploy by providing the path to a `duck.json` config file
 
 ```sh
 # This would be an example of the duck.json existing in your current working directory
 chaos-duck deploy -c duck.json
 ```
 
-```json
+> Supported properties
+
+- environment: Environment name. Can be any string used by you to identify an environment
+- account: AWS account number
+- role: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
+- profile: Profile in your AWS .credentials file to use. Defaults to "default"
+- stage: Deployment stage in AWS. Defaults to "dev"
+- service: Comma separated service values to invoke chaos on. Defaults to all services
+- slackWebhookUrl: Slack webhook url to post notifications to
+
+### Using CLI Options
+
+>chaos-duck --help
+
+```sh
+Usage: chaos-duck [options] [command]
+
+Chaos Duck
+
+Options:
+  -v, --version         output the version number
+  -h, --help            output usage information
+
+Commands:
+  deploy|d [options]    Deploys Chaos Duck
+  invoke|i [options]    Unleashes Chaos Duck
+  undeploy|u [options]  Undeploys Chaos Duck
+```
+
+### Using HTTP POST
+
+```js
+POST <your chaos url>
+
 {
-    "environment": "sandbox",
-    "account": "12345678912",
-    "role": "Sandbox-Developer",
-    "profile": "default",
-    "stage": "dev",
-    "slackWebhookUrl": "https://hooks.slack.com/services/ABCDEFG/ABCDEFG123/adsfadsfadsfadsf"
+    "services": ["ecs", "elasticache"]
 }
 ```
