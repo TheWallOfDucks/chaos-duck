@@ -5,7 +5,7 @@ export class Notification {
     private _method: string;
 
     constructor() {
-        if (process.env.SLACK_WEBHOOK_URL) {
+        if (process.env.SLACK_WEBHOOK_URL && process.env.SLACK_WEBHOOK_URL !== 'undefined') {
             this.enabled = true;
             this.method = 'slack';
         }

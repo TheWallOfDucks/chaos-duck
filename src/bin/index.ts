@@ -39,7 +39,6 @@ commander
                 profile = conf.profile || 'default';
                 stage = conf.stage || 'dev';
                 slackWebhookUrl = conf.slackWebhookUrl;
-                process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
             } else {
                 environment = cmd.environment;
                 account = cmd.account;
@@ -47,6 +46,8 @@ commander
                 profile = cmd.profile || 'default';
                 stage = cmd.stage || 'dev';
             }
+
+            process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
 
             const deploy = spawn('gradle', ['deploy', `-Daws_env=${environment}`, `-Daws_account=${account}`, `-Daws_role=${role}`, `-Daws_profile=${profile}`, `-Daws_stage=${stage}`]);
 
@@ -56,7 +57,7 @@ commander
                     chaosUrl = `${output
                         .split(':')
                         .slice(1)
-                        .join(':')}/chaos`;
+                        .join(':')}/chaos`.trim();
                 }
                 console.log(output);
             });
