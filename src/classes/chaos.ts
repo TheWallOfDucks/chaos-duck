@@ -4,6 +4,10 @@ import { ECS } from '../services/ecs';
 import { ElastiCache } from '../services/elasticache';
 import { Utility } from './utility';
 
+/**
+ * @description Chaos class is the main interface to randomly execute chaosFunctions against services.
+ * All chaos services should be given their own, lowercase, getter/setter.
+ */
 export class Chaos {
     private _ec2: EC2;
     private _ecs: ECS;

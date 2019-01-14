@@ -6,10 +6,8 @@
     "preferGlobal": true,
     "scripts": {
         "build": "rm -rf lib && tsc",
-        "deploy": "npm run build ; gradle deploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage",
         "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
-        "lint": "tslint -p .",
-        "undeploy": "npm run build ; gradle undeploy -Daws_env=$npm_package_config_awsEnv -Daws_account=$npm_package_config_awsAccount -Daws_role=$npm_package_config_awsRole -Daws_profile=$npm_package_config_awsProfile -Daws_stage=$npm_package_config_awsStage"
+        "lint": "tslint -p ."
     },
     "repository": "https://bitbucket.org/APITURE/chaos-duck",
     "husky": {

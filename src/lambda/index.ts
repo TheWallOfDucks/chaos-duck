@@ -3,6 +3,10 @@ import { Utility } from '../classes/utility';
 import { Notification } from '../classes/notification';
 const environment = process.env.AWS_ENV;
 
+/**
+ * @description Lambda handler
+ * @param {} event
+ */
 export const handler = async (event) => {
     try {
         let services: string[];
