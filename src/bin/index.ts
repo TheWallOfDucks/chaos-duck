@@ -120,7 +120,7 @@ commander
             }
 
             if (services) {
-                services = cmd.services.split(',');
+                services = services.split(',');
                 services = { services };
             }
 
