@@ -4,6 +4,7 @@
  */
 import * as commander from 'commander';
 import axios from 'axios';
+import { Utility } from '../classes/utility';
 
 const colors = require('colors');
 const fs = require('fs');
@@ -24,6 +25,7 @@ commander
     .option('-r, --role <role>', 'AWS role')
     .option('-p, --profile <profile>', 'AWS profile')
     .option('-s, --stage <stage>', 'AWS deployment stage')
+    .option('-i, --schedule <schedule>', 'The rate at which to schedule Chaos Duck to run')
     .description('Deploy Chaos Duck')
     .allowUnknownOption()
     .action(async (cmd) => {
@@ -34,6 +36,7 @@ commander
         let stage: string;
         let chaosUrl: string;
         let slackWebhookUrl: string;
+        let schedule: string;
         const config = cmd.config;
 
         try {
@@ -45,6 +48,7 @@ commander
                 profile = conf.profile || 'default';
                 stage = conf.stage || 'dev';
                 slackWebhookUrl = conf.slackWebhookUrl;
+                schedule = conf.schedule;
             } else {
                 environment = cmd.environment;
                 account = cmd.account;
@@ -53,7 +57,16 @@ commander
                 stage = cmd.stage || 'dev';
             }
 
+            // Set for serverless
             process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
+
+            // Validate schedule
+            if (schedule) {
+                const validSchedule = Utility.validateSchedule(schedule);
+                if (validSchedule) {
+                    process.env.RATE = schedule;
+                }
+            }
 
             const deploy = spawn('gradle', ['deploy', `-Daws_env=${environment}`, `-Daws_account=${account}`, `-Daws_role=${role}`, `-Daws_profile=${profile}`, `-Daws_stage=${stage}`]);
 
@@ -71,13 +84,14 @@ commander
             deploy.on('exit', (code: number) => {
                 if (code === 0) {
                     const body = {
+                        account,
                         chaosUrl,
                         environment,
-                        account,
-                        role,
                         profile,
-                        stage,
+                        role,
+                        schedule,
                         slackWebhookUrl,
+                        stage,
                     };
 
                     fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(body, null, 4));
@@ -86,10 +100,10 @@ commander
             });
 
             deploy.on('error', (error: any) => {
-                console.error(error);
+                console.error(colors.red(error));
             });
         } catch (error) {
-            console.error(error);
+            console.error(colors.red(error));
         }
     });
 

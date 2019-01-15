@@ -58,6 +58,7 @@ task generateAWSCredentials {
     envVars["AWS_SECRET_ACCESS_KEY"] = "${result.Credentials.SecretAccessKey}"
     envVars["AWS_SESSION_TOKEN"] = "${result.Credentials.SessionToken}"
     envVars["AWS_ENV"] = aws_env
+    envVars["AWS_STAGE"] = aws_stage
 }
 
 /**

@@ -26,3 +26,4 @@ functions:
       - http:
           path: chaos
           method: post
+      - schedule: ${file(lib/config/schedule.js):schedule} #NOTE: there is a bug in Lambda that causes the UI not to show the correct enabled value. Look at CloudWatch to see correct value
