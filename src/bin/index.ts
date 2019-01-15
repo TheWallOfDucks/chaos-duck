@@ -11,6 +11,18 @@ const fs = require('fs');
 const { spawn } = require('child_process');
 const info = require('../../package.json');
 
+interface DuckConfig {
+    account: string;
+    chaosUrl?: string;
+    environment?: string;
+    profile?: string;
+    role: string;
+    schedule?: string;
+    services?: string;
+    slackWebhookUrl?: string;
+    stage?: string;
+}
+
 commander.version(info.version, '-v, --version').description('Chaos Duck \uD83E\uDD86');
 
 /**
@@ -26,6 +38,7 @@ commander
     .option('-p, --profile <profile>', 'AWS profile')
     .option('-s, --stage <stage>', 'AWS deployment stage')
     .option('-i, --schedule <schedule>', 'The rate at which to schedule Chaos Duck to run')
+    .option('--slackWebhookUrl <slackWebhookUrl>', 'The URL to post slack messages to')
     .description('Deploy Chaos Duck')
     .allowUnknownOption()
     .action(async (cmd) => {
@@ -41,7 +54,7 @@ commander
 
         try {
             if (config) {
-                const conf = require(`${process.cwd()}/${config}`);
+                const conf: DuckConfig = require(`${process.cwd()}/${config}`);
                 environment = conf.environment;
                 account = conf.account;
                 role = conf.role;
@@ -55,6 +68,8 @@ commander
                 role = cmd.role;
                 profile = cmd.profile || 'default';
                 stage = cmd.stage || 'dev';
+                slackWebhookUrl = cmd.slackWebhookUrl;
+                schedule = cmd.schedule;
             }
 
             // Set for serverless
@@ -83,7 +98,7 @@ commander
 
             deploy.on('exit', (code: number) => {
                 if (code === 0) {
-                    const body = {
+                    const body: DuckConfig = {
                         account,
                         chaosUrl,
                         environment,

@@ -35,7 +35,7 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
 2. Create a symlink to enable the `chaos-duck` command globally
 
-        npm link
+        npm run link
 
 3. Deploy to your account using [duck.json](#markdown-header-using-duck.json) or [CLI options](#markdown-header-using-cli-options)
 

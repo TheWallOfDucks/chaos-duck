@@ -7,6 +7,7 @@
     "scripts": {
         "build": "rm -rf lib && tsc",
         "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
+        "link": "npm run build && npm link",
         "lint": "tslint -p ."
     },
     "repository": "https://github.com/TheWallOfDucks/chaos-duck",
