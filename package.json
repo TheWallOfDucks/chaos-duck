@@ -1,6 +1,6 @@
 {
     "name": "chaos-duck",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Chaos Duck is a tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
     "bin": "lib/bin/index.js",
     "preferGlobal": true,
@@ -9,7 +9,7 @@
         "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
         "lint": "tslint -p ."
     },
-    "repository": "https://bitbucket.org/APITURE/chaos-duck",
+    "repository": "https://github.com/TheWallOfDucks/chaos-duck",
     "husky": {
         "hooks": {
             "pre-push": "npm run build && npm run lint"

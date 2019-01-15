@@ -9,7 +9,7 @@ export const template = {
             color: '#36a64f',
             pretext: 'Chaos Duck has been unleashed',
             author_name: 'Chaos Duck',
-            author_icon: 'https://vignette.wikia.nocookie.net/pokemon/images/e/ef/Psyduck_Confusion.png/revision/latest?cb=20150611192544',
+            author_icon: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/155/duck_1f986.png',
             title: '',
             text: 'Please see information about the chaos below:',
             fields: [],

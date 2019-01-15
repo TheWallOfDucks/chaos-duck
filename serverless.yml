@@ -25,4 +25,4 @@ functions:
     events:
       - http:
           path: chaos
-          method: post  
+          method: post
