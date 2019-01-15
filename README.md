@@ -2,20 +2,20 @@
 
 ## Description
 
-Chaos Duck is a serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
+Chaos Duck is a Node.js serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
 
 ## Table of Contents
 
 - [How it works](#markdown-header-how-it-works)
 - [Supported Services](#markdown-header-supported-services)
-- [Quickstart](#markdown-header-quickstart)
+- [Quick start](#markdown-header-quick-start)
 - [Using duck.json](#markdown-header-using-duck.json)
 - [Using CLI Options](#markdown-header-using-cli-options)
 - [Using HTTP POST](#markdown-header-using-http-post)
 
 ### How it works
 
-Chaos Duck will randomly choose from the services you provide and perform a single chaotic action to the chosen service. To cause more chaos, simply call the lambda again. If no services are explicitly specified in the POST body, all supported services will be considered fair game.
+Chaos Duck will randomly choose from the services you provide and perform a single chaotic action to the chosen service. To cause more chaos, simply invoke Chaos Duck again. If no services are explicitly specified in the POST body, all supported services will be considered fair game.
 
 ### Supported services
 
@@ -25,7 +25,7 @@ These are the curent supported AWS services to wreak havoc on. Choose wisely.
 - ECS: Chaos Duck will randomly stop your ECS tasks
 - ElastiCache: Chaos Duck will randomly failover your ElastiCache instance
 
-### Quickstart
+### Quick start
 
 Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed. Once you have set that up, make sure you have the following information from your AWS account: account number and role to assume to deploy lambda
 
@@ -43,7 +43,7 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
         chaos-duck deploy -e <environment> -a <account> -r <role>
 
-    duck.json:
+    If using a `duck.json` configuration file:
 
         chaos-duck deploy -c duck.json
 
@@ -51,12 +51,12 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
     ```json
     {
-    "chaosUrl": "https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos",
-    "environment": "sandbox",
-    "account": "12345678912",
-    "role": "Sandbox-Developer",
-    "profile": "default",
-    "stage": "dev",
+        "chaosUrl": "https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos",
+        "environment": "sandbox",
+        "account": "12345678912",
+        "role": "Sandbox-Developer",
+        "profile": "default",
+        "stage": "dev"
     }
     ```
 
@@ -73,7 +73,7 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 You can also `deploy` or `invoke` by providing the path to a `duck.json` config file
 
 ```sh
-# This would be an example of the duck.json existing in your current working directory
+# Using the duck.json in your current working directory
 chaos-duck deploy -c duck.json
 ```
 
@@ -85,7 +85,10 @@ Supported properties
 - `profile`: Profile in your AWS .credentials file to use. Defaults to "default"
 - `stage`: Deployment stage in AWS. Defaults to "dev"
 - `services`: Comma separated service values to invoke chaos on. Defaults to all services
+    - These values are not case sensitive
 - `slackWebhookUrl`: Slack webhook url to post notifications to
+- `chaosUrl`: The url to call when invoking Chaos Duck
+    - This value will be ignored during deployments
 
 ### Using CLI Options
 
@@ -94,16 +97,16 @@ Supported properties
 ```sh
 Usage: chaos-duck [options] [command]
 
-Chaos Duck
+Chaos Duck 🦆
 
 Options:
   -v, --version         output the version number
   -h, --help            output usage information
 
 Commands:
-  deploy|d [options]    Deploys Chaos Duck
-  invoke|i [options]    Unleashes Chaos Duck
-  undeploy|u [options]  Undeploys Chaos Duck
+  deploy|d [options]    Deploy Chaos Duck
+  invoke|i [options]    Unleash Chaos Duck
+  undeploy|u [options]  Undeploy Chaos Duck
 ```
 
 ### Using HTTP POST
@@ -112,6 +115,8 @@ Commands:
 POST <chaosUrl>
 
 {
-    "services": ["ecs", "elasticache"]
+    "services": ["ECS", "ElastiCache"]
 }
 ```
+
+Note: the `<chaosUrl>` can be found in your `duck.json` file
