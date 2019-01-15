@@ -8,6 +8,7 @@
     -   [Decorators](#decorators)
     -   [How to add a new Service](#how-to-add-a-new-service)
     -   [How to add a new Notification Provider](#how-to-add-a-new-notification-provider)
+-   [TODO](#todo)
 
 ## Making a Pull Request
 
@@ -19,11 +20,12 @@
 6. All new files added should have a one line description indicating the purpose.
 7. All changes should be commented or clear enough to decipher by looking at the code.
 8. All changes should follow the existing code style (indentation, use of braces, white space, capitalization, variable naming etc.). Do no reformat source code using a different style.
-9. Finally, update the package version appropriately. [Read this](https://docs.npmjs.com/about-semantic-versioning) for more information on semantic versioning.
+9. If you are completing an item from [TODO](#todo) then remove it from the list.
+10. Finally, update the package version and [README.md](README.md) appropriately. [Read this](https://docs.npmjs.com/about-semantic-versioning) for more information on semantic versioning.
 
 ## Reporting a Bug
 
--   If reporting a security bug, [email me directly](caleb.duckwall@apiture.com)
+-   If reporting a security bug, [email me directly](mailto:caleb.duckwall@apiture.com)
 -   If not reporting a security bug, make sure you provide the following information in your bug report:
     -   What version of Node are you using?
     -   What version of TypeScript are you using?
@@ -56,7 +58,7 @@ This means that in this method:
 @chaosFunction()
 @disabled()
 async stopRandomInstance() {
-...
+    ...
 }
 ```
 
@@ -106,3 +108,12 @@ export class EC2 {
     - Should support all the different services and chaos functions
     - Should not be disruptive. (i.e. it should not break anything if you don't use that notification provider)
 3. Implement the notification provider in `src/classes/notification.ts`, again following the `slack` implementation as an example
+
+### TODO
+
+-   Implement ability to schedule the Chaos Duck lambda through the deploy command
+    -   [Serverless Schedule Event](https://serverless.com/framework/docs/providers/aws/events/schedule/)
+-   Move `@message()` decorator in `src/notification_providers/slack.ts` to be at the `chaosFunction` level and not the service level
+    -   This will be tricky because you don't want to hardcode any sort of slack support at the `chaosFunction` level as only the notification provider should care
+        -   Will need to modify the decorator (`src/decorators/slackMessage.ts`)
+        -   Will need to modify the notification provider (`src/notification_providers/slack.ts`)
