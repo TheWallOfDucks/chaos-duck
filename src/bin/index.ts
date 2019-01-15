@@ -26,6 +26,90 @@ interface DuckConfig {
 
 commander.version(info.version, '-v, --version').description('Chaos Duck \uD83E\uDD86');
 
+commander
+    .command('config')
+    .alias('c')
+    .description('Setup Chaos Duck')
+    .action(() => {
+        try {
+            inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        name: 'environment',
+                        message: 'What is the name of your AWS environment?',
+                    },
+                    {
+                        type: 'input',
+                        name: 'account',
+                        message: 'What is your AWS account number?',
+                    },
+                    {
+                        type: 'input',
+                        name: 'role',
+                        message: 'What is your AWS role to assume?',
+                    },
+                    {
+                        type: 'input',
+                        name: 'profile',
+                        message: 'What is the profile you are using to assume the role?',
+                        default: () => {
+                            return 'default';
+                        },
+                    },
+                    {
+                        type: 'input',
+                        name: 'stage',
+                        message: 'What stage do you want to deploy Chaos Duck in?',
+                        default: () => {
+                            return 'dev';
+                        },
+                    },
+                    {
+                        type: 'input',
+                        name: 'slackWebhookUrl',
+                        message: 'If you have a Slack webhook you would like to use, please enter the url',
+                        default: () => {
+                            return '';
+                        },
+                    },
+                    {
+                        type: 'input',
+                        name: 'schedule',
+                        message: 'If you would like to run Chaos Duck on a scheduled interval, enter it here',
+                        validate: (schedule: string) => {
+                            try {
+                                if (schedule) {
+                                    const valid = Utility.validateSchedule(schedule);
+                                    if (valid) {
+                                        return true;
+                                    }
+                                    return 'Please enter a valid schedule. Value must be a positive integer and unit must be one of the following: minute(s), hour(s), day(s)';
+                                }
+                                return true;
+                            } catch (error) {
+                                return 'Please enter a valid schedule. Value must be a positive integer and unit must be one of the following: minute(s), hour(s), day(s)';
+                            }
+                        },
+                    },
+                    {
+                        type: 'input',
+                        name: 'services',
+                        message: 'If you would only like to run Chaos Duck on specific services, specify them here',
+                        default: () => {
+                            return '';
+                        },
+                    },
+                ])
+                .then((answers) => {
+                    fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(answers, null, 4));
+                    console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
+                });
+        } catch (error) {
+            console.error(colors.red(error));
+        }
+    });
+
 /**
  * @description Deploy command
  */
@@ -118,89 +202,6 @@ commander
             deploy.on('error', (error: any) => {
                 console.error(colors.red(error));
             });
-        } catch (error) {
-            console.error(colors.red(error));
-        }
-    });
-
-commander
-    .command('generate')
-    .alias('g')
-    .action(async () => {
-        try {
-            inquirer
-                .prompt([
-                    {
-                        type: 'input',
-                        name: 'environment',
-                        message: 'What is the name of your AWS environment?',
-                    },
-                    {
-                        type: 'input',
-                        name: 'account',
-                        message: 'What is your AWS account number?',
-                    },
-                    {
-                        type: 'input',
-                        name: 'role',
-                        message: 'What is your AWS role to assume?',
-                    },
-                    {
-                        type: 'input',
-                        name: 'profile',
-                        message: 'What is the profile you are using to assume the role?',
-                        default: () => {
-                            return 'default';
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'stage',
-                        message: 'What stage do you want to deploy Chaos Duck in?',
-                        default: () => {
-                            return 'dev';
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'slackWebhookUrl',
-                        message: 'If you have a Slack webhook you would like to use, please enter the url',
-                        default: () => {
-                            return '';
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'schedule',
-                        message: 'If you would like to run Chaos Duck on a scheduled interval, enter it here',
-                        validate: (schedule) => {
-                            try {
-                                if (schedule) {
-                                    const valid = Utility.validateSchedule(schedule);
-                                    if (valid) {
-                                        return true;
-                                    }
-                                    return 'Please enter a valid schedule. Value must be a positive integer and unit must be one of the following: minute(s), hour(s), day(s)';
-                                }
-                                return true;
-                            } catch (error) {
-                                return 'Please enter a valid schedule. Value must be a positive integer and unit must be one of the following: minute(s), hour(s), day(s)';
-                            }
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'services',
-                        message: 'If you would only like to run Chaos Duck on specific services, specify them here',
-                        default: () => {
-                            return '';
-                        },
-                    },
-                ])
-                .then((answers) => {
-                    fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(answers, null, 4));
-                    console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
-                });
         } catch (error) {
             console.error(colors.red(error));
         }

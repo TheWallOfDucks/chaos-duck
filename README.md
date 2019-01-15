@@ -37,21 +37,14 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
         npm run link
 
-3. Deploy to your account using [duck.json](#markdown-header-using-duck.json) or [CLI options](#markdown-header-using-cli-options)
+3. Follow the prompts in order to configure Chaos Duck
 
-    CLI Options:
+        chaos-duck config
 
-        chaos-duck deploy -e <environment> -a <account> -r <role>
-
-    If using a `duck.json` configuration file:
-
-        chaos-duck deploy -c duck.json
-
-4. Once deployed, a `duck.json` config file will be created (or modified) for you in your current directory
+4. Once you are done with the configuration, a `duck.json` config file will be created (or modified) for you in your current directory
 
     ```json
     {
-        "chaosUrl": "https://abcdef123.execute-api.us-east-1.amazonaws.com/dev/chaos",
         "environment": "sandbox",
         "account": "12345678912",
         "role": "Sandbox-Developer",
@@ -59,6 +52,12 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
         "stage": "dev"
     }
     ```
+
+5. Deploy Chaos Duck
+
+        chaos-duck deploy -c duck.json
+
+    NOTE: Once Chaos Duck has been deployed your `duck.json` file will be updated to include your `chaosUrl`
 
 5. To begin wreaking chaos, simply invoke it
 
@@ -70,11 +69,10 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
 ### Using duck.json
 
-You can also `deploy` or `invoke` by providing the path to a `duck.json` config file
+In addition to using CLI options, you can also `deploy` or `invoke` by providing the path to a `duck.json` config file. To generate a new `duck.json` file, simply run: 
 
 ```sh
-# Using the duck.json in your current working directory
-chaos-duck deploy -c duck.json
+chaos-duck config
 ```
 
 Supported properties
@@ -107,6 +105,7 @@ Options:
   -h, --help            output usage information
 
 Commands:
+  config|c              Setup Chaos Duck
   deploy|d [options]    Deploy Chaos Duck
   invoke|i [options]    Unleash Chaos Duck
   undeploy|u [options]  Undeploy Chaos Duck
