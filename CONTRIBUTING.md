@@ -19,6 +19,7 @@
 6. All new files added should have a one line description indicating the purpose.
 7. All changes should be commented or clear enough to decipher by looking at the code.
 8. All changes should follow the existing code style (indentation, use of braces, white space, capitalization, variable naming etc.). Do no reformat source code using a different style.
+9. Finally, update the package version appropriately. [Read this](https://docs.npmjs.com/about-semantic-versioning) for more information on semantic versioning.
 
 ## Reporting a Bug
 
