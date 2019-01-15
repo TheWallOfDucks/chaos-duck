@@ -79,16 +79,19 @@ chaos-duck deploy -c duck.json
 
 Supported properties
 
-- `environment`: Environment name. Can be any string used by you to identify an environment
 - `account`: AWS account number
-- `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
+- `chaosUrl`: The url to call when invoking Chaos Duck
+    - This value will be ignored during deployments
+- `environment`: Environment name. Can be any string used by you to identify an environment
 - `profile`: Profile in your AWS .credentials file to use. Defaults to "default"
-- `stage`: Deployment stage in AWS. Defaults to "dev"
+- `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
+- `schedule`: Schedule to run Chaos Duck on
+    - This value is expressed as a value which can be a positive integer along with a unit which can be `minute(s)`, `hour(s)`, or `day(s)`
+        - For a singular value the unit must be singular (`'1 day'`), otherwise plural (`'5 days'`)
 - `services`: Comma separated service values to invoke chaos on. Defaults to all services
     - These values are not case sensitive
 - `slackWebhookUrl`: Slack webhook url to post notifications to
-- `chaosUrl`: The url to call when invoking Chaos Duck
-    - This value will be ignored during deployments
+- `stage`: Deployment stage in AWS. Defaults to "dev"
 
 ### Using CLI Options
 

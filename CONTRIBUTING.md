@@ -111,9 +111,9 @@ export class EC2 {
 
 ### TODO
 
--   Implement ability to schedule the Chaos Duck lambda through the deploy command
-    -   [Serverless Schedule Event](https://serverless.com/framework/docs/providers/aws/events/schedule/)
 -   Move `@message()` decorator in `src/notification_providers/slack.ts` to be at the `chaosFunction` level and not the service level
     -   This will be tricky because you don't want to hardcode any sort of slack support at the `chaosFunction` level as only the notification provider should care
         -   Will need to modify the decorator (`src/decorators/slackMessage.ts`)
         -   Will need to modify the notification provider (`src/notification_providers/slack.ts`)
+-   Add ability to support cron schedule rate
+-   Add ability to specify services to run on schedule
