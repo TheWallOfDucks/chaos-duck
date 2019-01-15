@@ -1,3 +1,5 @@
+const colors = require('colors');
+
 /**
  * @description Basic utility functions
  */
@@ -17,12 +19,20 @@ export class Utility {
         return cronRegex.test(cron);
     }
 
-    static validateRate(rate: string) {
+    static validateSchedule(rate: string) {
+        const supportedUnits = ['minute', 'minutes', 'hour', 'hours', 'day', 'days'];
         const parts = rate.split(' ');
-        const value = parts[0];
+        const value = Number(parts[0]);
         const unit = parts[1];
 
-        console.log('value => ', value);
-        console.log('unit => ', unit);
+        if (value <= 0) {
+            throw new Error(`Invalid schedule value: "${value}". Value must be greater than 0.`);
+        }
+
+        if (!supportedUnits.includes(unit)) {
+            throw new Error(`Invalid schedule unit: "${unit}". Try one of these instead: ${supportedUnits}.`);
+        }
+
+        return true;
     }
 }

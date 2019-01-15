@@ -25,7 +25,7 @@ commander
     .option('-r, --role <role>', 'AWS role')
     .option('-p, --profile <profile>', 'AWS profile')
     .option('-s, --stage <stage>', 'AWS deployment stage')
-    .option('-i, --schedule <schedule>', 'Scheduled interval to run Chaos Duck on. Needs to be in Cron format')
+    .option('-i, --schedule <schedule>', 'The rate at which to schedule Chaos Duck to run')
     .description('Deploy Chaos Duck')
     .allowUnknownOption()
     .action(async (cmd) => {
@@ -57,13 +57,16 @@ commander
                 stage = cmd.stage || 'dev';
             }
 
-            if (schedule) {
-                Utility.validateRate(schedule);
-            }
-
             // Set for serverless
             process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
-            process.env.RATE = schedule;
+
+            // Validate schedule
+            if (schedule) {
+                const validSchedule = Utility.validateSchedule(schedule);
+                if (validSchedule) {
+                    process.env.RATE = schedule;
+                }
+            }
 
             const deploy = spawn('gradle', ['deploy', `-Daws_env=${environment}`, `-Daws_account=${account}`, `-Daws_role=${role}`, `-Daws_profile=${profile}`, `-Daws_stage=${stage}`]);
 
@@ -97,10 +100,10 @@ commander
             });
 
             deploy.on('error', (error: any) => {
-                console.error(error);
+                console.error(colors.red(error));
             });
         } catch (error) {
-            console.error(error);
+            console.error(colors.red(error));
         }
     });
 

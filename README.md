@@ -85,7 +85,7 @@ Supported properties
 - `environment`: Environment name. Can be any string used by you to identify an environment
 - `profile`: Profile in your AWS .credentials file to use. Defaults to "default"
 - `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
-- `schedule`: Schedule to run Chaos Duck on
+- `schedule`: The schedule to run Chaos Duck. Defaults to no schedule
     - This value is expressed as a value which can be a positive integer along with a unit which can be `minute(s)`, `hour(s)`, or `day(s)`
         - For a singular value the unit must be singular (`'1 day'`), otherwise plural (`'5 days'`)
 - `services`: Comma separated service values to invoke chaos on. Defaults to all services
