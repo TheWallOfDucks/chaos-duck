@@ -11,6 +11,7 @@ Chaos Duck is a Node.js serverless implementation of [Netflix's Chaos Monkey](ht
 - [Using duck.json](#using-duck.json)
 - [Using CLI Options](#using-cli-options)
 - [Using HTTP POST](#using-http-post)
+- [Contributing](CONTRIBUTING.md)
 
 ### How it works
 

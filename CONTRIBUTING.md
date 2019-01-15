@@ -15,12 +15,14 @@
 2. Do all work in your local forked branch and then make a pull request to the `master` branch
 3. Add me to all pull requests: caleb.duckwall@apiture.com
 4. Make sure all `pre-push` hooks are passing. Basically, your code should compile.
-5. All new files added should have a one line description indicating the purpose.
-6. Intention of all changes should be described or clear enough to decipher by looking at the code.
+5. Be sure your changes are tested and do not break the project for others.
+6. All new files added should have a one line description indicating the purpose.
+7. All changes should be commented or clear enough to decipher by looking at the code.
+8. All changes should follow the existing code style (indentation, use of braces, white space, capitalization, variable naming etc.). Do no reformat source code using a different style.
 
 ## Reporting a Bug
 
--   If reporting a security bug, email me directly: caleb.duckwall@apiture.com
+-   If reporting a security bug, [email me directly](caleb.duckwall@apiture.com)
 -   If not reporting a security bug, make sure you provide the following information in your bug report:
     -   What version of Node are you using?
     -   What version of TypeScript are you using?
@@ -89,8 +91,10 @@ export class EC2 {
     - Should be as random as possible
     - Not rely on any parameters to be passed in
     - Should be decorated with [`@chaosFunction()`](#markdown-header-decorators)
-5. Once you have built your `chaosFunction` make sure that it is exposed through the class (IE not private). Make sure all helper methods/properties in the class are private...we only want to expose the `chaosFunctions`
+5. Once you have built your `chaosFunction` make sure that it is exposed through the class (i.e. not private). Make sure all helper methods/properties in the class are private...we only want to expose the `chaosFunctions`
 6. Add service to `src/classes/chaos.ts`
+    - This is where the mapping between the service names and the classes happens
+    - Getters and setters for services are case sensitive and should be lowercase
 7. Add slack notification support to `src/notification_providers/slack.ts`
 
 ### How to add a new Notification Provider
@@ -99,5 +103,5 @@ export class EC2 {
 2. ...the rest is pretty much up to you, take a look at `src/notification_provider/slack.ts`. Here are some guidelines:
     - Should have a method called `post` that should accept a message body
     - Should support all the different services and chaos functions
-    - Should not be disruptive. (IE it should not break anything if you don't use that notification provider)
+    - Should not be disruptive. (i.e. it should not break anything if you don't use that notification provider)
 3. Implement the notification provider in `src/classes/notification.ts`, again following the `slack` implementation as an example
