@@ -7,6 +7,7 @@
     "scripts": {
         "build": "rm -rf lib && tsc",
         "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
+        "link": "npm run build && npm link",
         "lint": "tslint -p ."
     },
     "repository": "https://github.com/TheWallOfDucks/chaos-duck",
@@ -28,7 +29,8 @@
         "aws-sdk": "^2.384.0",
         "axios": "^0.18.0",
         "colors": "^1.3.3",
-        "commander": "^2.19.0"
+        "commander": "^2.19.0",
+        "inquirer": "^6.2.1"
     },
     "devDependencies": {
         "@types/jasmine": "^2.8.6",
