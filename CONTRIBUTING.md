@@ -2,17 +2,12 @@
 
 ## Table of Contents
 
--   [Making a Pull Request](#markdown-header-making-a-pull-request)
-
--   [Reporting a bug](#markdown-header-reporting-a-bug)
-
--   [Development](#markdown-header-development)
-
-    -   [Decorators](#markdown-header-decorators)
-
-    -   [How to add a new Service](#markdown-header-how-to-add-a-new-service)
-
-    -   [How to add a new Notification Provider](#markdown-header-how-to-add-a-new-notification-provider)
+-   [Making a Pull Request](#making-a-pull-request)
+-   [Reporting a bug](#reporting-a-bug)
+-   [Development](#development)
+    -   [Decorators](#decorators)
+    -   [How to add a new Service](#how-to-add-a-new-service)
+    -   [How to add a new Notification Provider](#how-to-add-a-new-notification-provider)
 
 ## Making a Pull Request
 
@@ -52,7 +47,7 @@ YES.
 
     The expressions for each decorator are evaluated top-to-bottom. The results are then called as functions from bottom-to-top.
 
-This means that in this method
+This means that in this method:
 
 ```ts
 @chaosFunction()

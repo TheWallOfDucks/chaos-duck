@@ -5,13 +5,12 @@
 Chaos Duck is a Node.js serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
 
 ## Table of Contents
-
-- [How it works](#markdown-header-how-it-works)
-- [Supported Services](#markdown-header-supported-services)
-- [Quick start](#markdown-header-quick-start)
-- [Using duck.json](#markdown-header-using-duck.json)
-- [Using CLI Options](#markdown-header-using-cli-options)
-- [Using HTTP POST](#markdown-header-using-http-post)
+- [How it works](#how-it-works)
+- [Supported Services](#supported-services)
+- [Quick start](#quick-start)
+- [Using duck.json](#using-duck.json)
+- [Using CLI Options](#using-cli-options)
+- [Using HTTP POST](#using-http-post)
 
 ### How it works
 
