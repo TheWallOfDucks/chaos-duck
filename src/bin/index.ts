@@ -11,6 +11,7 @@ const fs = require('fs');
 const { spawn } = require('child_process');
 const inquirer = require('inquirer');
 const info = require('../../package.json');
+import { prompts } from './config';
 
 interface DuckConfig {
     account: string;
@@ -32,79 +33,10 @@ commander
     .description('Setup Chaos Duck')
     .action(() => {
         try {
-            inquirer
-                .prompt([
-                    {
-                        type: 'input',
-                        name: 'environment',
-                        message: 'What is the name of your AWS environment?',
-                    },
-                    {
-                        type: 'input',
-                        name: 'account',
-                        message: 'What is your AWS account number?',
-                    },
-                    {
-                        type: 'input',
-                        name: 'role',
-                        message: 'What is your AWS role to assume?',
-                    },
-                    {
-                        type: 'input',
-                        name: 'profile',
-                        message: 'What is the profile you are using to assume the role?',
-                        default: () => {
-                            return 'default';
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'stage',
-                        message: 'What stage do you want to deploy Chaos Duck in?',
-                        default: () => {
-                            return 'dev';
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'slackWebhookUrl',
-                        message: 'If you have a Slack webhook you would like to use, please enter the url',
-                        default: () => {
-                            return '';
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'schedule',
-                        message: 'If you would like to run Chaos Duck on a scheduled interval, enter it here',
-                        validate: (schedule: string) => {
-                            try {
-                                if (schedule) {
-                                    const valid = Utility.validateSchedule(schedule);
-                                    if (valid) {
-                                        return true;
-                                    }
-                                    return 'Please enter a valid schedule. Value must be a positive integer and unit must be one of the following: minute(s), hour(s), day(s)';
-                                }
-                                return true;
-                            } catch (error) {
-                                return 'Please enter a valid schedule. Value must be a positive integer and unit must be one of the following: minute(s), hour(s), day(s)';
-                            }
-                        },
-                    },
-                    {
-                        type: 'input',
-                        name: 'services',
-                        message: 'If you would only like to run Chaos Duck on specific services, specify them here',
-                        default: () => {
-                            return '';
-                        },
-                    },
-                ])
-                .then((answers) => {
-                    fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(answers, null, 4));
-                    console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
-                });
+            inquirer.prompt(prompts).then((answers) => {
+                fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(answers, null, 4));
+                console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
+            });
         } catch (error) {
             console.error(colors.red(error));
         }
@@ -135,6 +67,7 @@ commander
         let chaosUrl: string;
         let slackWebhookUrl: string;
         let schedule: string;
+        let services: string;
         const config = cmd.config;
 
         try {
@@ -147,6 +80,7 @@ commander
                 stage = conf.stage || 'dev';
                 slackWebhookUrl = conf.slackWebhookUrl;
                 schedule = conf.schedule;
+                services = conf.services;
             } else {
                 environment = cmd.environment;
                 account = cmd.account;
@@ -172,11 +106,11 @@ commander
 
             deploy.stdout.on('data', (data: Buffer) => {
                 const output = data.toString().replace(/\n$/, '');
-                if (output.includes('ServiceEndpoint')) {
-                    chaosUrl = `${output
-                        .split(':')
-                        .slice(1)
-                        .join(':')}/chaos`.trim();
+                if (output.includes('endpoints')) {
+                    chaosUrl = output
+                        .split(' ')
+                        .pop()
+                        .trim();
                 }
                 console.log(output);
             });
@@ -190,6 +124,7 @@ commander
                         profile,
                         role,
                         schedule,
+                        services,
                         slackWebhookUrl,
                         stage,
                     };
