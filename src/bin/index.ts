@@ -33,8 +33,18 @@ commander
     .description('Setup Chaos Duck')
     .action(() => {
         try {
-            inquirer.prompt(prompts).then((answers) => {
-                fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(answers, null, 4));
+            inquirer.prompt(prompts).then((config) => {
+                const duckConfig: DuckConfig = {
+                    environment: config.environment,
+                    account: config.account,
+                    role: config.role,
+                    profile: config.profile,
+                    stage: config.stage,
+                    slackWebhookUrl: config.slackWebhookUrl,
+                    schedule: config.schedule,
+                    services: config.services.replace(/\s+/g, ''),
+                };
+                fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(duckConfig, null, 4));
                 console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
             });
         } catch (error) {
@@ -67,7 +77,6 @@ commander
         let chaosUrl: string;
         let slackWebhookUrl: string;
         let schedule: string;
-        let services: string;
         const config = cmd.config;
 
         try {
@@ -80,7 +89,6 @@ commander
                 stage = conf.stage || 'dev';
                 slackWebhookUrl = conf.slackWebhookUrl;
                 schedule = conf.schedule;
-                services = conf.services;
             } else {
                 environment = cmd.environment;
                 account = cmd.account;
@@ -124,7 +132,6 @@ commander
                         profile,
                         role,
                         schedule,
-                        services,
                         slackWebhookUrl,
                         stage,
                     };
