@@ -91,6 +91,22 @@ Supported properties
 - `slackWebhookUrl`: Slack webhook url to post notifications to
 - `stage`: Deployment stage in AWS. Defaults to "dev"
 
+Example
+
+```json
+{
+    "account": "12345678912",
+    "chaosUrl": "https://oxabydb5z8.execute-api.us-east-1.amazonaws.com/dev/chaos",
+    "environment": "sandbox",
+    "profile": "default",
+    "role": "Sandbox-Developer",
+    "schedule": "1 hour",
+    "services": "ECS,EC2,ElastiCache",
+    "slackWebhookUrl": "https://hooks.slack.com/services/ABCDE123/FGHIJK456/laduhgfa98u234234",
+    "stage": "dev"
+}
+```
+
 ### Using CLI Options
 
 `chaos-duck --help`
