@@ -5,10 +5,11 @@
 Chaos Duck is a Node.js serverless implementation of [Netflix's Chaos Monkey](https://github.com/Netflix/chaosmonkey). Chaos Duck will randomly stop and failover resources in your AWS account allowing you to test and build highly available applications.
 
 ## Table of Contents
-- [How it works](#how-it-works)
+- [How It Works](#how-it-works)
 - [Supported Services](#supported-services)
-- [Quick start](#quick-start)
+- [Quick Start](#quick-start)
 - [Using duck.json](#using-duck.json)
+    - [Supported Properties](#supported-properties)
 - [Using CLI Options](#using-cli-options)
 - [Using HTTP POST](#using-http-post)
 - [Contributing](CONTRIBUTING.md)
@@ -37,7 +38,7 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
         npm run link
 
-3. Follow the prompts in order to configure Chaos Duck
+3. Follow the prompts in order to configure Chaos Duck. Read more about the supported properties [here](#supported-properties)
 
         chaos-duck config
 
@@ -75,7 +76,7 @@ In addition to using CLI options, you can also `deploy` or `invoke` by providing
 chaos-duck config
 ```
 
-Supported properties
+#### Supported properties
 
 - `account`: AWS account number
 - `chaosUrl`: The url to call when invoking Chaos Duck
@@ -88,6 +89,7 @@ Supported properties
         - For a singular value the unit must be singular (`'1 day'`), otherwise plural (`'5 days'`)
 - `services`: Comma separated service values to invoke chaos on. Defaults to all services
     - These values are not case sensitive
+    - Read more about supported services [here](#supported-services)
 - `slackWebhookUrl`: Slack webhook url to post notifications to
 - `stage`: Deployment stage in AWS. Defaults to "dev"
 
