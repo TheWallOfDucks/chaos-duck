@@ -24,7 +24,6 @@ export const invoke = async (cmd: any) => {
         const response = await request;
 
         return response.data;
-        // console.log(JSON.stringify(response.data, null, 2));
     } catch (error) {
         throw new Error(error);
     }

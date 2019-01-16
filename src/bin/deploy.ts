@@ -14,6 +14,7 @@ export const deploy = async (cmd: any) => {
     let chaosUrl: string;
     let slackWebhookUrl: string;
     let schedule: string;
+    let services: string;
     const config = cmd.config;
 
     try {
@@ -26,6 +27,7 @@ export const deploy = async (cmd: any) => {
             stage = conf.stage || 'dev';
             slackWebhookUrl = conf.slackWebhookUrl;
             schedule = conf.schedule;
+            services = conf.services;
         } else {
             environment = cmd.environment;
             account = cmd.account;
@@ -34,6 +36,7 @@ export const deploy = async (cmd: any) => {
             stage = cmd.stage || 'dev';
             slackWebhookUrl = cmd.slackWebhookUrl;
             schedule = cmd.schedule;
+            services = cmd.services;
         }
 
         // Set for serverless
@@ -69,6 +72,7 @@ export const deploy = async (cmd: any) => {
                     profile,
                     role,
                     schedule,
+                    services,
                     slackWebhookUrl,
                     stage,
                 };
