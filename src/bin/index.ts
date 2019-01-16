@@ -168,7 +168,7 @@ commander
                 }
             }
 
-            const deploy = spawn('gradle', ['deploy', `-Daws_env=${environment}`, `-Daws_account=${account}`, `-Daws_role=${role}`, `-Daws_profile=${profile}`, `-Daws_stage=${stage}`]);
+            const deploy = spawn('./node_modules/.bin/gulp', ['deploy', '-LL', `--environment=${environment}`, `--account=${account}`, `--role=${role}`, `--profile=${profile}`, `--stage=${stage}`]);
 
             deploy.stdout.on('data', (data: Buffer) => {
                 const output = data.toString().replace(/\n$/, '');
@@ -289,14 +289,22 @@ commander
                 stage = cmd.stage || 'dev';
             }
 
-            const deploy = spawn('gradle', ['undeploy', `-Daws_env=${environment}`, `-Daws_account=${account}`, `-Daws_role=${role}`, `-Daws_profile=${profile}`, `-Daws_stage=${stage}`]);
+            const undeploy = spawn('./node_modules/.bin/gulp', [
+                'undeploy',
+                '-LL',
+                `--environment=${environment}`,
+                `--account=${account}`,
+                `--role=${role}`,
+                `--profile=${profile}`,
+                `--stage=${stage}`,
+            ]);
 
-            deploy.stdout.on('data', (data: Buffer) => {
+            undeploy.stdout.on('data', (data: Buffer) => {
                 const output = data.toString().replace(/\n$/, '');
                 console.log(output);
             });
 
-            deploy.on('error', (error: any) => {
+            undeploy.on('error', (error: any) => {
                 console.error(colors.red(error));
             });
         } catch (error) {
