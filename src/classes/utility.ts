@@ -19,6 +19,10 @@ export class Utility {
         return cronRegex.test(cron);
     }
 
+    static validateNumber(string: string) {
+        return /^\d+$/.test(string);
+    }
+
     static validateSchedule(rate: string) {
         const supportedUnits = ['minute', 'minutes', 'hour', 'hours', 'day', 'days'];
         const parts = rate.split(' ');

@@ -1,5 +1,4 @@
 import { Utility } from '../classes/utility';
-// const inquirer = require('inquirer');
 
 const environment = {
     type: 'input',
@@ -20,6 +19,12 @@ const account = {
     validate: (account: string) => {
         if (account === '') {
             return 'Please enter your AWS account number';
+        }
+        if (account.length !== 12) {
+            return 'Your AWS account number should be 12 digits';
+        }
+        if (!Utility.validateNumber(account)) {
+            return 'Your AWS account number should be a valid number';
         }
         return account !== '';
     },
