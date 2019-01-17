@@ -54,7 +54,7 @@ export class Slack {
     buildMessage(data: any, environment?: string) {
         switch (data.action) {
             case 'failoverElasticache':
-                this.failoverElasticache.attachments[0].title = 'The affected service is: ElastiCache';
+                this.failoverElasticache.attachments[0].title = 'The chosen service is: ElastiCache';
                 this.failoverElasticache.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
                     switch (field.title) {
                         case 'Chaos Function':
@@ -64,16 +64,20 @@ export class Slack {
                             field.value = environment;
                             break;
                         case 'Description':
-                            field.value = data.result.ReplicationGroup.Description;
+                            if (data.result.ReplicationGroup && data.result.ReplicationGroup.Description) {
+                                field.value = data.result.ReplicationGroup.Description;
+                            }
                             break;
                         case 'Replication Group ID':
-                            field.value = data.result.ReplicationGroup.ReplicationGroupId;
+                            if (data.result.ReplicationGroup && data.result.ReplicationGroup.ReplicationGroupId) {
+                                field.value = data.result.ReplicationGroup.ReplicationGroupId;
+                            }
                             break;
                     }
                 });
                 return this.failoverElasticache;
             case 'stopRandomEC2Instance':
-                this.stopRandomEC2Instance.attachments[0].title = 'The affected service is: EC2';
+                this.stopRandomEC2Instance.attachments[0].title = 'The chosen service is: EC2';
                 this.stopRandomEC2Instance.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
                     switch (field.title) {
                         case 'Chaos Function':
@@ -83,19 +87,25 @@ export class Slack {
                             field.value = environment;
                             break;
                         case 'Instance':
-                            field.value = data.result.StoppingInstances[0].InstanceId;
+                            if (data.result.StoppingInstances[0] && data.result.StoppingInstances[0].InstanceId) {
+                                field.value = data.result.StoppingInstances[0].InstanceId;
+                            }
                             break;
                         case 'Previous State':
-                            field.value = data.result.StoppingInstances[0].PreviousState;
+                            if (data.result.StoppingInstances[0] && data.result.StoppingInstances[0].PreviousState) {
+                                field.value = data.result.StoppingInstances[0].PreviousState;
+                            }
                             break;
                         case 'Current State':
-                            field.value = data.result.StoppingInstances[0].CurrentState;
+                            if (data.result.StoppingInstances[0] && data.result.StoppingInstances[0].CurrentState) {
+                                field.value = data.result.StoppingInstances[0].CurrentState;
+                            }
                             break;
                     }
                 });
                 return this.stopRandomEC2Instance;
             case 'stopRandomECSTask':
-                this.stopRandomECSTask.attachments[0].title = 'The affected service is: ECS';
+                this.stopRandomECSTask.attachments[0].title = 'The chosen service is: ECS';
                 this.stopRandomECSTask.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
                     switch (field.title) {
                         case 'Chaos Function':
@@ -105,13 +115,19 @@ export class Slack {
                             field.value = environment;
                             break;
                         case 'Cluster':
-                            field.value = data.result.task.clusterArn;
+                            if (data.result.task && data.result.task.clusterArn) {
+                                field.value = data.result.task.clusterArn;
+                            }
                             break;
                         case 'Task Definition':
-                            field.value = data.result.task.taskDefinitionArn;
+                            if (data.result.task && data.result.task.taskDefinitionArn) {
+                                field.value = data.result.task.taskDefinitionArn;
+                            }
                             break;
                         case 'Task':
-                            field.value = data.result.task.taskArn;
+                            if (data.result.task && data.result.task.taskArn) {
+                                field.value = data.result.task.taskArn;
+                            }
                             break;
                     }
                 });

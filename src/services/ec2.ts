@@ -41,7 +41,7 @@ export class EC2 {
 
             return this.stopInstances([instance.InstanceId]);
         } catch (error) {
-            throw new Error(error);
+            return error.message;
         }
     }
 }

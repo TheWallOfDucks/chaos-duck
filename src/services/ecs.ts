@@ -50,7 +50,7 @@ export class ECS {
 
             return await this.stopTask(cluster, task);
         } catch (error) {
-            throw new Error(error);
+            return error.message;
         }
     }
 

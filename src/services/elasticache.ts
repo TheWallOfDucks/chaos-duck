@@ -44,7 +44,7 @@ export class ElastiCache {
 
             return this.testFailover(nodeGroup.NodeGroupId, replicationGroup.ReplicationGroupId);
         } catch (error) {
-            throw new Error(error);
+            return error.message;
         }
     }
 

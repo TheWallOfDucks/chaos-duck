@@ -47,8 +47,13 @@ export class Notification {
 
     async send(data: any, environment?: string) {
         if (this.enabled) {
-            const message = this.buildMessage(data, environment);
-            return await this[this.method]['send'](message);
+            try {
+                const message = this.buildMessage(data, environment);
+                console.log('Message: ', message);
+                return await this[this.method]['send'](message);
+            } catch (error) {
+                throw new Error(error);
+            }
         }
     }
 }
