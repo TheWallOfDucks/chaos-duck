@@ -14,9 +14,9 @@ export const handler = async (event) => {
 
         if (event.body) {
             const body = JSON.parse(event.body);
-            services = Utility.convertToLowercase(body.services) || ['ecs', 'elasticache', 'ec2'];
+            services = Utility.convertToLowercase(body.services) || ['ecs', 'elasticache', 'ec2', 'rds'];
         } else {
-            services = ['ecs', 'elasticache', 'ec2'];
+            services = ['ecs', 'elasticache', 'ec2', 'rds'];
         }
 
         console.log(`Desired services to unleash chaos-duck on are: ${services}`);

@@ -2,6 +2,7 @@ import { chaosFunctions } from '../decorators/chaosFunction';
 import { EC2 } from '../services/ec2';
 import { ECS } from '../services/ecs';
 import { ElastiCache } from '../services/elasticache';
+import { RDS } from '../services/rds';
 import { Utility } from './utility';
 
 /**
@@ -13,6 +14,7 @@ export class Chaos {
     private _ec2: EC2;
     private _ecs: ECS;
     private _elasticache: ElastiCache;
+    private _rds: RDS;
     private _service: string;
     private _services: string[] = [];
 
@@ -20,6 +22,7 @@ export class Chaos {
         this.ec2 = new EC2();
         this.ecs = new ECS();
         this.elasticache = new ElastiCache();
+        this.rds = new RDS();
         this.services = services;
     }
 
@@ -53,6 +56,14 @@ export class Chaos {
 
     set elasticache(value: ElastiCache) {
         this._elasticache = value;
+    }
+
+    get rds() {
+        return this._rds;
+    }
+
+    set rds(value: RDS) {
+        this._rds = value;
     }
 
     get service() {
