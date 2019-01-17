@@ -1,7 +1,5 @@
 const Message = require('email-templates');
 const nodemailer = require('nodemailer');
-import { config } from 'dotenv';
-config();
 
 // @todo DOTENV is messing with this when it is deployed to lambda. Need to figure out a better way
 export class Email {
@@ -9,7 +7,7 @@ export class Email {
 
     private get transporter() {
         return nodemailer.createTransport({
-            host: 'smtp.gmail.com',
+            host: process.env.EMAIL_HOST,
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
