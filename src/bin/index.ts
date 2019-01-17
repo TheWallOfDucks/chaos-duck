@@ -26,6 +26,7 @@ commander
     .action(() => {
         try {
             inquirer.prompt(prompts).then((config) => {
+                console.log(config);
                 const duckConfig: DuckConfig = {
                     environment: config.environment,
                     account: config.account,

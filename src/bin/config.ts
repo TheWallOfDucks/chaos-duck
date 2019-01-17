@@ -1,7 +1,5 @@
 import { Utility } from '../classes/utility';
 
-const fs = require('fs');
-
 const account = {
     type: 'input',
     name: 'account',
@@ -20,6 +18,15 @@ const account = {
     },
 };
 
+const emailAddress = {
+    type: 'input',
+    name: 'emailAddress',
+    message: 'Please enter your email address:',
+    when: (answers) => {
+        return answers.notificationProviders.includes('Email');
+    },
+};
+
 const environment = {
     type: 'input',
     name: 'environment',
@@ -30,6 +37,29 @@ const environment = {
         }
         return environment !== '';
     },
+};
+
+const notifications = {
+    type: 'confirm',
+    name: 'notifications',
+    message: 'Would you like to receive notifications from Chaos Duck?',
+};
+
+const notificationProviders = {
+    type: 'checkbox',
+    name: 'notificationProviders',
+    message: 'Select notification types: ',
+    when: (answers) => {
+        return answers.notifications;
+    },
+    choices: [
+        {
+            name: 'Slack',
+        },
+        {
+            name: 'Email',
+        },
+    ],
 };
 
 const profile = {
@@ -94,18 +124,12 @@ const setSchedule = {
     message: 'Would you like to run Chaos Duck on a regular schedule?',
 };
 
-const slack = {
-    type: 'confirm',
-    name: 'slack',
-    message: 'Do you have a Slack webhook url you would like Chaos Duck to post to?',
-};
-
 const slackWebhookUrl = {
     type: 'input',
     name: 'slackWebhookUrl',
     message: 'Please enter your Slack webhook url:',
     when: (answers) => {
-        return answers.slack;
+        return answers.notificationProviders.includes('Slack');
     },
 };
 
@@ -118,4 +142,4 @@ const stage = {
     },
 };
 
-export const prompts = [environment, account, role, profile, stage, slack, slackWebhookUrl, setSchedule, schedule, services];
+export const prompts = [environment, account, role, profile, stage, notifications, notificationProviders, slackWebhookUrl, emailAddress, setSchedule, schedule, services];
