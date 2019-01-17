@@ -26,9 +26,10 @@ export const template = {
  */
 export class Slack {
     private _default = template;
+    private _failoverElasticache;
     private _stopRandomEC2Instance;
     private _stopRandomECSTask;
-    private _failoverElasticache;
+    private _failoverRandomDBCluster;
 
     constructor() {}
 
@@ -49,6 +50,11 @@ export class Slack {
     @message([...standardFields, 'Description', 'Replication Group ID'])
     private get failoverElasticache() {
         return this._failoverElasticache;
+    }
+
+    @message([...standardFields, 'Cluster'])
+    private get failoverRandomDBCluster() {
+        return this._failoverRandomDBCluster;
     }
 
     buildMessage(data: any, environment?: string) {
@@ -76,6 +82,24 @@ export class Slack {
                     }
                 });
                 return this.failoverElasticache;
+            case 'failoverRandomDBCluster':
+                this.failoverRandomDBCluster.attachments[0].title = 'The chosen service is: RDS';
+                this.failoverRandomDBCluster.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
+                    switch (field.title) {
+                        case 'Chaos Function':
+                            field.value = data.action;
+                            break;
+                        case 'Environment':
+                            field.value = environment;
+                            break;
+                        case 'Cluster':
+                            if (data.result.DBCluster && data.result.DBCluster.DBClusterIdentifier) {
+                                field.value = data.result.DBCluster.DBClusterIdentifier;
+                            }
+                            break;
+                    }
+                });
+                return this.failoverRandomDBCluster;
             case 'stopRandomEC2Instance':
                 this.stopRandomEC2Instance.attachments[0].title = 'The chosen service is: EC2';
                 this.stopRandomEC2Instance.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {

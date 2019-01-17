@@ -25,6 +25,7 @@ These are the curent supported AWS services to wreak havoc on. Choose wisely.
 - EC2: Chaos Duck will randomly stop your EC2 instances
 - ECS: Chaos Duck will randomly stop your ECS tasks
 - ElastiCache: Chaos Duck will randomly failover your ElastiCache instance
+- RDS: Chaos Duck will randomly failover your DB clusters
 
 ### Quick start
 
