@@ -5,7 +5,7 @@ describe('Emails', () => {
 
     it('should be able to be sent', async (done) => {
         try {
-            await email.send({
+            const sendEmail = await email.send({
                 service: 'ecs',
                 action: 'stopRandomECSTask',
                 result: {
@@ -82,6 +82,7 @@ describe('Emails', () => {
                     },
                 },
             });
+            expect(sendEmail.accepted.length).toBeGreaterThan(0);
         } catch (error) {
             fail(error);
         }

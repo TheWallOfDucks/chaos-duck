@@ -1,32 +1,60 @@
 const email = require('email-templates');
-const path = require('path');
-// const templates = path.join(__dirname, 'emails')
+const nodemailer = require('nodemailer');
+import { config } from 'dotenv';
+config();
 
 export class Email {
+    private _account;
+
     constructor() {}
+
+    private get account() {
+        return this._account;
+    }
+
+    private set account(value) {
+        this._account = value;
+    }
+
+    private get transporter() {
+        return nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+    }
 
     async send(data: any) {
         const emailAddress = process.env.EMAIL;
+        const attachmentName = `chaos-duck-${data.service}-${data.action}-${Date.now()}`;
 
         const message = new email({
+            send: true,
             message: {
-                from: 'chaos.duck@apiture.com',
+                from: process.env.EMAIL_USER,
             },
-            transport: {
-                jsonTransport: true,
-            },
+            transport: this.transporter,
         });
 
-        const test = await message.send({
-            template: `${process.cwd()}/src/notification_providers/emails/duck`,
+        return await message.send({
+            template: `${process.cwd()}/src/config/emails/duck`,
             message: {
-                to: 'elon@spacex.com',
+                to: emailAddress || 'chaosduck@apitureqa.com',
+                attachments: [
+                    {
+                        filename: attachmentName,
+                        content: JSON.stringify(data, null, 2),
+                    },
+                ],
             },
             locals: {
-                data: JSON.stringify(data, null, 2),
+                data,
+                attachmentName,
             },
         });
-
-        return test;
     }
 }
