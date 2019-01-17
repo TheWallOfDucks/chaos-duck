@@ -11,7 +11,7 @@
         "emitDecoratorMetadata": true,
         "outDir": "lib"
     },
-    "include": ["index.ts", "src/**/*"],
+    "include": ["index.ts", "src/**/*", "test"],
     "exclude": ["./node_modules", "prettier.config.js"],
     "compileOnSave": false
 }
