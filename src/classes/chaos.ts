@@ -9,9 +9,11 @@ import { Utility } from './utility';
  * All chaos services should be given their own, lowercase, getter/setter.
  */
 export class Chaos {
+    private _chaosFunction: string;
     private _ec2: EC2;
     private _ecs: ECS;
     private _elasticache: ElastiCache;
+    private _service: string;
     private _services: string[] = [];
 
     constructor(services: string[]) {
@@ -19,6 +21,14 @@ export class Chaos {
         this.ecs = new ECS();
         this.elasticache = new ElastiCache();
         this.services = services;
+    }
+
+    get chaosFunction() {
+        return this._chaosFunction;
+    }
+
+    set chaosFunction(value: string) {
+        this._chaosFunction = value;
     }
 
     get ec2() {
@@ -45,6 +55,14 @@ export class Chaos {
         this._elasticache = value;
     }
 
+    get service() {
+        return this._service;
+    }
+
+    set service(value: string) {
+        this._service = value;
+    }
+
     get services() {
         return this._services;
     }
@@ -55,40 +73,44 @@ export class Chaos {
 
     async invoke() {
         try {
-            const service = Utility.getRandom(this.services);
+            this.service = Utility.getRandom(this.services);
 
-            if (!service) {
+            if (!this.service) {
                 throw Error(
                     JSON.stringify({
-                        service,
+                        service: this.service,
                         result: 'ServiceNotFound',
                         resolution: 'Provide a valid array of services to unleash chaos on',
                     }),
                 );
             }
 
-            const chaosFunction = Utility.getRandom(chaosFunctions[service]);
+            this.chaosFunction = Utility.getRandom(chaosFunctions[this.service]);
 
-            if (!chaosFunction) {
+            if (!this.chaosFunction) {
                 throw Error(
                     JSON.stringify({
-                        service,
+                        service: this.service,
                         result: 'ChaosFunctionNotFound',
-                        resolution: `Confirm that ${service} service has at least one function decorated with @chaosFunction()`,
+                        resolution: `Confirm that ${this.service} service has at least one function decorated with @chaosFunction()`,
                     }),
                 );
             }
 
-            console.log(`The chosen service is: ${service}`);
-            console.log(`The chosen function is: ${chaosFunction}`);
+            console.log(`The chosen service is: ${this.service}`);
+            console.log(`The chosen function is: ${this.chaosFunction}`);
 
             return {
-                service,
-                action: chaosFunction,
-                result: await this[service][chaosFunction](),
+                service: this.service,
+                action: this.chaosFunction,
+                result: await this[this.service][this.chaosFunction](),
             };
         } catch (error) {
-            throw error;
+            return {
+                service: this.service,
+                action: this.chaosFunction,
+                result: error.message,
+            };
         }
     }
 }
