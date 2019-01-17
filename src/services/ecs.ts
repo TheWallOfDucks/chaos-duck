@@ -31,6 +31,7 @@ export class ECS {
     }
 
     @chaosFunction()
+    // @todo remove the retries and just make sure the cluster has tasks before
     async stopRandomECSTask() {
         try {
             const clusters = await this.listClusters();

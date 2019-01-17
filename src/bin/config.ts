@@ -84,7 +84,7 @@ const services = {
     name: 'services',
     message: 'Please enter the services you would like to unleash Chaos Duck on:',
     default: () => {
-        return 'ECS, EC2, ElastiCache';
+        return 'ECS, EC2, ElastiCache, RDS';
     },
 };
 

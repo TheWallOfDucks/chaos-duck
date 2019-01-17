@@ -14,6 +14,7 @@ provider:
     - 'arn:aws:iam::aws:policy/AmazonECS_FullAccess'
     - 'arn:aws:iam::aws:policy/AmazonElastiCacheFullAccess'
     - 'arn:aws:iam::aws:policy/AmazonEC2FullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonRDSFullAccess'
   region: us-east-1
   versionFunctions: false
   environment:
