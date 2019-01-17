@@ -33,7 +33,7 @@ export class EC2 {
 
     @chaosFunction()
     @disabled()
-    async stopRandomInstance() {
+    async stopRandomEC2Instance() {
         try {
             const instances = await this.describeInstances();
             const reservation: sdk.Reservation = Utility.getRandom(instances.Reservations);

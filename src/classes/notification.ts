@@ -3,7 +3,7 @@ import { Slack } from '../notification_providers/slack';
 /**
  * @description Notification class is the main interface to deliver notifications to different channels.
  * All notification providers should be given their own, lowercase, getter.
- * All notification provider classes should expose a method called "post".
+ * All notification provider classes should expose a method called "send".
  */
 export class Notification {
     private _enabled: boolean;
@@ -48,7 +48,7 @@ export class Notification {
     async send(data: any, environment?: string) {
         if (this.enabled) {
             const message = this.buildMessage(data, environment);
-            return await this[this.method]['post'](message);
+            return await this[this.method]['send'](message);
         }
     }
 }

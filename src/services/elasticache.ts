@@ -31,7 +31,7 @@ export class ElastiCache {
     }
 
     @chaosFunction()
-    async failover() {
+    async failoverElasticache() {
         try {
             const clusters = await this.describeCacheClusters();
 

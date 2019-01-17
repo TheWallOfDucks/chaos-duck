@@ -104,7 +104,7 @@ export class EC2 {
 
 1. Begin by creating a new `<notificationProvider>.ts` file in `src/notification_providers`
 2. ...the rest is pretty much up to you, take a look at `src/notification_provider/slack.ts`. Here are some guidelines:
-    - Should have a method called `post` that should accept a message body
+    - Should have a method called `send` that should accept a message body
     - Should support all the different services and chaos functions
     - Should not be disruptive. (i.e. it should not break anything if you don't use that notification provider)
 3. Implement the notification provider in `src/classes/notification.ts`, again following the `slack` implementation as an example

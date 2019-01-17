@@ -1,16 +1,6 @@
 import { Utility } from '../classes/utility';
 
-const environment = {
-    type: 'input',
-    name: 'environment',
-    message: 'What is the name of your AWS environment?',
-    validate: (environment: string) => {
-        if (environment === '') {
-            return 'Please enter the name of your AWS environment';
-        }
-        return environment !== '';
-    },
-};
+const fs = require('fs');
 
 const account = {
     type: 'input',
@@ -30,15 +20,15 @@ const account = {
     },
 };
 
-const role = {
+const environment = {
     type: 'input',
-    name: 'role',
-    message: 'What is your AWS role to assume?',
-    validate: (role: string) => {
-        if (role === '') {
-            return 'Please enter the AWS role to assume';
+    name: 'environment',
+    message: 'What is the name of your AWS environment?',
+    validate: (environment: string) => {
+        if (environment === '') {
+            return 'Please enter the name of your AWS environment';
         }
-        return role !== '';
+        return environment !== '';
     },
 };
 
@@ -51,34 +41,16 @@ const profile = {
     },
 };
 
-const stage = {
+const role = {
     type: 'input',
-    name: 'stage',
-    message: 'What stage do you want to deploy Chaos Duck in?',
-    default: () => {
-        return 'dev';
+    name: 'role',
+    message: 'What is your AWS role to assume?',
+    validate: (role: string) => {
+        if (role === '') {
+            return 'Please enter the AWS role to assume';
+        }
+        return role !== '';
     },
-};
-
-const slack = {
-    type: 'confirm',
-    name: 'slack',
-    message: 'Do you have a Slack webhook url you would like Chaos Duck to post to?',
-};
-
-const slackWebhookUrl = {
-    type: 'input',
-    name: 'slackWebhookUrl',
-    message: 'Please enter your Slack webhook url:',
-    when: (answers) => {
-        return answers.slack;
-    },
-};
-
-const setSchedule = {
-    type: 'confirm',
-    name: 'setSchedule',
-    message: 'Would you like to run Chaos Duck on a regular schedule?',
 };
 
 const schedule = {
@@ -113,6 +85,36 @@ const services = {
     message: 'Please enter the services you would like to unleash Chaos Duck on:',
     default: () => {
         return 'ECS, EC2, ElastiCache';
+    },
+};
+
+const setSchedule = {
+    type: 'confirm',
+    name: 'setSchedule',
+    message: 'Would you like to run Chaos Duck on a regular schedule?',
+};
+
+const slack = {
+    type: 'confirm',
+    name: 'slack',
+    message: 'Do you have a Slack webhook url you would like Chaos Duck to post to?',
+};
+
+const slackWebhookUrl = {
+    type: 'input',
+    name: 'slackWebhookUrl',
+    message: 'Please enter your Slack webhook url:',
+    when: (answers) => {
+        return answers.slack;
+    },
+};
+
+const stage = {
+    type: 'input',
+    name: 'stage',
+    message: 'What stage do you want to deploy Chaos Duck in?',
+    default: () => {
+        return 'dev';
     },
 };
 

@@ -31,7 +31,7 @@ export class ECS {
     }
 
     @chaosFunction()
-    async stopRandomTask() {
+    async stopRandomECSTask() {
         try {
             const clusters = await this.listClusters();
             const cluster: string = Utility.getRandom(clusters.clusterArns);
@@ -42,7 +42,7 @@ export class ECS {
 
             if (!task) {
                 console.log(`${clusterName} cluster has ${tasks.taskArns.length} tasks. Trying again...`);
-                return this.stopRandomTask();
+                return this.stopRandomECSTask();
             }
 
             console.log(`The chosen cluster is: ${clusterName}`);
