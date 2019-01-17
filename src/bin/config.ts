@@ -21,9 +21,43 @@ const account = {
 const emailAddress = {
     type: 'input',
     name: 'emailAddress',
-    message: 'Please enter your email address:',
+    message: 'Please enter the email address you would like receive notifications at:',
     when: (answers) => {
         return answers.notificationProviders.includes('Email');
+    },
+};
+
+const emailHost = {
+    type: 'input',
+    name: 'emailHost',
+    message: 'Please enter your email host:',
+    when: (answers) => {
+        return answers.notificationProviders.includes('Email');
+    },
+    default: () => {
+        return 'smtp.gmail.com';
+    },
+};
+
+const emailPass = {
+    type: 'password',
+    name: 'emailPass',
+    message: 'Please enter the password for your email sender:',
+    mask: '*',
+    when: (answers) => {
+        return answers.notificationProviders.includes('Email');
+    },
+};
+
+const emailSender = {
+    type: 'input',
+    name: 'emailSender',
+    message: 'Please enter your email sender:',
+    when: (answers) => {
+        return answers.notificationProviders.includes('Email');
+    },
+    default: () => {
+        return 'chaosduck@gmail.com';
     },
 };
 
@@ -142,4 +176,20 @@ const stage = {
     },
 };
 
-export const prompts = [environment, account, role, profile, stage, notifications, notificationProviders, slackWebhookUrl, emailAddress, setSchedule, schedule, services];
+export const prompts = [
+    environment,
+    account,
+    role,
+    profile,
+    stage,
+    notifications,
+    notificationProviders,
+    slackWebhookUrl,
+    emailHost,
+    emailSender,
+    emailPass,
+    emailAddress,
+    setSchedule,
+    schedule,
+    services,
+];
