@@ -12,7 +12,7 @@ import { undeploy } from './undeploy';
 const colors = require('colors');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const info = require('../../package.json');
+const info = require('../../../package.json');
 
 commander.version(info.version, '-v, --version').description('Chaos Duck \uD83E\uDD86');
 

@@ -1,20 +1,11 @@
-const email = require('email-templates');
+const Message = require('email-templates');
 const nodemailer = require('nodemailer');
 import { config } from 'dotenv';
 config();
 
+// @todo DOTENV is messing with this when it is deployed to lambda. Need to figure out a better way
 export class Email {
-    private _account;
-
     constructor() {}
-
-    private get account() {
-        return this._account;
-    }
-
-    private set account(value) {
-        this._account = value;
-    }
 
     private get transporter() {
         return nodemailer.createTransport({
@@ -29,32 +20,36 @@ export class Email {
     }
 
     async send(data: any) {
-        const emailAddress = process.env.EMAIL;
-        const attachmentName = `chaos-duck-${data.service}-${data.action}-${Date.now()}`;
+        try {
+            const emailAddress = process.env.EMAIL_ADDRESS;
+            const attachmentName = `chaos-duck-${data.service}-${data.action}-${Date.now()}`;
 
-        const message = new email({
-            send: true,
-            message: {
-                from: process.env.EMAIL_USER,
-            },
-            transport: this.transporter,
-        });
+            const message = new Message({
+                send: true,
+                message: {
+                    from: process.env.EMAIL_USER,
+                },
+                transport: this.transporter,
+            });
 
-        return await message.send({
-            template: `${process.cwd()}/src/config/emails/duck`,
-            message: {
-                to: emailAddress || 'chaosduck@apitureqa.com',
-                attachments: [
-                    {
-                        filename: attachmentName,
-                        content: JSON.stringify(data, null, 2),
-                    },
-                ],
-            },
-            locals: {
-                data,
-                attachmentName,
-            },
-        });
+            return await message.send({
+                template: `${process.cwd()}/src/config/emails/duck`,
+                message: {
+                    to: emailAddress || 'chaosduck@apitureqa.com',
+                    attachments: [
+                        {
+                            filename: attachmentName,
+                            content: JSON.stringify(data, null, 2),
+                        },
+                    ],
+                },
+                locals: {
+                    data,
+                    attachmentName,
+                },
+            });
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }

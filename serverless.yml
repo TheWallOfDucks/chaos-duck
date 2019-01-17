@@ -19,13 +19,14 @@ provider:
   versionFunctions: false
   environment:
     SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+    EMAIL_ADDRESS: ${env:EMAIL_ADDRESS}
     AWS_ENV: ${env:AWS_ENV}
 
 functions:
   chaos:
-    handler: lib/lambda/index.handler
+    handler: lib/src/lambda/index.handler
     events:
       - http:
           path: chaos
           method: post
-      - schedule: ${file(lib/config/schedule.js):schedule} #NOTE: there is a bug in Lambda that causes the UI not to show the correct enabled value. Look at CloudWatch to see correct value
+      - schedule: ${file(lib/src/config/schedule.js):schedule} #NOTE: there is a bug in Lambda that causes the UI not to show the correct enabled value. Look at CloudWatch to see correct value

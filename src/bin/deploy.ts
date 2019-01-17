@@ -15,6 +15,7 @@ export const deploy = async (cmd: any) => {
     let slackWebhookUrl: string;
     let schedule: string;
     let services: string;
+    let emailAddress: string;
     const config = cmd.config;
 
     try {
@@ -28,6 +29,7 @@ export const deploy = async (cmd: any) => {
             slackWebhookUrl = conf.slackWebhookUrl;
             schedule = conf.schedule;
             services = conf.services;
+            emailAddress = conf.emailAddress;
         } else {
             environment = cmd.environment;
             account = cmd.account;
@@ -37,10 +39,12 @@ export const deploy = async (cmd: any) => {
             slackWebhookUrl = cmd.slackWebhookUrl;
             schedule = cmd.schedule;
             services = cmd.services;
+            emailAddress = cmd.emailAddress;
         }
 
         // Set for serverless
         process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
+        process.env.EMAIL_ADDRESS = emailAddress;
 
         // Validate schedule
         if (schedule) {
@@ -68,6 +72,7 @@ export const deploy = async (cmd: any) => {
                 const body: DuckConfig = {
                     account,
                     chaosUrl,
+                    emailAddress,
                     environment,
                     profile,
                     role,
