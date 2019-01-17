@@ -14,9 +14,9 @@ export const handler = async (event) => {
 
         if (event.body) {
             const body = JSON.parse(event.body);
-            services = Utility.convertToLowercase(body.services) || ['ecs', 'elasticache'];
+            services = Utility.convertToLowercase(body.services) || ['ecs', 'elasticache', 'ec2'];
         } else {
-            services = ['ecs', 'elasticache'];
+            services = ['ecs', 'elasticache', 'ec2'];
         }
 
         console.log(`Desired services to unleash chaos-duck on are: ${services}`);
@@ -24,7 +24,10 @@ export const handler = async (event) => {
         const chaos = new Chaos(services);
         const result = await chaos.invoke();
 
+        console.log('Result: ', result);
+
         if (notification.enabled) {
+            console.log('Sending notification...');
             await notification.send(result, environment);
         }
 
