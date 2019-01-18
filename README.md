@@ -57,17 +57,17 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
 5. Deploy Chaos Duck
 
-        chaos-duck deploy -c duck.json
+        chaos-duck deploy
 
     NOTE: Once Chaos Duck has been deployed your `duck.json` file will be updated to include your `chaosUrl`
 
 5. To begin wreaking chaos, simply invoke it
 
-        chaos-duck invoke -c duck.json
+        chaos-duck invoke
 
 6. To undeploy
 
-        chaos-duck undeploy -c duck.json
+        chaos-duck undeploy
 
 ### Using duck.json
 
