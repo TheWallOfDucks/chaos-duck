@@ -157,7 +157,7 @@ export class Slack {
                 });
                 return this.stopRandomECSTask;
             default:
-                this.default.attachments[0].title = `Unable to match service: ${data.service}`;
+                this.default.attachments[0].title = `Unable to find template for: ${data.service} and ${data.action}`;
                 this.default.attachments[0].color = '#FF0000';
                 return this._default;
         }
