@@ -99,6 +99,7 @@ export class EC2 {
     - This is where the mapping between the service names and the classes happens
     - Getters and setters for services are case sensitive and should be lowercase
 7. Add slack notification support to `src/notification_providers/slack.ts`
+8. Add service to `src/config/supportedServices.ts`
 
 ### How to add a new Notification Provider
 

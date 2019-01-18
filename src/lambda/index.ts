@@ -1,4 +1,5 @@
 import { Chaos } from '../classes/chaos';
+import { SupportedServices } from '../config/supportedServices';
 import { Utility } from '../classes/utility';
 import { Notification } from '../classes/notification';
 const environment = process.env.AWS_ENV;
@@ -14,9 +15,9 @@ export const handler = async (event) => {
 
         if (event.body) {
             const body = JSON.parse(event.body);
-            services = Utility.convertToLowercase(body.services) || ['ecs', 'elasticache', 'ec2', 'rds'];
+            services = Utility.convertToLowercase(body.services) || Object.values(SupportedServices);
         } else {
-            services = ['ecs', 'elasticache', 'ec2', 'rds'];
+            services = Object.values(SupportedServices);
         }
 
         console.log(`Desired services to unleash chaos-duck on are: ${services}`);
