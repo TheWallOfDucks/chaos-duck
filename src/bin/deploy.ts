@@ -18,7 +18,7 @@ export const deploy = async (cmd: any) => {
     const config = cmd.config || 'duck.json';
 
     try {
-        if (cmd.account && cmd.role && cmd.profile) {
+        if (cmd.account && cmd.role) {
             environment = cmd.environment;
             account = cmd.account;
             role = cmd.role;

@@ -7,22 +7,22 @@ export const undeploy = (cmd: any) => {
     let role: string;
     let profile: string;
     let stage: string;
-    const config = cmd.config;
+    const config = cmd.config || 'duck.json';
 
     try {
-        if (config) {
+        if (cmd.account && cmd.role) {
+            environment = cmd.environment;
+            account = cmd.account;
+            role = cmd.role;
+            profile = cmd.profile || 'default';
+            stage = cmd.stage || 'dev';
+        } else {
             const conf = require(`${process.cwd()}/${config}`);
             environment = conf.environment;
             account = conf.account;
             role = conf.role;
             profile = conf.profile || 'default';
             stage = conf.stage || 'dev';
-        } else {
-            environment = cmd.environment;
-            account = cmd.account;
-            role = cmd.role;
-            profile = cmd.profile || 'default';
-            stage = cmd.stage || 'dev';
         }
 
         const undeploy = spawn('./node_modules/.bin/gulp', ['undeploy', '-LL', `--environment=${environment}`, `--account=${account}`, `--role=${role}`, `--profile=${profile}`, `--stage=${stage}`]);
