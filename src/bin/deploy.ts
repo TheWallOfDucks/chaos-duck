@@ -1,5 +1,5 @@
 import { Utility } from '../classes/utility';
-import { DuckConfig } from './IDuckConfig';
+import { IDuckConfig } from './IDuckConfig';
 
 const colors = require('colors');
 const fs = require('fs');
@@ -19,7 +19,7 @@ export const deploy = async (cmd: any) => {
 
     try {
         if (config) {
-            const conf: DuckConfig = require(`${process.cwd()}/${config}`);
+            const conf: IDuckConfig = require(`${process.cwd()}/${config}`);
             environment = conf.environment;
             account = conf.account;
             role = conf.role;
@@ -66,7 +66,7 @@ export const deploy = async (cmd: any) => {
 
         deploy.on('exit', (code: number) => {
             if (code === 0) {
-                const body: DuckConfig = {
+                const body: IDuckConfig = {
                     account,
                     chaosUrl,
                     environment,
