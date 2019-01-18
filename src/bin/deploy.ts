@@ -15,10 +15,19 @@ export const deploy = async (cmd: any) => {
     let slackWebhookUrl: string;
     let schedule: string;
     let services: string;
-    const config = cmd.config;
+    const config = cmd.config || 'duck.json';
 
     try {
-        if (config) {
+        if (cmd.account && cmd.role && cmd.profile) {
+            environment = cmd.environment;
+            account = cmd.account;
+            role = cmd.role;
+            profile = cmd.profile || 'default';
+            stage = cmd.stage || 'dev';
+            slackWebhookUrl = cmd.slackWebhookUrl;
+            schedule = cmd.schedule;
+            services = cmd.services;
+        } else {
             const conf: IDuckConfig = require(`${process.cwd()}/${config}`);
             environment = conf.environment;
             account = conf.account;
@@ -28,15 +37,6 @@ export const deploy = async (cmd: any) => {
             slackWebhookUrl = conf.slackWebhookUrl;
             schedule = conf.schedule;
             services = conf.services;
-        } else {
-            environment = cmd.environment;
-            account = cmd.account;
-            role = cmd.role;
-            profile = cmd.profile || 'default';
-            stage = cmd.stage || 'dev';
-            slackWebhookUrl = cmd.slackWebhookUrl;
-            schedule = cmd.schedule;
-            services = cmd.services;
         }
 
         // Set for serverless
