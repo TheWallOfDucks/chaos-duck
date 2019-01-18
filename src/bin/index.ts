@@ -33,7 +33,7 @@ commander
                     profile: config.profile,
                     stage: config.stage,
                     slackWebhookUrl: config.slackWebhookUrl,
-                    schedule: config.schedule.toLowerCase(),
+                    schedule: config.schedule,
                     services: config.services.replace(/\s+/g, ''),
                 };
                 fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(duckConfig, null, 4));
