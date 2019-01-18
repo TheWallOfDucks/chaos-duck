@@ -112,5 +112,7 @@ export class EC2 {
 ### TODO
 
 -   Add ability to support cron schedule rate
--   Add ability to specify services to run on schedule
 -   Add ability to send out multiple notifications
+    -   Started down this path with email in `dev-caleb-email` branch but was running into issues supplying the necessary info to lambda...environment variables did not seem like a secure way to store email password
+    -   Maybe need some sort of separate mechanism for sending emails that does not require user to setup their own transporter
+    -   Maybe use AWS SES?

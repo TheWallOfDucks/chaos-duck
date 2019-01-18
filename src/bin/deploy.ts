@@ -41,6 +41,7 @@ export const deploy = async (cmd: any) => {
 
         // Set for serverless
         process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
+        process.env.SERVICES = services;
 
         // Validate schedule
         if (schedule) {
