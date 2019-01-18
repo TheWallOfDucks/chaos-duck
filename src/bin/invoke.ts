@@ -4,15 +4,15 @@ export const invoke = async (cmd: any) => {
     try {
         let chaosUrl: string;
         let services: any;
-        const config = cmd.config;
+        const config = cmd.config || 'duck.json';
 
-        if (config) {
+        if (cmd.url || cmd.services) {
+            chaosUrl = cmd.url;
+            services = cmd.services.replace(' ', '');
+        } else {
             const conf = require(`${process.cwd()}/${config}`);
             chaosUrl = conf.chaosUrl;
-            services = conf.services;
-        } else {
-            chaosUrl = cmd.url;
-            services = cmd.services;
+            services = conf.services.replace(' ', '');
         }
 
         if (services) {

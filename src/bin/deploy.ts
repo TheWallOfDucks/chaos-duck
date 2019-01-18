@@ -1,5 +1,5 @@
 import { Utility } from '../classes/utility';
-import { DuckConfig } from './IDuckConfig';
+import { IDuckConfig } from './IDuckConfig';
 
 const colors = require('colors');
 const fs = require('fs');
@@ -15,20 +15,10 @@ export const deploy = async (cmd: any) => {
     let slackWebhookUrl: string;
     let schedule: string;
     let services: string;
-    const config = cmd.config;
+    const config = cmd.config || 'duck.json';
 
     try {
-        if (config) {
-            const conf: DuckConfig = require(`${process.cwd()}/${config}`);
-            environment = conf.environment;
-            account = conf.account;
-            role = conf.role;
-            profile = conf.profile || 'default';
-            stage = conf.stage || 'dev';
-            slackWebhookUrl = conf.slackWebhookUrl;
-            schedule = conf.schedule;
-            services = conf.services;
-        } else {
+        if (cmd.account && cmd.role && cmd.profile) {
             environment = cmd.environment;
             account = cmd.account;
             role = cmd.role;
@@ -37,6 +27,16 @@ export const deploy = async (cmd: any) => {
             slackWebhookUrl = cmd.slackWebhookUrl;
             schedule = cmd.schedule;
             services = cmd.services;
+        } else {
+            const conf: IDuckConfig = require(`${process.cwd()}/${config}`);
+            environment = conf.environment;
+            account = conf.account;
+            role = conf.role;
+            profile = conf.profile || 'default';
+            stage = conf.stage || 'dev';
+            slackWebhookUrl = conf.slackWebhookUrl;
+            schedule = conf.schedule;
+            services = conf.services;
         }
 
         // Set for serverless
@@ -66,7 +66,7 @@ export const deploy = async (cmd: any) => {
 
         deploy.on('exit', (code: number) => {
             if (code === 0) {
-                const body: DuckConfig = {
+                const body: IDuckConfig = {
                     account,
                     chaosUrl,
                     environment,
