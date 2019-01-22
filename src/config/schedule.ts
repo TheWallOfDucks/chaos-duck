@@ -4,12 +4,16 @@
 export const schedule = () => {
     let rate: string = '1 hour';
     let enabled: boolean = false;
-    let input: string[];
+    const input = {
+        body: {},
+    };
+    let services: string[];
 
     if (process.env.RATE && process.env.RATE !== 'undefined') {
         rate = process.env.RATE;
         enabled = true;
-        input = process.env.SERVICES.split(',');
+        services = process.env.SERVICES.split(',');
+        input.body['services'] = services;
     }
 
     return { rate: `rate(${rate})`, enabled, input };
