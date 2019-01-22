@@ -32,9 +32,17 @@ const account = {
 const emailFrom = {
     type: 'input',
     name: 'emailFrom',
-    message: 'Please enter the email address you would like notifications sent from. NOTE - this address must be verified in SES:',
+    message: 'Please enter the email address you would like notifications sent from:',
     default: () => {
         return config.emailFrom || '';
+    },
+    validate: (email: string) => {
+        const valid = Utility.validateEmail(email);
+
+        if (valid) {
+            return true;
+        }
+        return 'Please enter a valid email address';
     },
     when: (answers) => {
         return answers.notificationProviders.includes('Email');
@@ -44,9 +52,17 @@ const emailFrom = {
 const emailTo = {
     type: 'input',
     name: 'emailTo',
-    message: 'Please enter the email address you would like notifications sent to. NOTE - this address must be verified in SES:',
+    message: 'Please enter the email address you would like notifications sent to:',
     default: () => {
         return config.emailTo || '';
+    },
+    validate: (email: string) => {
+        const valid = Utility.validateEmail(email);
+
+        if (valid) {
+            return true;
+        }
+        return 'Please enter a valid email address';
     },
     when: (answers) => {
         return answers.notificationProviders.includes('Email');
