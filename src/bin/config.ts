@@ -1,4 +1,5 @@
 import { Utility } from '../classes/utility';
+import { SupportedServices } from '../config/supportedServices';
 let config;
 
 // If there is already a config file, return the values from it as default
@@ -33,6 +34,9 @@ const emailFrom = {
     type: 'input',
     name: 'emailFrom',
     message: 'Please enter the email address you would like notifications sent from:',
+    when: (answers: any) => {
+        return answers.notificationProviders.includes('Email');
+    },
     default: () => {
         return config.emailFrom || '';
     },
@@ -44,15 +48,15 @@ const emailFrom = {
         }
         return 'Please enter a valid email address';
     },
-    when: (answers) => {
-        return answers.notificationProviders.includes('Email');
-    },
 };
 
 const emailTo = {
     type: 'input',
     name: 'emailTo',
     message: 'Please enter the email address you would like notifications sent to:',
+    when: (answers: any) => {
+        return answers.notificationProviders.includes('Email');
+    },
     default: () => {
         return config.emailTo || '';
     },
@@ -63,9 +67,6 @@ const emailTo = {
             return true;
         }
         return 'Please enter a valid email address';
-    },
-    when: (answers) => {
-        return answers.notificationProviders.includes('Email');
     },
 };
 
@@ -162,7 +163,26 @@ const services = {
     name: 'services',
     message: 'Please enter the services you would like to unleash Chaos Duck on:',
     default: () => {
-        return config.services || 'ECS, EC2, ElastiCache, RDS';
+        return config.services || Object.keys(SupportedServices).toString();
+    },
+    validate: (services: string) => {
+        const providedServices = services
+            .toLowerCase()
+            .trim()
+            .split(',');
+        const supportedServices = Object.values(SupportedServices);
+        const problems = [];
+
+        providedServices.forEach((providedService) => {
+            const service = providedService.trim();
+            if (!supportedServices.includes(service)) problems.push(service);
+        });
+
+        if (problems.length > 0) {
+            return `Please provide a valid list of services. The following services are not currently supported: ${problems.toString()}`;
+        }
+
+        return true;
     },
 };
 
