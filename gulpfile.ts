@@ -9,9 +9,18 @@ const generateAWSCredentials = () => {
     process.env.AWS_ACCESS_KEY_ID = credentials.Credentials.AccessKeyId;
     process.env.AWS_SECRET_ACCESS_KEY = credentials.Credentials.SecretAccessKey;
     process.env.AWS_SESSION_TOKEN = credentials.Credentials.SessionToken;
-    process.env.AWS_ENV = options.environment;
+    process.env.AWS_STAGE = options.stage;
 
     return Promise.resolve(credentials);
+};
+
+const getAccountAlias = () => {
+    const result = execSync('aws iam list-account-aliases --max-items 1');
+    const aliases = JSON.parse(result.toString());
+    const alias = options.environment || aliases.AccountAliases[0];
+
+    process.env.AWS_ENV = alias;
+    return Promise.resolve(alias);
 };
 
 const serverlessDeploy = () => {
@@ -24,5 +33,5 @@ const undeploy = () => {
     return Promise.resolve(result);
 };
 
-exports.deploy = series(generateAWSCredentials, serverlessDeploy);
+exports.deploy = series(generateAWSCredentials, getAccountAlias, serverlessDeploy);
 exports.undeploy = undeploy;

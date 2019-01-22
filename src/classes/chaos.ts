@@ -2,7 +2,9 @@ import { chaosFunctions } from '../decorators/chaosFunction';
 import { EC2 } from '../services/ec2';
 import { ECS } from '../services/ecs';
 import { ElastiCache } from '../services/elasticache';
+import { IAM } from '../services/iam';
 import { RDS } from '../services/rds';
+import { SES } from '../services/ses';
 import { Utility } from './utility';
 
 /**
@@ -14,16 +16,20 @@ export class Chaos {
     private _ec2: EC2;
     private _ecs: ECS;
     private _elasticache: ElastiCache;
+    private _iam: IAM;
     private _rds: RDS;
     private _service: string;
     private _services: string[] = [];
+    private _ses: SES;
 
     constructor(services: string[]) {
         this.ec2 = new EC2();
         this.ecs = new ECS();
         this.elasticache = new ElastiCache();
+        this.iam = new IAM();
         this.rds = new RDS();
         this.services = services;
+        this.ses = new SES();
     }
 
     get chaosFunction() {
@@ -58,6 +64,14 @@ export class Chaos {
         this._elasticache = value;
     }
 
+    get iam() {
+        return this._iam;
+    }
+
+    set iam(value: IAM) {
+        this._iam = value;
+    }
+
     get rds() {
         return this._rds;
     }
@@ -80,6 +94,14 @@ export class Chaos {
 
     set services(values: string[]) {
         this._services = values;
+    }
+
+    get ses() {
+        return this._ses;
+    }
+
+    set ses(value: SES) {
+        this._ses = value;
     }
 
     async invoke() {
