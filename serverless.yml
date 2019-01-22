@@ -15,10 +15,13 @@ provider:
     - 'arn:aws:iam::aws:policy/AmazonElastiCacheFullAccess'
     - 'arn:aws:iam::aws:policy/AmazonEC2FullAccess'
     - 'arn:aws:iam::aws:policy/AmazonRDSFullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonSESFullAccess'
   region: us-east-1
   versionFunctions: false
   environment:
     SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+    EMAIL_FROM: ${env:EMAIL_FROM}
+    EMAIL_TO: ${env:EMAIL_TO}
     AWS_ENV: ${env:AWS_ENV}
 
 functions:

@@ -6,42 +6,50 @@ const fs = require('fs');
 const { spawn } = require('child_process');
 
 export const deploy = async (cmd: any) => {
-    let environment: string;
     let account: string;
-    let role: string;
-    let profile: string;
-    let stage: string;
     let chaosUrl: string;
-    let slackWebhookUrl: string;
+    let emailFrom: string;
+    let emailTo: string;
+    let environment: string;
+    let profile: string;
+    let role: string;
     let schedule: string;
     let services: string;
+    let slackWebhookUrl: string;
+    let stage: string;
     const config = cmd.config || 'duck.json';
 
     try {
         if (cmd.account && cmd.role) {
-            environment = cmd.environment;
             account = cmd.account;
-            role = cmd.role;
+            emailFrom = cmd.emailFrom;
+            emailTo = cmd.emailTo;
+            environment = cmd.environment;
             profile = cmd.profile || 'default';
-            stage = cmd.stage || 'dev';
-            slackWebhookUrl = cmd.slackWebhookUrl;
+            role = cmd.role;
             schedule = cmd.schedule;
             services = cmd.services;
+            slackWebhookUrl = cmd.slackWebhookUrl;
+            stage = cmd.stage || 'dev';
         } else {
             const conf: IDuckConfig = require(`${process.cwd()}/${config}`);
-            environment = conf.environment;
             account = conf.account;
-            role = conf.role;
+            emailFrom = conf.emailFrom;
+            emailTo = conf.emailTo;
+            environment = conf.environment;
             profile = conf.profile || 'default';
-            stage = conf.stage || 'dev';
-            slackWebhookUrl = conf.slackWebhookUrl;
+            role = conf.role;
             schedule = conf.schedule;
             services = conf.services;
+            slackWebhookUrl = conf.slackWebhookUrl;
+            stage = conf.stage || 'dev';
         }
 
         // Set for serverless
         process.env.SLACK_WEBHOOK_URL = slackWebhookUrl;
         process.env.SERVICES = services;
+        process.env.EMAIL_FROM = emailFrom;
+        process.env.EMAIL_TO = emailTo;
 
         // Validate schedule
         if (schedule) {
@@ -69,6 +77,8 @@ export const deploy = async (cmd: any) => {
                 const body: IDuckConfig = {
                     account,
                     chaosUrl,
+                    emailFrom,
+                    emailTo,
                     environment,
                     profile,
                     role,
