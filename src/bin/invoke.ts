@@ -25,6 +25,6 @@ export const invoke = async (cmd: any) => {
 
         return response.data;
     } catch (error) {
-        throw new Error(error);
+        return error.response.data;
     }
 };
