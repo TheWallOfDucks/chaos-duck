@@ -1,9 +1,20 @@
 import { Utility } from '../classes/utility';
+let config;
+
+// If there is already a config file, return the values from it as default
+try {
+    config = require('../../duck.json');
+} catch (error) {
+    config = {};
+}
 
 const account = {
     type: 'input',
     name: 'account',
     message: 'What is your AWS account number?',
+    default: () => {
+        return config.account || '';
+    },
     validate: (account: string) => {
         if (account === '') {
             return 'Please enter your AWS account number';
@@ -65,6 +76,9 @@ const environment = {
     type: 'input',
     name: 'environment',
     message: 'What is the name of your AWS environment?',
+    default: () => {
+        return config.environment || '';
+    },
     validate: (environment: string) => {
         if (environment === '') {
             return 'Please enter the name of your AWS environment';
@@ -101,7 +115,7 @@ const profile = {
     name: 'profile',
     message: 'What is the profile you are using to assume the role?',
     default: () => {
-        return 'default';
+        return config.profile || 'default';
     },
 };
 
@@ -109,6 +123,9 @@ const role = {
     type: 'input',
     name: 'role',
     message: 'What is your AWS role to assume?',
+    default: () => {
+        return config.role || '';
+    },
     validate: (role: string) => {
         if (role === '') {
             return 'Please enter the AWS role to assume';
@@ -125,7 +142,7 @@ const schedule = {
         return answers.setSchedule;
     },
     default: () => {
-        return '1 hour';
+        return config.schedule || '1 hour';
     },
     validate: (schedule: string) => {
         try {
@@ -148,7 +165,7 @@ const services = {
     name: 'services',
     message: 'Please enter the services you would like to unleash Chaos Duck on:',
     default: () => {
-        return 'ECS, EC2, ElastiCache, RDS';
+        return config.services || 'ECS, EC2, ElastiCache, RDS';
     },
 };
 
@@ -162,6 +179,9 @@ const slackWebhookUrl = {
     type: 'input',
     name: 'slackWebhookUrl',
     message: 'Please enter your Slack webhook url:',
+    default: () => {
+        return config.slackWebhookUrl || '';
+    },
     when: (answers) => {
         return answers.notificationProviders.includes('Slack');
     },
@@ -172,7 +192,7 @@ const stage = {
     name: 'stage',
     message: 'What stage do you want to deploy Chaos Duck in?',
     default: () => {
-        return 'dev';
+        return config.stage || 'dev';
     },
 };
 

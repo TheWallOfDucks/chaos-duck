@@ -1,4 +1,4 @@
-export interface DuckConfig {
+export interface IDuckConfig {
     account: string;
     chaosUrl?: string;
     emailAddress?: string;

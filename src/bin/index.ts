@@ -3,7 +3,7 @@
  * @description This file contains all of the CLI bindings for chaos-duck
  */
 import * as commander from 'commander';
-import { DuckConfig } from './IDuckConfig';
+import { IDuckConfig } from './IDuckConfig';
 import { prompts } from './config';
 import { deploy } from './deploy';
 import { invoke } from './invoke';
@@ -26,8 +26,7 @@ commander
     .action(() => {
         try {
             inquirer.prompt(prompts).then((config) => {
-                console.log(config);
-                const duckConfig: DuckConfig = {
+                const duckConfig: IDuckConfig = {
                     environment: config.environment,
                     account: config.account,
                     role: config.role,

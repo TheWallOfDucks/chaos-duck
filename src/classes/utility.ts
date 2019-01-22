@@ -27,7 +27,7 @@ export class Utility {
         const supportedUnits = ['minute', 'minutes', 'hour', 'hours', 'day', 'days'];
         const parts = rate.split(' ');
         const value = Number(parts[0]);
-        const unit = parts[1];
+        const unit = parts[1].toLowerCase();
 
         if (value <= 0) {
             throw new Error(`Invalid schedule value: "${value}". Value must be greater than 0.`);

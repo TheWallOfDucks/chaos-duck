@@ -15,7 +15,7 @@ export const template = {
             fields: [],
             footer: 'Slack API',
             footer_icon: 'https://platform.slack-edge.com/img/default_application_icon.png',
-            ts: Math.round(new Date().getTime() / 1000),
+            ts: 0,
         },
     ],
 };
@@ -60,6 +60,7 @@ export class Slack {
     buildMessage(data: any, environment?: string) {
         switch (data.action) {
             case 'failoverElasticache':
+                this.failoverElasticache.attachments[0].ts = Math.round(new Date().getTime() / 1000);
                 this.failoverElasticache.attachments[0].title = 'The chosen service is: ElastiCache';
                 this.failoverElasticache.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
                     switch (field.title) {
@@ -83,6 +84,7 @@ export class Slack {
                 });
                 return this.failoverElasticache;
             case 'failoverRandomDBCluster':
+                this.failoverRandomDBCluster.attachments[0].ts = Math.round(new Date().getTime() / 1000);
                 this.failoverRandomDBCluster.attachments[0].title = 'The chosen service is: RDS';
                 this.failoverRandomDBCluster.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
                     switch (field.title) {
@@ -101,6 +103,7 @@ export class Slack {
                 });
                 return this.failoverRandomDBCluster;
             case 'stopRandomEC2Instance':
+                this.stopRandomEC2Instance.attachments[0].ts = Math.round(new Date().getTime() / 1000);
                 this.stopRandomEC2Instance.attachments[0].title = 'The chosen service is: EC2';
                 this.stopRandomEC2Instance.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
                     switch (field.title) {
@@ -129,6 +132,7 @@ export class Slack {
                 });
                 return this.stopRandomEC2Instance;
             case 'stopRandomECSTask':
+                this.stopRandomECSTask.attachments[0].ts = Math.round(new Date().getTime() / 1000);
                 this.stopRandomECSTask.attachments[0].title = 'The chosen service is: ECS';
                 this.stopRandomECSTask.attachments[0].fields.forEach((field: { title: string; value: string; short: boolean }) => {
                     switch (field.title) {
@@ -157,7 +161,8 @@ export class Slack {
                 });
                 return this.stopRandomECSTask;
             default:
-                this.default.attachments[0].title = `Unable to match service: ${data.service}`;
+                this.default.attachments[0].ts = Math.round(new Date().getTime() / 1000);
+                this.default.attachments[0].title = `Unable to find template for: ${data.service} and ${data.action}`;
                 this.default.attachments[0].color = '#FF0000';
                 return this._default;
         }
