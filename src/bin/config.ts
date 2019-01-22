@@ -72,7 +72,7 @@ const emailTo = {
 const environment = {
     type: 'input',
     name: 'environment',
-    message: 'What is the name of your AWS environment?',
+    message: 'What is the name of your AWS account?',
     default: () => {
         return config.environment || '';
     },
