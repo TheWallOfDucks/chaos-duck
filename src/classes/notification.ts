@@ -15,9 +15,11 @@ export class Notification {
             this.enabled = true;
             this.methods.push('slack');
         }
-        if (process.env.EMAIL_ADDRESS && process.env.EMAIL_ADDRESS !== 'undefined') {
-            this.enabled = true;
-            this.methods.push('email');
+        if (process.env.EMAIL_FROM && process.env.EMAIL_FROM !== 'undefined') {
+            if (process.env.EMAIL_TO && process.env.EMAIL_TO !== 'undefined') {
+                this.enabled = true;
+                this.methods.push('email');
+            }
         }
     }
 

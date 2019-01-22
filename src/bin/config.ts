@@ -29,46 +29,27 @@ const account = {
     },
 };
 
-const emailAddress = {
+const emailFrom = {
     type: 'input',
-    name: 'emailAddress',
-    message: 'Please enter the email address you would like receive notifications at:',
-    when: (answers) => {
-        return answers.notificationProviders.includes('Email');
-    },
-};
-
-const emailHost = {
-    type: 'input',
-    name: 'emailHost',
-    message: 'Please enter your email host:',
-    when: (answers) => {
-        return answers.notificationProviders.includes('Email');
-    },
+    name: 'emailFrom',
+    message: 'Please enter the email address you would like notifications sent from. NOTE - this address must be verified in SES:',
     default: () => {
-        return 'smtp.gmail.com';
+        return config.emailFrom || '';
     },
-};
-
-const emailPass = {
-    type: 'password',
-    name: 'emailPass',
-    message: 'Please enter the password for your email sender:',
-    mask: '*',
     when: (answers) => {
         return answers.notificationProviders.includes('Email');
     },
 };
 
-const emailSender = {
+const emailTo = {
     type: 'input',
-    name: 'emailSender',
-    message: 'Please enter your email sender:',
+    name: 'emailTo',
+    message: 'Please enter the email address you would like notifications sent to. NOTE - this address must be verified in SES:',
+    default: () => {
+        return config.emailTo || '';
+    },
     when: (answers) => {
         return answers.notificationProviders.includes('Email');
-    },
-    default: () => {
-        return 'chaosduck@gmail.com';
     },
 };
 
@@ -196,20 +177,4 @@ const stage = {
     },
 };
 
-export const prompts = [
-    environment,
-    account,
-    role,
-    profile,
-    stage,
-    notifications,
-    notificationProviders,
-    slackWebhookUrl,
-    emailHost,
-    emailSender,
-    emailPass,
-    emailAddress,
-    setSchedule,
-    schedule,
-    services,
-];
+export const prompts = [environment, account, role, profile, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];

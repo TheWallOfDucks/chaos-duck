@@ -1,7 +1,8 @@
 export interface IDuckConfig {
     account: string;
     chaosUrl?: string;
-    emailAddress?: string;
+    emailFrom?: string;
+    emailTo?: string;
     environment?: string;
     profile?: string;
     role: string;
