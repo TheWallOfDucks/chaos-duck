@@ -82,6 +82,10 @@ chaos-duck config
 - `account`: AWS account number
 - `chaosUrl`: The url to call when invoking Chaos Duck
     - This value will be ignored during deployments
+- `emailFrom`: The email address emails will be sent from
+    - This email will need to be verified in AWS SES. Read more [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html)
+- `emailTo`: The email address emails will be sent to
+    - This email will need to be verified in AWS SES. Read more [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html)    
 - `environment`: Environment name. Can be any string used by you to identify an environment
 - `profile`: Profile in your AWS .credentials file to use. Defaults to "default"
 - `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
@@ -99,7 +103,9 @@ Example
 ```json
 {
     "account": "12345678912",
-    "chaosUrl": "https://oxabydb5z8.execute-api.us-east-1.amazonaws.com/dev/chaos",
+    "chaosUrl": "https://abcde123.execute-api.us-east-1.amazonaws.com/dev/chaos",
+    "emailFrom": "chaosduck@gmail.com",
+    "emailTo": "development@acme.com",
     "environment": "sandbox",
     "profile": "default",
     "role": "Sandbox-Developer",

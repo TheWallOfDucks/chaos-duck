@@ -8,6 +8,7 @@
     -   [Decorators](#decorators)
     -   [How to add a new Service](#how-to-add-a-new-service)
     -   [How to add a new Notification Provider](#how-to-add-a-new-notification-provider)
+    -   [How to debug](#how-to-debug)
 -   [TODO](#todo)
 
 ## Making a Pull Request
@@ -110,10 +111,23 @@ export class EC2 {
     - Should not be disruptive. (i.e. it should not break anything if you don't use that notification provider)
 3. Implement the notification provider in `src/classes/notification.ts`, again following the `slack` implementation as an example
 
+### How to Debug
+
+> I've made a change, now how do I test it?
+
+1. Re-build the source with your change
+    - `npm run link`
+2. Deploy your changes to your AWS account
+    - If you already have a `duck.json` file then run `chaos-duck deploy`
+    - If you don't have a `duck.json` file then run `chaos-duck config`, follow then prompts, then run `chaos-duck deploy`
+3. Once your deployment is complete, login to the AWS console for your account
+4. From the AWS services page, select Lambda
+5. Filter for `chaos` and you should see your function. Click on the function name to go to your function
+6. Switch to the monitoring tab
+7. Click "View logs in CloudWatch"
+8. Open the CloudWatch log corresponding to the correct event time
+9. In the CloudWatch log you should be all `console.log`'s that have been added to the code
+
 ### TODO
 
 -   Add ability to support cron schedule rate
--   Add ability to send out multiple notifications
-    -   Started down this path with email in `dev-caleb-email` branch but was running into issues supplying the necessary info to lambda...environment variables did not seem like a secure way to store email password
-    -   Maybe need some sort of separate mechanism for sending emails that does not require user to setup their own transporter
-    -   Maybe use AWS SES?

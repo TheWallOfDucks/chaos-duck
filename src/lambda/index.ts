@@ -33,7 +33,7 @@ export const handler = async (event) => {
         console.log('Result: ', result);
 
         if (notification.enabled) {
-            console.log('Sending notification...');
+            console.log('Sending notification(s)...');
             await notification.send(result, environment);
         }
 

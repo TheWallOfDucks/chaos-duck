@@ -27,14 +27,16 @@ commander
         try {
             inquirer.prompt(prompts).then((config) => {
                 const duckConfig: IDuckConfig = {
-                    environment: config.environment,
                     account: config.account,
-                    role: config.role,
+                    emailFrom: config.emailFrom,
+                    emailTo: config.emailTo,
+                    environment: config.environment,
                     profile: config.profile,
-                    stage: config.stage,
-                    slackWebhookUrl: config.slackWebhookUrl,
+                    role: config.role,
                     schedule: config.schedule,
                     services: config.services.replace(/\s+/g, ''),
+                    slackWebhookUrl: config.slackWebhookUrl,
+                    stage: config.stage,
                 };
                 fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(duckConfig, null, 4));
                 console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));

@@ -29,10 +29,50 @@ const account = {
     },
 };
 
+const emailFrom = {
+    type: 'input',
+    name: 'emailFrom',
+    message: 'Please enter the email address you would like notifications sent from:',
+    default: () => {
+        return config.emailFrom || '';
+    },
+    validate: (email: string) => {
+        const valid = Utility.validateEmail(email);
+
+        if (valid) {
+            return true;
+        }
+        return 'Please enter a valid email address';
+    },
+    when: (answers) => {
+        return answers.notificationProviders.includes('Email');
+    },
+};
+
+const emailTo = {
+    type: 'input',
+    name: 'emailTo',
+    message: 'Please enter the email address you would like notifications sent to:',
+    default: () => {
+        return config.emailTo || '';
+    },
+    validate: (email: string) => {
+        const valid = Utility.validateEmail(email);
+
+        if (valid) {
+            return true;
+        }
+        return 'Please enter a valid email address';
+    },
+    when: (answers) => {
+        return answers.notificationProviders.includes('Email');
+    },
+};
+
 const environment = {
     type: 'input',
     name: 'environment',
-    message: 'What is the name of your AWS environment?',
+    message: 'What is the name of your AWS account?',
     default: () => {
         return config.environment || '';
     },
@@ -42,6 +82,29 @@ const environment = {
         }
         return environment !== '';
     },
+};
+
+const notifications = {
+    type: 'confirm',
+    name: 'notifications',
+    message: 'Would you like to receive notifications from Chaos Duck?',
+};
+
+const notificationProviders = {
+    type: 'checkbox',
+    name: 'notificationProviders',
+    message: 'Select notification types: ',
+    when: (answers) => {
+        return answers.notifications;
+    },
+    choices: [
+        {
+            name: 'Slack',
+        },
+        {
+            name: 'Email',
+        },
+    ],
 };
 
 const profile = {
@@ -109,12 +172,6 @@ const setSchedule = {
     message: 'Would you like to run Chaos Duck on a regular schedule?',
 };
 
-const slack = {
-    type: 'confirm',
-    name: 'slack',
-    message: 'Do you have a Slack webhook url you would like Chaos Duck to post to?',
-};
-
 const slackWebhookUrl = {
     type: 'input',
     name: 'slackWebhookUrl',
@@ -123,7 +180,7 @@ const slackWebhookUrl = {
         return config.slackWebhookUrl || '';
     },
     when: (answers) => {
-        return answers.slack;
+        return answers.notificationProviders.includes('Slack');
     },
 };
 
@@ -136,4 +193,4 @@ const stage = {
     },
 };
 
-export const prompts = [environment, account, role, profile, stage, slack, slackWebhookUrl, setSchedule, schedule, services];
+export const prompts = [environment, account, role, profile, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];
