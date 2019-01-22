@@ -16,11 +16,11 @@ export class SES {
                 Message: {
                     Body: {
                         Text: {
-                            Data: 'this is a test',
+                            Data: JSON.stringify(response, null, 2),
                         },
                     },
                     Subject: {
-                        Data: '🦆',
+                        Data: `🦆 Chaos has been invoked in ${response.environment}!`,
                     },
                 },
                 Source: emailFrom,
