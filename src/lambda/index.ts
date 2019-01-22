@@ -11,6 +11,7 @@ const environment = process.env.AWS_ENV;
 export const handler = async (event) => {
     try {
         let services: string[];
+        let resultsUrl: string;
         const notification = new Notification();
 
         if (event.body) {
@@ -31,6 +32,13 @@ export const handler = async (event) => {
         const result = await chaos.invoke();
 
         console.log('Result: ', result);
+
+        try {
+            const upload = await chaos.s3.uploadResult(result);
+            resultsUrl = upload.Location;
+        } catch (error) {
+            console.log('error uploading result => ', error);
+        }
 
         if (notification.enabled) {
             try {

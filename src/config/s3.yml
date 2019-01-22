@@ -2,6 +2,11 @@ Resources:
   Results:
     Type: AWS::S3::Bucket
     Properties:
+      LifecycleConfiguration:
+        Rules:
+        - Id: DeleteResults
+          Status: Enabled
+          ExpirationInDays: '7'
       # Set the CORS policy
       CorsConfiguration:
         CorsRules:
