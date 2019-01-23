@@ -17,6 +17,7 @@ provider:
     - 'arn:aws:iam::aws:policy/AmazonRDSFullAccess'
     - 'arn:aws:iam::aws:policy/AmazonSESFullAccess'
     - 'arn:aws:iam::aws:policy/IAMReadOnlyAccess'
+    - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
   region: us-east-1
   versionFunctions: false
   environment:
@@ -24,6 +25,8 @@ provider:
     EMAIL_FROM: ${env:EMAIL_FROM}
     EMAIL_TO: ${env:EMAIL_TO}
     AWS_ENV: ${env:AWS_ENV}
+    RESULTS_BUCKET:
+      Ref: Results
 
 functions:
   chaos:
@@ -33,3 +36,6 @@ functions:
           path: chaos
           method: post
       - schedule: ${file(lib/config/schedule.js):schedule} #NOTE: there is a bug in Lambda that causes the UI not to show the correct enabled value. Look at CloudWatch to see correct value
+
+resources:
+  - ${file(src/config/s3.yml)}
