@@ -35,13 +35,13 @@ export class Notification {
         this._enabled = value;
     }
 
-    private buildMessage(method, data, environment?: string) {
+    private buildMessage(method, data, environment?: string, uploadLocation?: string) {
         switch (method) {
             case 'slack':
-                return this.slack.buildMessage(data, environment);
+                return this.slack.buildMessage(data, environment, uploadLocation);
             case 'email':
                 data['environment'] = environment;
-                return data;
+                return this.email.buildMessage(environment, uploadLocation);
             default:
                 return 'Unknown notification method';
         }
@@ -51,12 +51,12 @@ export class Notification {
         return new Slack();
     }
 
-    async send(data: any, environment?: string) {
+    async send(data: any, environment?: string, uploadLocation?: string) {
         if (this.enabled) {
             try {
                 for (let i = 0; i < this.methods.length; i++) {
-                    const message = this.buildMessage(this.methods[i], data, environment);
-                    console.log('Message: ', message);
+                    const message = this.buildMessage(this.methods[i], data, environment, uploadLocation);
+                    console.log('Message: ', JSON.stringify(message, null, 2));
                     await this[this.methods[i]]['send'](message);
                 }
             } catch (error) {

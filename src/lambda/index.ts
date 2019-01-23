@@ -43,7 +43,7 @@ export const handler = async (event) => {
         if (notification.enabled) {
             try {
                 console.log('Sending notification(s)...');
-                await notification.send(result, environment);
+                await notification.send(result, environment, resultsUrl);
             } catch (error) {
                 console.log('error sending notification => ', error);
             }
