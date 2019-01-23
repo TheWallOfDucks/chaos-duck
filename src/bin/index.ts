@@ -14,7 +14,7 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const info = require('../../package.json');
 
-commander.version(info.version, '-v, --version').description('Chaos Duck \uD83E\uDD86');
+commander.version(info.version, '-v, --version').description('Chaos Duck 🦆');
 
 /**
  * @description Config command
@@ -39,7 +39,7 @@ commander
                     stage: config.stage,
                 };
                 fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(duckConfig, null, 4));
-                console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
+                console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json 🦆`));
             });
         } catch (error) {
             console.error(colors.red(error));
@@ -118,22 +118,14 @@ commander
  *@description Custom listeners
  */
 commander.on('command:duck', () => {
-    console.log('\uD83E\uDD86');
+    console.log('🦆');
 });
 
 commander.on('command:duckwall', () => {
-    console.log(
-        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
-    );
-    console.log(
-        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
-    );
-    console.log(
-        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
-    );
-    console.log(
-        '\uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86 \uD83E\uDD86',
-    );
+    console.log('🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆');
+    console.log('🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆');
+    console.log('🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆');
+    console.log('🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆');
 });
 
 /**

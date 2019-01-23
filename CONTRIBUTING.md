@@ -131,3 +131,4 @@ export class EC2 {
 ### TODO
 
 -   Add ability to support cron schedule rate
+-   Add ability to support multiple "to" email addresses
