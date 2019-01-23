@@ -1,6 +1,0 @@
-{
-    "spec_dir": "lib/test",
-    "spec_files": ["**/*.spec.js"],
-    "helpers": ["lib/test/jasmine.js"],
-    "random": false
-}
