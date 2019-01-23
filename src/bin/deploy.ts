@@ -89,7 +89,7 @@ export const deploy = async (cmd: any) => {
                 };
 
                 fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(body, null, 4));
-                console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json \uD83E\uDD86`));
+                console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json 🦆`));
             }
         });
 

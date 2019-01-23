@@ -33,7 +33,7 @@ const account = {
 const emailFrom = {
     type: 'input',
     name: 'emailFrom',
-    message: 'Please enter the email address you would like notifications sent from:',
+    message: 'Please enter the email address you would like notifications sent from. NOTE: this email must be verified in AWS SES',
     when: (answers: any) => {
         return answers.notificationProviders.includes('Email');
     },
@@ -53,7 +53,7 @@ const emailFrom = {
 const emailTo = {
     type: 'input',
     name: 'emailTo',
-    message: 'Please enter the email address you would like notifications sent to:',
+    message: 'Please enter the email address you would like notifications sent to. NOTE: this email must be verified in AWS SES',
     when: (answers: any) => {
         return answers.notificationProviders.includes('Email');
     },
@@ -213,4 +213,4 @@ const stage = {
     },
 };
 
-export const prompts = [environment, account, role, profile, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];
+export const prompts = [account, role, profile, environment, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];
