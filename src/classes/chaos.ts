@@ -4,6 +4,7 @@ import { ECS } from '../services/ecs';
 import { ElastiCache } from '../services/elasticache';
 import { IAM } from '../services/iam';
 import { RDS } from '../services/rds';
+import { S3 } from '../services/s3';
 import { SES } from '../services/ses';
 import { Utility } from './utility';
 
@@ -18,6 +19,7 @@ export class Chaos {
     private _elasticache: ElastiCache;
     private _iam: IAM;
     private _rds: RDS;
+    private _s3: S3;
     private _service: string;
     private _services: string[] = [];
     private _ses: SES;
@@ -28,6 +30,7 @@ export class Chaos {
         this.elasticache = new ElastiCache();
         this.iam = new IAM();
         this.rds = new RDS();
+        this.s3 = new S3();
         this.services = services;
         this.ses = new SES();
     }
@@ -78,6 +81,14 @@ export class Chaos {
 
     set rds(value: RDS) {
         this._rds = value;
+    }
+
+    get s3() {
+        return this._s3;
+    }
+
+    set s3(value: S3) {
+        this._s3 = value;
     }
 
     get service() {

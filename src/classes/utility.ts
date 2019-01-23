@@ -1,4 +1,4 @@
-const colors = require('colors');
+import { SupportedServices } from '../config/supportedServices';
 
 /**
  * @description Basic utility functions
@@ -6,6 +6,10 @@ const colors = require('colors');
 export class Utility {
     static convertToLowercase(array: string[]) {
         return array.map((item) => item.toLowerCase());
+    }
+
+    static getServiceByValue(value: string) {
+        return Object.keys(SupportedServices).find((key) => SupportedServices[key] === value);
     }
 
     static getRandom(array: any[]) {
