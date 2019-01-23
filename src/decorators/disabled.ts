@@ -1,7 +1,7 @@
 export const disabledChaosFunctions = {};
 
 /**
- * @description Marks a function as disabled
+ * @description Marks a chaos function as disabled
  */
 export function disabled() {
     return (target: any, key: string, descriptor: PropertyDescriptor) => {
