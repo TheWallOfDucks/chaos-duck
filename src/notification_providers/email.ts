@@ -1,6 +1,9 @@
 import { SES } from '../services/ses';
 import { SES as sdk } from 'aws-sdk';
 
+/**
+ * @description This is the main interface for building and sending email messages
+ */
 export class Email extends SES {
     constructor() {
         super();
