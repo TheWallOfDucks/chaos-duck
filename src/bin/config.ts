@@ -35,7 +35,7 @@ const emailFrom = {
     name: 'emailFrom',
     message: 'Please enter the email address you would like notifications sent from. NOTE: this email must be verified in AWS SES',
     when: (answers: any) => {
-        return answers.notificationProviders.includes('Email');
+        return answers.notificationProviders && answers.notificationProviders.includes('Email');
     },
     default: () => {
         return config.emailFrom || '';
@@ -55,7 +55,7 @@ const emailTo = {
     name: 'emailTo',
     message: 'Please enter the email address you would like notifications sent to. NOTE: this email must be verified in AWS SES',
     when: (answers: any) => {
-        return answers.notificationProviders.includes('Email');
+        return answers.notificationProviders && answers.notificationProviders.includes('Email');
     },
     default: () => {
         return config.emailTo || '';
@@ -127,6 +127,10 @@ const role = {
     validate: (role: string) => {
         if (role === '') {
             return 'Please enter the AWS role to assume';
+        }
+        if (role.includes('arn:aws:iam')) {
+            const roleName = role.split('/').pop();
+            return `It looks like you're trying to use the role ARN. Try just using the role name instead: ${roleName}`;
         }
         return role !== '';
     },
@@ -200,7 +204,7 @@ const slackWebhookUrl = {
         return config.slackWebhookUrl || '';
     },
     when: (answers) => {
-        return answers.notificationProviders.includes('Slack');
+        return answers.notificationProviders && answers.notificationProviders.includes('Slack');
     },
 };
 

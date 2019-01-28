@@ -20,7 +20,7 @@ Chaos Duck will randomly choose from the services you provide and perform a sing
 
 ### Supported services
 
-These are the curent supported AWS services to wreak havoc on. Choose wisely.
+These are the current supported AWS services to wreak havoc on. Choose wisely.
 
 - EC2: Chaos Duck will randomly stop your EC2 instances
 - ECS: Chaos Duck will randomly stop your ECS tasks
@@ -29,7 +29,7 @@ These are the curent supported AWS services to wreak havoc on. Choose wisely.
 
 ### Quick start
 
-Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed. Once you have set that up, make sure you have the following information from your AWS account: account number and role to assume to deploy lambda
+Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed. Once you have set that up, make sure you have your AWS account number and role to assume to deploy lambda
 
 1. Clone the project and install all dependencies
 
