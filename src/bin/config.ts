@@ -4,7 +4,7 @@ let config;
 
 // If there is already a config file, return the values from it as default
 try {
-    config = require('../../duck.json');
+    config = require('../../../duck.json');
 } catch (error) {
     config = {};
 }
