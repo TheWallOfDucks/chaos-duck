@@ -20,19 +20,24 @@ describe('chaos-duck', () => {
     describe('config', () => {
         it('should display prompts', (done) => {
             try {
-                const process = spawn('node', ['lib/src/bin/index.js', 'config']);
+                const child = spawn('node', ['lib/src/bin/index.js', 'config']);
+                child.stdout.setEncoding('utf8');
+                child.stdin.setEncoding('utf8');
 
-                process.stdout.on('data', (data: Buffer) => {
+                child.stdout.on('data', (data: Buffer) => {
                     const question = data.toString().trim();
                     if (question.charAt(0) === '?') {
                         console.log('question => ', question);
                         const answer = answerPrompt(data.toString());
                         console.log('answer => ', answer);
-                        process.stdin.pipe(answer);
+                        // child.stdout.pipe(process.stdout);
+                        child.stdin.write(`${answer}\n`);
+                        // child.stdin.write(answer);
+                        // child.stdin.end();
                     }
                 });
 
-                process.on('exit', (code: number) => {
+                child.on('exit', (code: number) => {
                     console.log('code => ', code);
                     done();
                 });
