@@ -1,6 +1,5 @@
 import { EC2 as sdk } from 'aws-sdk';
 import { Utility } from '../classes/utility';
-import { disabled } from '../decorators/disabled';
 import { chaosFunction } from '../decorators/chaosFunction';
 
 /**
@@ -32,7 +31,6 @@ export class EC2 {
     }
 
     @chaosFunction()
-    @disabled()
     async stopRandomEC2Instance() {
         try {
             const instances = await this.describeInstances();
