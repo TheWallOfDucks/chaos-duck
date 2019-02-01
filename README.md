@@ -87,16 +87,20 @@ chaos-duck config
 - `emailTo`: The email address emails will be sent to
     - This email will need to be verified in AWS SES. Read more [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html)    
 - `environment`: Environment name. Can be any string used by you to identify an environment
-- `profile`: Profile in your AWS .credentials file to use. Defaults to "default"
+- `profile`: Profile in your AWS .credentials file to use
+    - Default: `default`
 - `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
+    - This can be a full role ARN or simply the name of the role. If you provide the full ARN then the account number will be derived for you
 - `schedule`: The schedule to run Chaos Duck. Defaults to disabled
     - This value is expressed as a value which can be a positive integer along with a unit which can be `minute(s)`, `hour(s)`, or `day(s)`
         - For a singular value the unit must be singular (`'1 day'`), otherwise plural (`'5 days'`)
-- `services`: Comma separated service values to invoke chaos on. Defaults to all services
+- `services`: Comma separated service values to invoke chaos on
+    - Default: all services
     - These values are not case sensitive
     - Read more about supported services [here](#supported-services)
 - `slackWebhookUrl`: Slack webhook url to post notifications to
-- `stage`: Deployment stage in AWS. Defaults to "dev"
+- `stage`: Deployment stage name. Can be any string to differentiate between different versions of the same stack
+    - Default: `dev`
 
 Example
 
