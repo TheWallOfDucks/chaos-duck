@@ -8,7 +8,7 @@ export function answerPrompt(question?: string) {
         if (question.includes('What is the name of your AWS account?')) return faker.random.word();
         if (question.includes('What stage do you want to deploy Chaos Duck in?')) return 'dev';
         if (question.includes('Would you like to receive notifications from Chaos Duck?')) return 'No';
-        // if (question.includes('What is your AWS role to assume?')) return faker.random.word();
+        if (question.includes(' Please enter the services you would like to unleash Chaos Duck on:')) return 'ECS';
         // if (question.includes('What is your AWS role to assume?')) return faker.random.word();
         // if (question.includes('What is your AWS role to assume?')) return faker.random.word();
         // if (question.includes('What is your AWS role to assume?')) return faker.random.word();
