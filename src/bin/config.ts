@@ -13,8 +13,8 @@ const account = {
     type: 'input',
     name: 'account',
     message: 'What is your AWS account number?',
-    default: () => {
-        return config.account || '';
+    default: (answers) => {
+        return answers.account || config.account || '';
     },
     validate: (account: string) => {
         if (account === '') {
@@ -124,13 +124,18 @@ const role = {
     default: () => {
         return config.role || '';
     },
-    validate: (role: string) => {
+    filter: (role, answers) => {
+        if (role.includes('arn:aws:iam')) {
+            const parts = role.split(':');
+            const roleName = role.split('/').pop();
+            answers.account = parts[4];
+            return roleName;
+        }
+        return role;
+    },
+    validate: (role: string, answers) => {
         if (role === '') {
             return 'Please enter the AWS role to assume';
-        }
-        if (role.includes('arn:aws:iam')) {
-            const roleName = role.split('/').pop();
-            return `It looks like you're trying to use the role ARN. Try just using the role name instead: ${roleName}`;
         }
         return role !== '';
     },
@@ -217,4 +222,4 @@ const stage = {
     },
 };
 
-export const prompts = [account, role, profile, environment, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];
+export const prompts = [role, account, profile, environment, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];
