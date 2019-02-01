@@ -2,7 +2,7 @@
 /**
  * @description This file contains all of the CLI bindings for chaos-duck
  */
-import * as commander from 'commander';
+import * as duck from 'commander';
 import { IDuckConfig } from './IDuckConfig';
 import { prompts } from './config';
 import { deploy } from './deploy';
@@ -12,15 +12,14 @@ import { undeploy } from './undeploy';
 const colors = require('colors');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const info = require('../../package.json');
+const info = require('../../../package.json');
 
-commander.version(info.version, '-v, --version').description('Chaos Duck 🦆');
+duck.version(info.version, '-v, --version').description('Chaos Duck 🦆');
 
 /**
  * @description Config command
  */
-commander
-    .command('config')
+duck.command('config')
     .alias('c')
     .description('Setup Chaos Duck')
     .action(() => {
@@ -49,8 +48,7 @@ commander
 /**
  * @description Deploy command
  */
-commander
-    .command('deploy')
+duck.command('deploy')
     .alias('d')
     .option('-a, --account <account>', 'AWS account number')
     .option('-c, --config <config>', 'If specified, will use options defined in json file provided')
@@ -75,8 +73,7 @@ commander
 /**
  * @description Invoke command
  */
-commander
-    .command('invoke')
+duck.command('invoke')
     .alias('i')
     .option('-c, --config <config>', 'If specified, will use options defined in json file provided')
     .option('-u, --url <url>', 'URL of chaos endpoint')
@@ -95,8 +92,7 @@ commander
 /**
  * @description Undeploy command
  */
-commander
-    .command('undeploy')
+duck.command('undeploy')
     .alias('u')
     .option('-c, --config <config>', 'If specified, will use options defined in json file provided')
     .option('-e, --environment <environment>', 'Name of AWS environment')
@@ -117,11 +113,11 @@ commander
 /**
  *@description Custom listeners
  */
-commander.on('command:duck', () => {
+duck.on('command:duck', () => {
     console.log('🦆');
 });
 
-commander.on('command:duckwall', () => {
+duck.on('command:duckwall', () => {
     console.log('🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆');
     console.log('🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆');
     console.log('🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆 🦆');
@@ -131,8 +127,8 @@ commander.on('command:duckwall', () => {
 /**
  * @description Invalid command handler
  */
-commander.on('command:*', () => {
-    console.error('Invalid command: %s\nSee --help for a list of available commands.', commander.args.join(' '));
+duck.on('command:*', () => {
+    console.error('Invalid command: %s\nSee --help for a list of available commands.', duck.args.join(' '));
 });
 
-commander.parse(process.argv);
+duck.parse(process.argv);
