@@ -94,7 +94,7 @@ const notifications = {
 const notificationProviders = {
     type: 'checkbox',
     name: 'notificationProviders',
-    message: 'Select notification types: ',
+    message: 'Select notification types:',
     when: (answers) => {
         return answers.notifications;
     },

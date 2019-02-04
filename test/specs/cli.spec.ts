@@ -1,10 +1,10 @@
-import { answerPrompt } from '../helpers/answer_prompts';
 import * as faker from 'faker';
+const cmd = require('../helpers/cmd');
+const { ENTER } = require('../helpers/cmd');
+import { getRandomNumber } from '../helpers/generateRandomNumber';
 
-const { spawnSync, spawn } = require('child_process');
+const { spawnSync } = require('child_process');
 const info = require('../../../package.json');
-const suppose = require('suppose');
-const fs = require('fs');
 
 describe('chaos-duck', () => {
     describe('--version', () => {
@@ -22,74 +22,53 @@ describe('chaos-duck', () => {
     });
 
     describe('config', () => {
-        it('should display prompts', (done) => {
-            // try {
-            // console.log(child.stdout.toString().trim());
-            // child.stdout.setEncoding('utf8');
-            // child.stdin.setEncoding('utf8');
-            // child.stdout.on('data', (data: Buffer) => {
-            //     let question = '';
-            //     let answer = '';
-            //     question = data.toString().trim();
-            //     if (question.charAt(0) === '?') {
-            //         console.log('question => ', question);
-            //         answer = answerPrompt(data.toString());
-            //         console.log('answer => ', answer);
-            //         // child.stdout.pipe(process.stdout);
-            //         child.stdin.write(`${answer}\n`);
-            //         // child.stdin.write(answer);
-            //     }
-            // });
-            // child.on('exit', (code: number) => {
-            //     child.stdin.end();
-            //     console.log('code => ', code);
-            //     done();
-            // });
-            // } catch (error) {
-            //     fail(error);
-            // }
+        it('should create a duck.json file with supplied information', async (done) => {
             try {
-                const child = spawn('node', ['lib/src/bin/index.js', 'config']);
-                const questions = [];
-                // child.stdout.setEncoding('utf8');
-                child.stdin.setEncoding('utf-8');
-                // child.stdout.pipe(process.stdout);
-                // process.stdin.pipe(child.stdin);
+                const answers = {
+                    account: getRandomNumber(12),
+                    environment: faker.random.word(),
+                    profile: 'default',
+                    role: faker.random.word(),
+                    stage: faker.random.word(),
+                    schedule: 'No',
+                    notifications: 'No',
+                    services: 'ECS',
+                };
+                await cmd.executeWithInput(
+                    'lib/src/bin/index.js',
+                    ['config'],
+                    [
+                        answers.role,
+                        ENTER,
+                        answers.account,
+                        ENTER,
+                        answers.profile,
+                        ENTER,
+                        answers.environment,
+                        ENTER,
+                        answers.stage,
+                        ENTER,
+                        answers.notifications,
+                        ENTER,
+                        answers.schedule,
+                        ENTER,
+                        answers.services,
+                        ENTER,
+                    ],
+                );
 
-                child.stdout.on('data', async (data: Buffer) => {
-                    // console.log(process.stdout.toString());
-                    let question = '';
-                    let answer = '';
-                    question = data.toString().trim();
-                    // console.log(questions);
-                    if (question.charAt(0) === '?' && !questions.includes(question)) {
-                        questions.push(question);
-                        console.log('question => ', question);
-                        answer = answerPrompt(data.toString());
-                        console.log('answer => ', answer);
-                        // child.stdout.pipe(process.stdout);
-                        // child.stdin.write(`${new Buffer(answer)}\r\n`);
-                        await child.stdin.write(`${answer}\n`);
-                    }
-                });
-
-                child.on('exit', (code: number) => {
-                    child.stdin.end();
-                    console.log('code => ', code);
-                    done();
-                });
-
-                child.stdout.on('write', (data) => {
-                    console.log(data);
-                });
-
-                child.stdout.on('end', (data) => {
-                    console.log('end');
-                    console.log(data);
-                });
+                const config = require('../../../duck.json');
+                expect(config.account).toBe(answers.account);
+                expect(config.environment).toBe(answers.environment);
+                expect(config.profile).toBe(answers.profile);
+                expect(config.role).toBe(answers.role);
+                expect(config.services).toBe(answers.services);
+                expect(config.stage).toBe(answers.stage);
             } catch (error) {
                 fail(error);
             }
+
+            done();
         }, 10000);
     });
 });

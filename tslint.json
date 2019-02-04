@@ -12,7 +12,8 @@
         "align": false,
         "no-increment-decrement": false,
         "semicolon": [true, "always", "ignore-interfaces"],
-        "no-any": false
+        "no-any": false,
+        "no-parameter-reassignment": false
     },
     "rulesDirectory": []
 }
