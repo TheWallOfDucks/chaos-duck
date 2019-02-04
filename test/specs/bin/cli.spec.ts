@@ -1,5 +1,5 @@
 import * as faker from 'faker';
-import { getRandomNumber } from '../../helpers/generateRandomNumber';
+import { Utility } from '../../../src/classes/utility';
 
 const cmd = require('../../helpers/cmd');
 const { ENTER } = require('../../helpers/cmd');
@@ -23,7 +23,7 @@ describe('chaos-duck', () => {
         it('should create a duck.json file with supplied information', async (done) => {
             try {
                 const answers = {
-                    account: getRandomNumber(12),
+                    account: Utility.generateRandomNumber(12),
                     environment: faker.random.word(),
                     profile: 'default',
                     role: faker.random.word(),
