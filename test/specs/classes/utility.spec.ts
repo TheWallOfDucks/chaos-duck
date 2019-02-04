@@ -1,7 +1,7 @@
 import { Utility } from '../../../src/classes/utility';
 import * as faker from 'faker';
 
-describe('Utility', () => {
+describe('utility', () => {
     describe('convertToLowercase', () => {
         it('should convert all provided values to lower case', (done) => {
             const values = Utility.convertToLowercase([faker.random.word(), faker.random.word(), faker.random.word()]);
