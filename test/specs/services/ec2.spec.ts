@@ -3,7 +3,7 @@ import { describeInstances } from '../../config/mocks/ec2/describeInstances';
 import { stopInstances } from '../../config/mocks/ec2/stopInstances';
 const sinon = require('sinon');
 
-describe('EC2', () => {
+describe('ec2', () => {
     const ec2 = new EC2();
 
     describe('describeInstances', () => {

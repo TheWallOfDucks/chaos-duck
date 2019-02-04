@@ -1,7 +1,7 @@
 import { chaosFunctions, chaosFunction } from '../../../src/decorators/chaosFunction';
 import { disabled, disabledChaosFunctions } from '../../../src/decorators/disabled';
 
-describe('Decorators', () => {
+describe('decorators', () => {
     describe('@chaosFunction', () => {
         it('should create a map of available chaos functions', async (done) => {
             for (const service in chaosFunctions) {
