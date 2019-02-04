@@ -6,10 +6,11 @@
     "preferGlobal": true,
     "scripts": {
         "build": "rm -rf lib && tsc",
+        "coverage": "nyc report",
         "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
         "link": "npm run build && npm link",
         "lint": "tslint -p .",
-        "test": "npm run build ; jasmine lib/test/specs/*.spec.js --config=./test/config/jasmine.json"
+        "test": "npm run build ; nyc jasmine lib/test/specs/*.spec.js --config=./test/config/jasmine.json && nyc report"
     },
     "repository": "https://github.com/TheWallOfDucks/chaos-duck",
     "husky": {
@@ -46,6 +47,7 @@
         "jasmine-reporters": "^2.3.1",
         "jasmine-spec-reporter": "^4.2.1",
         "minimist": "^1.2.0",
+        "nyc": "^13.1.0",
         "serverless": "^1.32.0",
         "sinon": "^7.2.3",
         "tslint": "^5.11.0",

@@ -1,4 +1,6 @@
 import { chaosFunctions } from '../decorators/chaosFunction';
+import { SupportedServices } from '../config/supportedServices';
+import { ServiceNotFound, ChaosFunctionNotFound } from './errors';
 import { EC2 } from '../services/ec2';
 import { ECS } from '../services/ecs';
 import { ElastiCache } from '../services/elasticache';
@@ -117,28 +119,24 @@ export class Chaos {
 
     async invoke() {
         try {
+            const supportedServices = Object.values(SupportedServices);
+
+            const services = this.services.filter((service) => supportedServices.includes(service));
+
+            if (services.length === 0) {
+                throw new ServiceNotFound('Provide a valid array of services to unleash chaos on');
+            }
+
             this.service = Utility.getRandom(this.services);
 
             if (!this.service) {
-                throw Error(
-                    JSON.stringify({
-                        service: this.service,
-                        result: 'ServiceNotFound',
-                        resolution: 'Provide a valid array of services to unleash chaos on',
-                    }),
-                );
+                throw new ServiceNotFound('Provide a valid array of services to unleash chaos on');
             }
 
             this.chaosFunction = Utility.getRandom(chaosFunctions[this.service]);
 
             if (!this.chaosFunction) {
-                throw Error(
-                    JSON.stringify({
-                        service: this.service,
-                        result: 'ChaosFunctionNotFound',
-                        resolution: `Confirm that ${this.service} service has at least one function decorated with @chaosFunction()`,
-                    }),
-                );
+                throw new ChaosFunctionNotFound(`Confirm that ${this.service} service has at least one function decorated with @chaosFunction()`);
             }
 
             console.log(`The chosen service is: ${this.service}`);

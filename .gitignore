@@ -8,3 +8,5 @@ lib
 docs
 duck.json
 test/reports/*.xml
+.nyc_output
+coverage
