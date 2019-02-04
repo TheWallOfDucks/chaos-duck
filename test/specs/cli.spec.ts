@@ -1,18 +1,16 @@
 import * as faker from 'faker';
-const cmd = require('../helpers/cmd');
-const { ENTER } = require('../helpers/cmd');
 import { getRandomNumber } from '../helpers/generateRandomNumber';
 
-const { spawnSync } = require('child_process');
+const cmd = require('../helpers/cmd');
+const { ENTER } = require('../helpers/cmd');
 const info = require('../../../package.json');
 
 describe('chaos-duck', () => {
     describe('--version', () => {
-        it('should return the correct version', (done) => {
+        it('should return the correct version', async (done) => {
             try {
-                const command = spawnSync('node', ['lib/src/bin/index.js', '--version']);
-                const version = command.stdout.toString().trim();
-                expect(version).toBe(info.version);
+                const version = await cmd.executeWithInput('lib/src/bin/index.js', ['--version']);
+                expect(version.trim()).toBe(info.version);
             } catch (error) {
                 fail(error);
             }
