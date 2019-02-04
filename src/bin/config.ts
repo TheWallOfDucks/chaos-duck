@@ -4,7 +4,7 @@ let config;
 
 // If there is already a config file, return the values from it as default
 try {
-    config = require('../../duck.json');
+    config = require('../../../duck.json');
 } catch (error) {
     config = {};
 }
@@ -94,7 +94,7 @@ const notifications = {
 const notificationProviders = {
     type: 'checkbox',
     name: 'notificationProviders',
-    message: 'Select notification types: ',
+    message: 'Select notification types:',
     when: (answers) => {
         return answers.notifications;
     },

@@ -1,4 +1,6 @@
 import { chaosFunctions } from '../decorators/chaosFunction';
+import { SupportedServices } from '../config/supportedServices';
+import { ServiceNotFound, ChaosFunctionNotFound } from './errors';
 import { EC2 } from '../services/ec2';
 import { ECS } from '../services/ecs';
 import { ElastiCache } from '../services/elasticache';
@@ -6,6 +8,7 @@ import { IAM } from '../services/iam';
 import { RDS } from '../services/rds';
 import { S3 } from '../services/s3';
 import { SES } from '../services/ses';
+import { STS } from '../services/sts';
 import { Utility } from './utility';
 
 /**
@@ -23,6 +26,7 @@ export class Chaos {
     private _service: string;
     private _services: string[] = [];
     private _ses: SES;
+    private _sts: STS;
 
     constructor(services: string[]) {
         this.ec2 = new EC2();
@@ -33,6 +37,7 @@ export class Chaos {
         this.s3 = new S3();
         this.services = services;
         this.ses = new SES();
+        this.sts = new STS();
     }
 
     get chaosFunction() {
@@ -115,31 +120,35 @@ export class Chaos {
         this._ses = value;
     }
 
+    get sts() {
+        return this._sts;
+    }
+
+    set sts(value: STS) {
+        this._sts = value;
+    }
+
     async invoke() {
         try {
+            const supportedServices = Object.values(SupportedServices);
+
+            const services = this.services.filter((service) => supportedServices.includes(service.toLowerCase()));
+
+            if (services.length === 0) {
+                throw new ServiceNotFound('Provide a valid array of services to unleash chaos on');
+            }
+
             this.service = Utility.getRandom(this.services);
 
             if (!this.service) {
-                throw Error(
-                    JSON.stringify({
-                        service: this.service,
-                        result: 'ServiceNotFound',
-                        resolution: 'Provide a valid array of services to unleash chaos on',
-                    }),
-                );
+                throw new ServiceNotFound('Provide a valid array of services to unleash chaos on');
+            }
+
+            if (!chaosFunctions[this.service] || chaosFunctions[this.service].length === 0) {
+                throw new ChaosFunctionNotFound(`Confirm that ${this.service} service has at least one function decorated with @chaosFunction()`);
             }
 
             this.chaosFunction = Utility.getRandom(chaosFunctions[this.service]);
-
-            if (!this.chaosFunction) {
-                throw Error(
-                    JSON.stringify({
-                        service: this.service,
-                        result: 'ChaosFunctionNotFound',
-                        resolution: `Confirm that ${this.service} service has at least one function decorated with @chaosFunction()`,
-                    }),
-                );
-            }
 
             console.log(`The chosen service is: ${this.service}`);
             console.log(`The chosen function is: ${this.chaosFunction}`);
