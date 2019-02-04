@@ -1,9 +1,9 @@
-import { Chaos } from '../../src/classes/chaos';
-import { stopRandomTask } from '../config/mocks/ecs/stopRandomTask';
-import { stopRandomEC2Instance } from '../config/mocks/ec2/stopRandomEC2Instance';
-import { failoverElasticache } from '../config/mocks/elasticache/failoverElasticache';
-import { failoverRandomDBCluster } from '../config/mocks/rds/failoverRandomDBCluster';
-import { Utility } from '../../src/classes/utility';
+import { Chaos } from '../../../src/classes/chaos';
+import { stopRandomTask } from '../../config/mocks/ecs/stopRandomTask';
+import { stopRandomEC2Instance } from '../../config/mocks/ec2/stopRandomEC2Instance';
+import { failoverElasticache } from '../../config/mocks/elasticache/failoverElasticache';
+import { failoverRandomDBCluster } from '../../config/mocks/rds/failoverRandomDBCluster';
+import { Utility } from '../../../src/classes/utility';
 const sinon = require('sinon');
 
 describe('chaos.ts', () => {

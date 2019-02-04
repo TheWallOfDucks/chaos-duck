@@ -10,7 +10,7 @@
         "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
         "link": "npm run build && npm link",
         "lint": "tslint -p .",
-        "test": "npm run build ; nyc jasmine lib/test/specs/*.spec.js --config=./test/config/jasmine.json && nyc report"
+        "test": "npm run build ; nyc jasmine lib/test/specs/**/*.spec.js --config=./test/config/jasmine.json && nyc report"
     },
     "repository": "https://github.com/TheWallOfDucks/chaos-duck",
     "husky": {

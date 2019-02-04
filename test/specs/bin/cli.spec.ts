@@ -1,9 +1,9 @@
 import * as faker from 'faker';
-import { getRandomNumber } from '../helpers/generateRandomNumber';
+import { getRandomNumber } from '../../helpers/generateRandomNumber';
 
-const cmd = require('../helpers/cmd');
-const { ENTER } = require('../helpers/cmd');
-const info = require('../../../package.json');
+const cmd = require('../../helpers/cmd');
+const { ENTER } = require('../../helpers/cmd');
+const info = require('../../../../package.json');
 
 describe('chaos-duck', () => {
     describe('--version', () => {
@@ -55,7 +55,7 @@ describe('chaos-duck', () => {
                     ],
                 );
 
-                const config = require('../../../duck.json');
+                const config = require('../../../../duck.json');
                 expect(config.account).toBe(answers.account);
                 expect(config.environment).toBe(answers.environment);
                 expect(config.profile).toBe(answers.profile);

@@ -1,4 +1,4 @@
-import { Utility } from '../../src/classes/utility';
+import { Utility } from '../../../src/classes/utility';
 import * as faker from 'faker';
 
 describe('Utility', () => {

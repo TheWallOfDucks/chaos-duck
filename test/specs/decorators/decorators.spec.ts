@@ -1,5 +1,5 @@
-import { chaosFunctions, chaosFunction } from '../../src/decorators/chaosFunction';
-import { disabled, disabledChaosFunctions } from '../../src/decorators/disabled';
+import { chaosFunctions, chaosFunction } from '../../../src/decorators/chaosFunction';
+import { disabled, disabledChaosFunctions } from '../../../src/decorators/disabled';
 
 describe('Decorators', () => {
     describe('@chaosFunction', () => {
