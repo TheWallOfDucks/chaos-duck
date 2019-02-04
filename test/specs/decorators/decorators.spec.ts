@@ -9,6 +9,11 @@ describe('decorators', () => {
             }
             done();
         });
+
+        it('should allow for multiple chaos functions to be mapped to the same class', async (done) => {
+            expect(chaosFunctions['test'].length).toBe(2);
+            done();
+        });
     });
 
     describe('@disabled', () => {
@@ -16,6 +21,11 @@ describe('decorators', () => {
             expect(disabledChaosFunctions['test']).toBeDefined();
             expect(disabledChaosFunctions['test'][0]).toBe('testFunction');
             expect(chaosFunctions['testFunction']).not.toBeDefined();
+            done();
+        });
+
+        it('should map multiple disabled functions to the same class', async (done) => {
+            expect(disabledChaosFunctions['test'].length).toBe(2);
             done();
         });
     });
@@ -28,5 +38,20 @@ class Test {
     @disabled()
     testFunction() {
         return true;
+    }
+
+    @disabled()
+    testFunction2() {
+        return false;
+    }
+
+    @chaosFunction()
+    testFunction3() {
+        return true || false;
+    }
+
+    @chaosFunction()
+    testFunction4() {
+        return 'true';
     }
 }
