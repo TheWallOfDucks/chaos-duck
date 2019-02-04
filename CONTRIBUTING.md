@@ -18,6 +18,8 @@
 3. Add me to all pull requests: caleb.duckwall@apiture.com
 4. Make sure all `pre-push` hooks are passing. Basically, your code should compile.
 5. Be sure your changes are tested and do not break the project for others.
+    - Be sure to add/update unit tests for any changes
+    - Run `npm test` to confirm everything is passing
 6. All new files added should have a one line description indicating the purpose.
 7. All changes should be commented or clear enough to decipher by looking at the code.
 8. All changes should follow the existing code style (indentation, use of braces, white space, capitalization, variable naming etc.). Do no reformat source code using a different style.

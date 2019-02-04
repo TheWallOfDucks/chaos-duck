@@ -6,7 +6,7 @@ import { failoverRandomDBCluster } from '../../config/mocks/rds/failoverRandomDB
 import { Utility } from '../../../src/classes/utility';
 const sinon = require('sinon');
 
-describe('chaos.ts', () => {
+describe('chaos', () => {
     describe('ec2', () => {
         const chaos = new Chaos(['EC2']);
 

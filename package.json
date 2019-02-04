@@ -15,7 +15,7 @@
     "repository": "https://github.com/TheWallOfDucks/chaos-duck",
     "husky": {
         "hooks": {
-            "pre-push": "npm run build && npm run lint"
+            "pre-push": "npm run build && npm run lint && npm test"
         }
     },
     "keywords": [

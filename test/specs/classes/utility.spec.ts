@@ -1,7 +1,7 @@
 import { Utility } from '../../../src/classes/utility';
 import * as faker from 'faker';
 
-describe('Utility', () => {
+describe('utility', () => {
     describe('convertToLowercase', () => {
         it('should convert all provided values to lower case', (done) => {
             const values = Utility.convertToLowercase([faker.random.word(), faker.random.word(), faker.random.word()]);
@@ -14,6 +14,15 @@ describe('Utility', () => {
                 return str === str.toLowerCase();
             }
 
+            done();
+        });
+    });
+
+    describe('generateRandomNumber', () => {
+        it('should return a number of the desired length', (done) => {
+            const length = faker.random.number(50);
+            const number = Utility.generateRandomNumber(length);
+            expect(number.length).toBe(length);
             done();
         });
     });

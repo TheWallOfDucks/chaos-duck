@@ -15,6 +15,26 @@ export class Utility {
     }
 
     /**
+     * @description Returns a random number based on desired length
+     * @param {number} length
+     * @returns {string}
+     */
+    static generateRandomNumber(length: number): string {
+        const add = 1;
+        let max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
+
+        if (length > max) {
+            return Utility.generateRandomNumber(max) + Utility.generateRandomNumber(length - max);
+        }
+
+        max = Math.pow(10, length + add);
+        const min = max / 10;
+        const number = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        return number.toString().substring(add);
+    }
+
+    /**
      * @description Returns the key in an object based on string value provided
      * @param {string} value
      * @returns {string}
