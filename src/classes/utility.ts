@@ -1,4 +1,5 @@
 import { SupportedServices } from '../config/supportedServices';
+import { InvalidScheduleValue, InvalidScheduleUnit } from '../classes/errors';
 
 /**
  * @description Basic utility functions
@@ -74,11 +75,11 @@ export class Utility {
         const unit = parts[1].toLowerCase();
 
         if (value <= 0) {
-            throw new Error(`Invalid schedule value: "${value}". Value must be greater than 0.`);
+            throw new InvalidScheduleValue(`Invalid schedule value: "${value}". Value must be greater than 0.`);
         }
 
         if (!supportedUnits.includes(unit)) {
-            throw new Error(`Invalid schedule unit: "${unit}". Try one of these instead: ${supportedUnits}.`);
+            throw new InvalidScheduleUnit(`Invalid schedule unit: "${unit}". Try one of these instead: ${supportedUnits}.`);
         }
 
         return true;

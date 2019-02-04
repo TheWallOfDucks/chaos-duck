@@ -11,3 +11,17 @@ export class ChaosFunctionNotFound extends Error {
         Error.captureStackTrace(this, ChaosFunctionNotFound);
     }
 }
+
+export class InvalidScheduleValue extends Error {
+    constructor(...args) {
+        super(...args);
+        Error.captureStackTrace(this, ChaosFunctionNotFound);
+    }
+}
+
+export class InvalidScheduleUnit extends Error {
+    constructor(...args) {
+        super(...args);
+        Error.captureStackTrace(this, ChaosFunctionNotFound);
+    }
+}
