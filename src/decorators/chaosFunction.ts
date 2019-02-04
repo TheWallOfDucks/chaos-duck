@@ -9,8 +9,12 @@ export function chaosFunction() {
         const className = target['constructor'].name.toLowerCase();
 
         if (disabledChaosFunctions[className]) {
-            if (disabledChaosFunctions[className].includes(key)) {
-                return;
+            if (disabledChaosFunctions[className].indexOf(key) === -1) {
+                if (!chaosFunctions[className]) {
+                    chaosFunctions[className] = [key];
+                } else {
+                    chaosFunctions[className].push(key);
+                }
             }
         } else if (!chaosFunctions[className]) {
             chaosFunctions[className] = [key];
