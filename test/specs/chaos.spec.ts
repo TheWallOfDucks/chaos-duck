@@ -2,6 +2,8 @@ import { Chaos } from '../../src/classes/chaos';
 import { stopRandomTask } from '../config/mocks/ecs/stopRandomTask';
 import { stopRandomEC2Instance } from '../config/mocks/ec2/stopRandomEC2Instance';
 import { failoverElasticache } from '../config/mocks/elasticache/failoverElasticache';
+import { failoverRandomDBCluster } from '../config/mocks/rds/failoverRandomDBCluster';
+import { Utility } from '../../src/classes/utility';
 const sinon = require('sinon');
 
 describe('chaos.ts', () => {
@@ -10,6 +12,7 @@ describe('chaos.ts', () => {
 
         it('should be instantiated', () => {
             expect(chaos.ec2).toBeDefined();
+            expect(chaos.services).toEqual(['EC2']);
         });
 
         describe('stopRandomEC2Instance', () => {
@@ -36,6 +39,7 @@ describe('chaos.ts', () => {
 
         it('should be instantiated', () => {
             expect(chaos.ecs).toBeDefined();
+            expect(chaos.services).toEqual(['ECS']);
         });
 
         describe('stopRandomTask', () => {
@@ -62,6 +66,7 @@ describe('chaos.ts', () => {
 
         it('should be instantiated', () => {
             expect(chaos.elasticache).toBeDefined();
+            expect(chaos.services).toEqual(['ElastiCache']);
         });
 
         describe('failoverElasticache', () => {
@@ -73,7 +78,7 @@ describe('chaos.ts', () => {
                 this.invoke.restore();
             });
 
-            it('should stop a random ECS task', async (done) => {
+            it('should failover ElastiCache', async (done) => {
                 const response = await chaos.invoke();
                 expect(response.service).toBe('elasticache');
                 expect(response.action).toBe('failoverElasticache');
@@ -83,8 +88,115 @@ describe('chaos.ts', () => {
         });
     });
 
-    describe('ServiceNotFound', () => {
+    describe('iam', () => {
+        const chaos = new Chaos(['IAM']);
+
+        it('should be instantiated', () => {
+            expect(chaos.iam).toBeDefined();
+            expect(chaos.services).toEqual(['IAM']);
+        });
+
+        it('should return ChaosFunctionNotFound error until a @chaosFunction is added', async (done) => {
+            try {
+                const response = await chaos.invoke();
+                expect(response.result).toBe('Confirm that IAM service has at least one function decorated with @chaosFunction()');
+            } catch (error) {
+                fail(error);
+            }
+            done();
+        });
+    });
+
+    describe('rds', () => {
+        const chaos = new Chaos(['RDS']);
+
+        it('should be instantiated', () => {
+            expect(chaos.rds).toBeDefined();
+            expect(chaos.services).toEqual(['RDS']);
+        });
+
+        describe('failoverRandomDBCluster', () => {
+            beforeEach(() => {
+                this.invoke = sinon.stub(chaos, 'invoke').returns(failoverRandomDBCluster);
+            });
+
+            afterEach(() => {
+                this.invoke.restore();
+            });
+
+            it('should failover a random RDS cluster', async (done) => {
+                const response = await chaos.invoke();
+                expect(response.service).toBe('rds');
+                expect(response.action).toBe('failoverRandomDBCluster');
+                expect(response.result.DBCluster).toBeDefined();
+                done();
+            });
+        });
+    });
+
+    describe('s3', () => {
+        const chaos = new Chaos(['S3']);
+
+        it('should be instantiated', () => {
+            expect(chaos.s3).toBeDefined();
+            expect(chaos.services).toEqual(['S3']);
+        });
+
+        it('should return ChaosFunctionNotFound error until a @chaosFunction is added', async (done) => {
+            try {
+                const response = await chaos.invoke();
+                expect(response.result).toBe('Confirm that S3 service has at least one function decorated with @chaosFunction()');
+            } catch (error) {
+                fail(error);
+            }
+            done();
+        });
+    });
+
+    describe('ses', () => {
+        const chaos = new Chaos(['SES']);
+
+        it('should be instantiated', () => {
+            expect(chaos.ses).toBeDefined();
+            expect(chaos.services).toEqual(['SES']);
+        });
+
+        it('should return ChaosFunctionNotFound error until a @chaosFunction is added', async (done) => {
+            try {
+                const response = await chaos.invoke();
+                expect(response.result).toBe('Confirm that SES service has at least one function decorated with @chaosFunction()');
+            } catch (error) {
+                fail(error);
+            }
+            done();
+        });
+    });
+
+    describe('sts', () => {
+        const chaos = new Chaos(['STS']);
+
+        it('should be instantiated', () => {
+            expect(chaos.sts).toBeDefined();
+            expect(chaos.services).toEqual(['STS']);
+        });
+
+        it('should return ChaosFunctionNotFound error until a @chaosFunction is added', async (done) => {
+            try {
+                const response = await chaos.invoke();
+                expect(response.result).toBe('Confirm that STS service has at least one function decorated with @chaosFunction()');
+            } catch (error) {
+                fail(error);
+            }
+            done();
+        });
+    });
+
+    describe('unknown service', () => {
         const chaos = new Chaos([]);
+
+        it('should be instantiated', () => {
+            expect(chaos.services).toEqual([]);
+        });
 
         it('should return a ServiceNotFound error', async (done) => {
             try {
@@ -97,16 +209,26 @@ describe('chaos.ts', () => {
         });
     });
 
-    describe('ChaosFunctionNotFound', () => {
-        const chaos = new Chaos(['IAM']);
+    describe('multiple services', () => {
+        const chaos = new Chaos(['ECS', 'RDS', 'ElastiCache']);
 
-        it('should return a ChaosFunctionNotFound error', async (done) => {
-            try {
-                const response = await chaos.invoke();
-                expect(response.result).toBe('Provide a valid array of services to unleash chaos on');
-            } catch (error) {
-                fail(error);
-            }
+        beforeEach(() => {
+            const possibleResponses = [stopRandomTask, failoverRandomDBCluster, failoverElasticache];
+            this.invoke = sinon.stub(chaos, 'invoke').returns(Utility.getRandom(possibleResponses));
+        });
+
+        afterEach(() => {
+            this.invoke.restore();
+        });
+
+        it('should be instantiated', () => {
+            expect(chaos.ecs && chaos.rds && chaos.elasticache).toBeDefined();
+            expect(chaos.services).toEqual(['ECS', 'RDS', 'ElastiCache']);
+        });
+
+        it('should execute a chaosFunction on a random service', async (done) => {
+            const response = await chaos.invoke();
+            expect(['ecs', 'rds', 'elasticache'].includes(response.service)).toBeTruthy();
             done();
         });
     });
