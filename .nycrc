@@ -6,7 +6,7 @@
     "include": [
       "lib/src"
     ],
-    "exclude": ["lib/src/bin", "lib/src/services", "lib/src/config"],
+    "exclude": ["lib/src/cmd", "lib/src/services", "lib/src/config"],
     "reporter": [
       "text",
       "text-summary",

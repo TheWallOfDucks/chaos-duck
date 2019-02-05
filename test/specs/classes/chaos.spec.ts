@@ -18,14 +18,17 @@ describe('chaos', () => {
         describe('stopRandomEC2Instance', () => {
             beforeEach(() => {
                 this.invoke = sinon.stub(chaos, 'invoke').returns(stopRandomEC2Instance);
+                this.service = sinon.stub(chaos, 'service').value('EC2');
             });
 
             afterEach(() => {
                 this.invoke.restore();
+                this.service.restore();
             });
 
             it('should stop a random EC2 instance', async (done) => {
                 const response = await chaos.invoke();
+                expect(chaos.service).toBe('EC2');
                 expect(response.service).toBe('ec2');
                 expect(response.action).toBe('stopRandomEC2Instance');
                 expect(response.result.StoppingInstances).toBeDefined();
@@ -45,14 +48,17 @@ describe('chaos', () => {
         describe('stopRandomTask', () => {
             beforeEach(() => {
                 this.invoke = sinon.stub(chaos, 'invoke').returns(stopRandomTask);
+                this.service = sinon.stub(chaos, 'service').value('ECS');
             });
 
             afterEach(() => {
                 this.invoke.restore();
+                this.service.restore();
             });
 
             it('should stop a random ECS task', async (done) => {
                 const response = await chaos.invoke();
+                expect(chaos.service).toBe('ECS');
                 expect(response.service).toBe('ecs');
                 expect(response.action).toBe('stopRandomECSTask');
                 expect(response.result.task).toBeDefined();
@@ -164,6 +170,8 @@ describe('chaos', () => {
         it('should return ChaosFunctionNotFound error until a @chaosFunction is added', async (done) => {
             try {
                 const response = await chaos.invoke();
+                expect(chaos.service).toBe('SES');
+                expect(chaos.chaosFunction).not.toBeDefined();
                 expect(response.result).toBe('Confirm that SES service has at least one function decorated with @chaosFunction()');
             } catch (error) {
                 fail(error);
@@ -183,6 +191,8 @@ describe('chaos', () => {
         it('should return ChaosFunctionNotFound error until a @chaosFunction is added', async (done) => {
             try {
                 const response = await chaos.invoke();
+                expect(chaos.service).toBe('STS');
+                expect(chaos.chaosFunction).not.toBeDefined();
                 expect(response.result).toBe('Confirm that STS service has at least one function decorated with @chaosFunction()');
             } catch (error) {
                 fail(error);
