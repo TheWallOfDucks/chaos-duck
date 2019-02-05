@@ -25,3 +25,17 @@ export class InvalidScheduleUnit extends Error {
         Error.captureStackTrace(this, ChaosFunctionNotFound);
     }
 }
+
+export class InvalidUrl extends Error {
+    constructor(...args) {
+        super(...args);
+        Error.captureStackTrace(this, ChaosFunctionNotFound);
+    }
+}
+
+export class InvalidServices extends Error {
+    constructor(...args) {
+        super(...args);
+        Error.captureStackTrace(this, ChaosFunctionNotFound);
+    }
+}
