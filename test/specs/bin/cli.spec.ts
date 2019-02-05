@@ -1,15 +1,14 @@
 import * as faker from 'faker';
 import { Utility } from '../../../src/classes/utility';
 
-const cmd = require('../../helpers/cmd');
-const { ENTER } = require('../../helpers/cmd');
+import { executeWithInput, ENTER } from '../../helpers/cmd';
 const info = require('../../../../package.json');
 
 describe('chaos-duck', () => {
     describe('--version', () => {
         it('should return the correct version', async (done) => {
             try {
-                const version = await cmd.executeWithInput('lib/src/bin/index.js', ['--version']);
+                const version = await executeWithInput('lib/src/cmd/index.js', ['--version']);
                 expect(version.trim()).toBe(info.version);
             } catch (error) {
                 fail(error);
@@ -32,8 +31,8 @@ describe('chaos-duck', () => {
                     notifications: 'No',
                     services: 'ECS',
                 };
-                await cmd.executeWithInput(
-                    'lib/src/bin/index.js',
+                await executeWithInput(
+                    'lib/src/cmd/index.js',
                     ['config'],
                     [
                         answers.role,

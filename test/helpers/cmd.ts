@@ -1,132 +1,78 @@
-/**
- * Integration test helper
- * Author: Andrés Zorro <zorrodg@gmail.com>
- */
-
 const { existsSync } = require('fs');
 const { constants } = require('os');
-const spawn = require('cross-spawn');
+const { spawn } = require('child_process');
 const concat = require('concat-stream');
 const PATH = process.env.PATH;
 
-/**
- * Creates a child process with script path
- * @param {string} processPath Path of the process to execute
- * @param {Array} args Arguments to the command
- * @param {Object} env (optional) Environment variables
- */
-function createProcess(processPath, args = [], env = null) {
-    // Ensure that path exists
-    if (!processPath || !existsSync(processPath)) {
-        throw new Error('Invalid process path');
+const DOWN = '\x1B\x5B\x42';
+const UP = '\x1B\x5B\x41';
+const ENTER = '\x0D';
+const SPACE = '\x20';
+
+function spawnProcess(path: string, args = [], env = null) {
+    if (!path || !existsSync(path)) {
+        throw new Error(`Invalid process path: ${path}`);
     }
 
-    args = [processPath].concat(args);
+    const fullArgs = [path].concat(args);
 
-    // This works for node based CLIs, but can easily be adjusted to
-    // any other process installed in the system
-    return spawn('node', args, {
+    return spawn('node', fullArgs, {
         env: Object.assign(
             {
                 NODE_ENV: 'test',
                 preventAutoStart: false,
-                PATH, // This is needed in order to get all the binaries in your current terminal
+                PATH,
             },
             env,
         ),
-        stdio: [null, null, null, 'ipc'], // This enables interprocess communication (IPC)
+        stdio: [null, null, null, 'ipc'],
     });
 }
 
-/**
- * Creates a command and executes inputs (user responses) to the stdin
- * Returns a promise that resolves when all inputs are sent
- * Rejects the promise if any error
- * @param {string} processPath Path of the process to execute
- * @param {Array} args Arguments to the command
- * @param {Array} inputs (Optional) Array of inputs (user responses)
- * @param {Object} opts (optional) Environment variables
- */
-function executeWithInput(processPath, args = [], inputs = [], opts: any = {}) {
-    if (!Array.isArray(inputs)) {
-        opts = inputs;
-        inputs = [];
-    }
+function executeWithInput(path: string, args: string[] = [], inputs: string[] = [], options: any = {}) {
+    const { env = null, timeout = 100, maxTimeout = 10000 } = options;
+    const process = spawnProcess(path, args, env);
+    let inputTimeout;
+    let killTimeout;
+    process.stdin.setEncoding('utf-8');
 
-    const { env = null, timeout = 100, maxTimeout = 10000 } = opts;
-    const childProcess = createProcess(processPath, args, env);
-    childProcess.stdin.setEncoding('utf-8');
+    const input = (inputs) => {
+        if (inputs.length === 0) {
+            process.stdin.end();
 
-    let currentInputTimeout;
-    let killIOTimeout;
-
-    // Creates a loop to feed user inputs to the child process in order to get results from the tool
-    // This code is heavily inspired (if not blantantly copied) from inquirer-test:
-    // https://github.com/ewnd9/inquirer-test/blob/6e2c40bbd39a061d3e52a8b1ee52cdac88f8d7f7/index.js#L14
-    const loop = (inputs) => {
-        if (killIOTimeout) {
-            clearTimeout(killIOTimeout);
-        }
-
-        if (!inputs.length) {
-            childProcess.stdin.end();
-
-            // Set a timeout to wait for CLI response. If CLI takes longer than
-            // maxTimeout to respond, kill the childProcess and notify user
-            killIOTimeout = setTimeout(() => {
+            killTimeout = setTimeout(() => {
                 console.error('Error: Reached I/O timeout');
-                childProcess.kill(constants.signals.SIGTERM);
+                process.kill(constants.signals.SIGTERM);
             }, maxTimeout);
 
             return;
         }
 
-        currentInputTimeout = setTimeout(() => {
-            childProcess.stdin.write(inputs[0]);
-            // Log debug I/O statements on tests
-            if (env && env.DEBUG) {
-                console.log('input:', inputs[0]);
-            }
-            loop(inputs.slice(1));
+        inputTimeout = setTimeout(() => {
+            process.stdin.write(inputs[0]);
+            input(inputs.slice(1));
         }, timeout);
     };
 
     const promise: any = new Promise((resolve, reject) => {
-        // Get errors from CLI
-        childProcess.stderr.on('data', (data) => {
-            // Log debug I/O statements on tests
-            if (env && env.DEBUG) {
-                console.log('error:', data.toString());
-            }
-        });
+        process.stderr.once('data', (err) => {
+            process.stdin.end();
 
-        // Get output from CLI
-        childProcess.stdout.on('data', (data) => {
-            // Log debug I/O statements on tests
-            if (env && env.DEBUG) {
-                console.log('output:', data.toString());
-            }
-        });
-
-        childProcess.stderr.once('data', (err) => {
-            childProcess.stdin.end();
-
-            if (currentInputTimeout) {
-                clearTimeout(currentInputTimeout);
+            if (inputTimeout) {
+                clearTimeout(inputTimeout);
                 inputs = [];
             }
             reject(err.toString());
         });
 
-        childProcess.on('error', reject);
+        process.on('error', reject);
 
-        // Kick off the process
-        loop(inputs);
+        input(inputs);
 
-        childProcess.stdout.pipe(
+        process.stdout.pipe(
             concat((result) => {
-                if (killIOTimeout) {
-                    clearTimeout(killIOTimeout);
+                if (killTimeout) {
+                    clearTimeout(killTimeout);
                 }
 
                 resolve(result.toString());
@@ -134,18 +80,8 @@ function executeWithInput(processPath, args = [], inputs = [], opts: any = {}) {
         );
     });
 
-    // Appending the process to the promise, in order to
-    // add additional parameters or behavior (such as IPC communication)
-    promise.attachedProcess = childProcess;
-
+    promise.attachedProcess = process;
     return promise;
 }
 
-module.exports = {
-    createProcess,
-    executeWithInput,
-    DOWN: '\x1B\x5B\x42',
-    UP: '\x1B\x5B\x41',
-    ENTER: '\x0D',
-    SPACE: '\x20',
-};
+export { spawnProcess, executeWithInput, DOWN, UP, ENTER, SPACE };

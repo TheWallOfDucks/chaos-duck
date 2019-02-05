@@ -2,7 +2,7 @@
     "name": "chaos-duck",
     "version": "1.0.0",
     "description": "Chaos Duck is a tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
-    "bin": "lib/src/bin/index.js",
+    "bin": "lib/src/cmd/index.js",
     "preferGlobal": true,
     "scripts": {
         "build": "rm -rf lib && tsc",
