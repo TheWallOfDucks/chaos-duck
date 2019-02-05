@@ -1,3 +1,4 @@
+// https://medium.com/@zorrodg/integration-tests-on-node-js-cli-part-2-testing-interaction-user-input-6f345d4b713a
 const { existsSync } = require('fs');
 const { constants } = require('os');
 const { spawn } = require('child_process');
@@ -55,6 +56,7 @@ function executeWithInput(path: string, args: string[] = [], inputs: string[] = 
     };
 
     const promise: any = new Promise((resolve, reject) => {
+        // If an error is received from child process, empty all remaining inputs and reject promise
         process.stderr.once('data', (err) => {
             process.stdin.end();
 
@@ -67,6 +69,7 @@ function executeWithInput(path: string, args: string[] = [], inputs: string[] = 
 
         process.on('error', reject);
 
+        // Send inputs to child process
         input(inputs);
 
         process.stdout.pipe(
@@ -80,6 +83,7 @@ function executeWithInput(path: string, args: string[] = [], inputs: string[] = 
         );
     });
 
+    // Attach child process to promise before returning it
     promise.attachedProcess = process;
     return promise;
 }
