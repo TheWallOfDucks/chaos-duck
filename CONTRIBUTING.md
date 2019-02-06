@@ -28,7 +28,7 @@
 
 ## Reporting a Bug
 
--   If reporting a security bug, [email me directly](mailto:caleb.duckwall@apiture.com)
+-   If reporting a security bug, [email me directly](mailto:calebduckwall@gmail.com)
 -   If not reporting a security bug, make sure you provide the following information in your bug report:
     -   What version of Node are you using?
     -   What version of TypeScript are you using?
