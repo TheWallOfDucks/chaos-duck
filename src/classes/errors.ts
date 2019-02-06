@@ -15,27 +15,27 @@ export class ChaosFunctionNotFound extends Error {
 export class InvalidScheduleValue extends Error {
     constructor(...args) {
         super(...args);
-        Error.captureStackTrace(this, ChaosFunctionNotFound);
+        Error.captureStackTrace(this, InvalidScheduleValue);
     }
 }
 
 export class InvalidScheduleUnit extends Error {
     constructor(...args) {
         super(...args);
-        Error.captureStackTrace(this, ChaosFunctionNotFound);
+        Error.captureStackTrace(this, InvalidScheduleUnit);
     }
 }
 
 export class InvalidUrl extends Error {
     constructor(...args) {
         super(...args);
-        Error.captureStackTrace(this, ChaosFunctionNotFound);
+        Error.captureStackTrace(this, InvalidUrl);
     }
 }
 
 export class InvalidServices extends Error {
     constructor(...args) {
         super(...args);
-        Error.captureStackTrace(this, ChaosFunctionNotFound);
+        Error.captureStackTrace(this, InvalidServices);
     }
 }
