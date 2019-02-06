@@ -8,8 +8,8 @@ export const invoke = async (cmd: any) => {
         const config = cmd.config || 'duck.json';
 
         if (cmd.url || cmd.services) {
-            if (!cmd.url) throw new InvalidUrl('Invalid url provided');
-            if (!cmd.services) throw new InvalidServices('Invalid list of services provided');
+            if (!cmd.url) throw new InvalidUrl('Invalid url provided 🦆');
+            if (!cmd.services) throw new InvalidServices('Invalid list of services provided 🦆');
             chaosUrl = cmd.url;
             services = cmd.services.replace(' ', '');
         } else {

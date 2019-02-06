@@ -61,7 +61,6 @@ duck.command('deploy')
     .option('-s, --stage <stage>', 'AWS deployment stage')
     .option('--slackWebhookUrl <slackWebhookUrl>', 'The URL to post slack messages to')
     .description('Deploy Chaos Duck')
-    .allowUnknownOption()
     .action(async (cmd) => {
         try {
             await deploy(cmd);
@@ -79,7 +78,6 @@ duck.command('invoke')
     .option('-u, --url <url>', 'URL of chaos endpoint')
     .option('-s, --services <services>', 'Comma separated list of')
     .description('Unleash Chaos Duck')
-    .allowUnknownOption()
     .action(async (cmd) => {
         try {
             const response = await invoke(cmd);
@@ -101,7 +99,6 @@ duck.command('undeploy')
     .option('-p, --profile <profile>', 'AWS profile')
     .option('-s, --stage <stage>', 'AWS deployment stage')
     .description('Undeploy Chaos Duck')
-    .allowUnknownOption()
     .action(async (cmd) => {
         try {
             await undeploy(cmd);
