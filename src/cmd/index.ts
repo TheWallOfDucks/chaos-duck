@@ -12,34 +12,40 @@ import { undeploy } from './undeploy';
 const colors = require('colors');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const info = require('../../../package.json');
+const info = require(`${process.cwd()}/package.json`);
 
-duck.version(info.version, '-v, --version').description('Chaos Duck 🦆');
+duck.version(info.version, '--version').description('Chaos Duck 🦆');
 
 /**
  * @description Config command
  */
 duck.command('config')
     .alias('c')
+    .option('-v, --view', 'View your duck.json config file')
     .description('Setup Chaos Duck')
-    .action(() => {
+    .action((cmd) => {
         try {
-            inquirer.prompt(prompts).then((config) => {
-                const duckConfig: IDuckConfig = {
-                    account: config.account,
-                    emailFrom: config.emailFrom,
-                    emailTo: config.emailTo,
-                    environment: config.environment,
-                    profile: config.profile,
-                    role: config.role,
-                    schedule: config.schedule,
-                    services: config.services.replace(/\s+/g, ''),
-                    slackWebhookUrl: config.slackWebhookUrl,
-                    stage: config.stage,
-                };
-                fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(duckConfig, null, 4));
-                console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json 🦆`));
-            });
+            if (cmd.view) {
+                const config = require(`${process.cwd()}/duck.json`);
+                console.log(JSON.stringify(config, null, 2));
+            } else {
+                inquirer.prompt(prompts).then((config) => {
+                    const duckConfig: IDuckConfig = {
+                        account: config.account,
+                        emailFrom: config.emailFrom,
+                        emailTo: config.emailTo,
+                        environment: config.environment,
+                        profile: config.profile,
+                        role: config.role,
+                        schedule: config.schedule,
+                        services: config.services.replace(/\s+/g, ''),
+                        slackWebhookUrl: config.slackWebhookUrl,
+                        stage: config.stage,
+                    };
+                    fs.writeFileSync(`${process.cwd()}/duck.json`, JSON.stringify(duckConfig, null, 4));
+                    console.log(colors.green(`Wrote your duck.json file to ${process.cwd()}/duck.json 🦆`));
+                });
+            }
         } catch (error) {
             console.error(colors.red(error));
         }
