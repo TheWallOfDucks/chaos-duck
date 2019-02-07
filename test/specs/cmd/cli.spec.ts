@@ -5,6 +5,12 @@ import { executeWithInput, ENTER } from '../../helpers/cmd';
 const info = require('../../../../package.json');
 
 describe('chaos-duck', () => {
+    beforeAll(() => {
+        delete process.env.SLACK_WEBHOOK_URL;
+        delete process.env.EMAIL_TO;
+        delete process.env.EMAIL_FROM;
+    });
+
     describe('--version', () => {
         it('should return the correct version', async (done) => {
             try {

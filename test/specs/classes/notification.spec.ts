@@ -1,11 +1,8 @@
 import { Notification } from '../../../src/classes/notification';
 import { stopRandomTask } from '../../helpers/mocks/ecs/stopRandomTask';
-import { Slack } from '../../../src/notification_providers/slack';
 import { Utility } from '../../../src/classes/utility';
+import { Slack } from '../../../src/notification_providers/slack';
 import * as faker from 'faker';
-import { Email } from '../../../src/notification_providers/email';
-import { sendEmail } from '../../helpers/mocks/ses/sendEmail';
-import { SES } from '../../../src/services/ses';
 const sinon = require('sinon');
 
 describe('notification', () => {
@@ -146,49 +143,57 @@ describe('notification', () => {
         it('should not attempt to send a message if notifications are not enabled', (done) => {
             const notification = new Notification();
             const buildMessage = sinon.spy(notification, 'buildMessage');
-            const slack = sinon.spy(notification, 'slack', ['get']);
             const environment = faker.random.word();
             const uploadLocation = 'https://www.google.com';
+            const slack = sinon.spy(notification, 'slack', ['get']);
 
             notification.send(stopRandomTask, environment, uploadLocation);
 
             expect(notification.enabled).toBeFalsy();
             expect(buildMessage.called).toBeFalsy();
             expect(slack.called).toBeFalsy();
+            slack.restore();
             done();
         });
 
-        it('should attempt to send a slack notification', (done) => {
+        it('should attempt to send a slack notification', async (done) => {
             process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
             const notification = new Notification();
-            const buildMessage = sinon.spy(notification, 'buildMessage');
             const environment = faker.random.word();
             const uploadLocation = 'https://www.google.com';
+            const buildMessage = sinon.spy(notification, 'buildMessage');
+            notification.send = sinon.stub().callsFake(async () => {
+                notification['enabled'] = true;
+                await notification['buildMessage']('slack', stopRandomTask, environment, uploadLocation);
+            });
 
-            notification.send(stopRandomTask, environment, uploadLocation, false);
-
+            await notification.send(stopRandomTask, environment, uploadLocation, false);
             expect(notification.enabled).toBeTruthy();
             expect(buildMessage.called).toBeTruthy();
             expect(buildMessage.calledOnceWith('slack', stopRandomTask, environment, uploadLocation)).toBeTruthy();
+            buildMessage.restore();
             done();
         });
 
-        it('should attempt to send an email notification', (done) => {
+        it('should attempt to send an email notification', async (done) => {
             const emailFrom = faker.internet.email();
             const emailTo = faker.internet.email();
             process.env.EMAIL_FROM = emailFrom;
             process.env.EMAIL_TO = emailTo;
             const notification = new Notification();
-            const buildMessage = sinon.spy(notification, 'buildMessage');
             const environment = faker.random.word();
             const uploadLocation = 'https://www.google.com';
-            this.send = sinon.stub(notification, 'send');
+            const buildMessage = sinon.spy(notification, 'buildMessage');
+            notification.send = sinon.stub().callsFake(async () => {
+                notification['enabled'] = true;
+                await notification['buildMessage']('email', stopRandomTask, environment, uploadLocation);
+            });
 
-            notification.send(stopRandomTask, environment, uploadLocation, false);
+            await notification.send(stopRandomTask, environment, uploadLocation, false);
 
             expect(notification.enabled).toBeTruthy();
-            // expect(buildMessage.called).toBeTruthy();
-            // expect(buildMessage.calledOnceWith('email', stopRandomTask, environment, uploadLocation)).toBeTruthy();
+            expect(buildMessage.called).toBeTruthy();
+            expect(buildMessage.calledOnceWith('email', stopRandomTask, environment, uploadLocation)).toBeTruthy();
             done();
         });
     });

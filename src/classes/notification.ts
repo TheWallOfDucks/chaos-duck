@@ -36,7 +36,7 @@ export class Notification {
         this._enabled = value;
     }
 
-    private buildMessage(method, data, environment?: string, uploadLocation?: string) {
+    buildMessage(method, data, environment?: string, uploadLocation?: string) {
         switch (method) {
             case 'slack':
                 return this.slack.buildMessage(data, environment, uploadLocation);
