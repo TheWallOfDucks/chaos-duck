@@ -196,5 +196,20 @@ describe('notification', () => {
             expect(buildMessage.calledOnceWith('email', stopRandomTask, environment, uploadLocation)).toBeTruthy();
             done();
         });
+
+        it('should return an error if an invalid webhook url is provided', async (done) => {
+            process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
+            const notification = new Notification();
+            const environment = faker.random.word();
+            const uploadLocation = 'https://www.google.com';
+
+            try {
+                await notification.send(stopRandomTask, environment, uploadLocation, false);
+            } catch (error) {
+                expect(error.message).toBe('Error: Error: Request failed with status code 404');
+            }
+
+            done();
+        });
     });
 });
