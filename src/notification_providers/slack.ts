@@ -1,33 +1,40 @@
 import axios from 'axios';
 import { Utility } from '../classes/utility';
+import { InvalidUrl } from '../classes/errors';
 
 /**
  * @description This is the main interface for building and posting slack messages
  */
 export class Slack {
-    private _template = {
-        attachments: [
-            {
-                fallback: 'Chaos Duck has been unleashed',
-                color: '#36a64f',
-                pretext: 'Chaos Duck has been unleashed',
-                author_name: 'Chaos Duck',
-                author_icon: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/155/duck_1f986.png',
-                title: '',
-                text: 'Please see information about the chaos below:',
-                fields: [],
-                actions: [],
-            },
-        ],
-    };
+    private _template;
 
-    constructor() {}
+    constructor() {
+        this.template = {
+            attachments: [
+                {
+                    fallback: 'Chaos Duck has been unleashed',
+                    color: '#36a64f',
+                    pretext: 'Chaos Duck has been unleashed',
+                    author_name: 'Chaos Duck',
+                    author_icon: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/155/duck_1f986.png',
+                    title: '',
+                    text: 'Please see information about the chaos below:',
+                    fields: [],
+                    actions: [],
+                },
+            ],
+        };
+    }
 
-    private get template() {
+    get template() {
         return this._template;
     }
 
-    buildMessage(data: any, environment?: string, uploadLocation?: string) {
+    set template(value: any) {
+        this._template = value;
+    }
+
+    buildMessage(data: any, environment: string, uploadLocation: string) {
         const service = Utility.getServiceByValue(data.service);
         this.template.attachments[0].title = `The chosen service is: ${service}`;
         this.template.attachments[0].fields = [
@@ -57,6 +64,8 @@ export class Slack {
 
     async send(data: any) {
         const url = process.env.SLACK_WEBHOOK_URL;
+        if (!Utility.validateUrl(url)) throw new InvalidUrl(`${url} is not a valid url`);
+
         try {
             const request = axios.post(url, JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
             await request;
