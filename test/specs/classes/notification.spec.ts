@@ -196,5 +196,46 @@ describe('notification', () => {
             expect(buildMessage.calledOnceWith('email', stopRandomTask, environment, uploadLocation)).toBeTruthy();
             done();
         });
+
+        it('should attempt to send an email and a slack notification', async (done) => {
+            const emailFrom = faker.internet.email();
+            const emailTo = faker.internet.email();
+            process.env.EMAIL_FROM = emailFrom;
+            process.env.EMAIL_TO = emailTo;
+            process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
+            const notification = new Notification();
+            const environment = faker.random.word();
+            const uploadLocation = 'https://www.google.com';
+            const buildMessage = sinon.spy(notification, 'buildMessage');
+
+            notification.send = sinon.stub().callsFake(async () => {
+                notification['enabled'] = true;
+                await notification['buildMessage']('slack', stopRandomTask, environment, uploadLocation);
+                await notification['buildMessage']('email', stopRandomTask, environment, uploadLocation);
+            });
+
+            await notification.send(stopRandomTask, environment, uploadLocation, false);
+
+            expect(notification.enabled).toBeTruthy();
+            expect(buildMessage.callCount).toBe(2);
+            expect(buildMessage.calledWith('slack', stopRandomTask, environment, uploadLocation)).toBeTruthy();
+            expect(buildMessage.calledWith('email', stopRandomTask, environment, uploadLocation)).toBeTruthy();
+            done();
+        });
+
+        it('should return an error if an invalid webhook url is provided', async (done) => {
+            process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
+            const notification = new Notification();
+            const environment = faker.random.word();
+            const uploadLocation = 'https://www.google.com';
+
+            try {
+                await notification.send(stopRandomTask, environment, uploadLocation, false);
+            } catch (error) {
+                expect(error.message).toBe('Error: Error: Request failed with status code 404');
+            }
+
+            done();
+        });
     });
 });
