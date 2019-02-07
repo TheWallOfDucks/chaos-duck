@@ -39,3 +39,17 @@ export class InvalidServices extends Error {
         Error.captureStackTrace(this, InvalidServices);
     }
 }
+
+export class InvalidEmail extends Error {
+    constructor(...args) {
+        super(...args);
+        Error.captureStackTrace(this, InvalidEmail);
+    }
+}
+
+export class InvalidNotificationMethod extends Error {
+    constructor(...args) {
+        super(...args);
+        Error.captureStackTrace(this, InvalidNotificationMethod);
+    }
+}

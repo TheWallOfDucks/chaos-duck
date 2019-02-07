@@ -77,7 +77,6 @@ function executeWithInput(path: string, args: string[] = [], inputs: string[] = 
                 if (killTimeout) {
                     clearTimeout(killTimeout);
                 }
-
                 resolve(result.toString());
             }),
         );
