@@ -31,6 +31,12 @@ export class Utility {
         const min = max / 10;
         const number = Math.floor(Math.random() * (max - min + 1)) + min;
 
+        // @todo this is a hack
+        // There's something up with leading/trailing 0's that needs to be looked into.
+        if (number.toString().substring(add).length !== length) {
+            return this.generateRandomNumber(length);
+        }
+
         return number.toString().substring(add);
     }
 

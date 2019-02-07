@@ -1,7 +1,6 @@
 import { Notification } from '../../../src/classes/notification';
 import { stopRandomTask } from '../../helpers/mocks/ecs/stopRandomTask';
 import { Utility } from '../../../src/classes/utility';
-import { Slack } from '../../../src/notification_providers/slack';
 import * as faker from 'faker';
 const sinon = require('sinon');
 
