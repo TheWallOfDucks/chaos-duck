@@ -46,3 +46,10 @@ export class InvalidEmail extends Error {
         Error.captureStackTrace(this, InvalidEmail);
     }
 }
+
+export class InvalidNotificationMethod extends Error {
+    constructor(...args) {
+        super(...args);
+        Error.captureStackTrace(this, InvalidNotificationMethod);
+    }
+}
