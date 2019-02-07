@@ -1,5 +1,5 @@
 import { SupportedServices } from '../config/supportedServices';
-import { InvalidScheduleValue, InvalidScheduleUnit } from '../classes/errors';
+import { InvalidScheduleValue, InvalidScheduleUnit, InvalidUrl } from '../classes/errors';
 
 /**
  * @description Basic utility functions
@@ -103,5 +103,23 @@ export class Utility {
         }
 
         return true;
+    }
+
+    /**
+     * @description Validates whether a given string is a url or not
+     * @param {string} url
+     * @returns {boolean}
+     */
+    static validateUrl(url: string) {
+        const pattern = new RegExp(
+            '^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+                '(\\#[-a-z\\d_]*)?$',
+            'i',
+        ); // fragment locator
+        return pattern.test(url);
     }
 }

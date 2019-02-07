@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { InvalidUrl, InvalidServices } from '../classes/errors';
+import { Utility } from '../classes/utility';
 
 export const invoke = async (cmd: any) => {
     try {
@@ -8,7 +9,7 @@ export const invoke = async (cmd: any) => {
         const config = cmd.config || 'duck.json';
 
         if (cmd.url || cmd.services) {
-            if (!cmd.url) throw new InvalidUrl('Invalid url provided 🦆');
+            if (!Utility.validateUrl(cmd.url)) throw new InvalidUrl('Invalid url provided 🦆');
             if (!cmd.services) throw new InvalidServices('Invalid list of services provided 🦆');
             chaosUrl = cmd.url;
             services = cmd.services.replace(' ', '');
