@@ -266,5 +266,15 @@ describe('chaos', () => {
             expect(this.log.calledWith('The chosen service is: ecs')).toBeTruthy();
             done();
         });
+
+        it('should suppress console logs', async (done) => {
+            const response = await chaos.invoke(false);
+            expect(response.service).toBe('ecs');
+            expect(response.result).toBe('ConfigError: Missing region in config');
+            expect(this.getRandom.calledTwice).toBeTruthy();
+            expect(this.getRandom.calledWith(['ecs'])).toBeTruthy();
+            expect(this.log.calledTwice).toBeFalsy();
+            done();
+        });
     });
 });
