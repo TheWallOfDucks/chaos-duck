@@ -128,7 +128,7 @@ export class Chaos {
         this._sts = value;
     }
 
-    async invoke() {
+    async invoke(log = true) {
         try {
             const supportedServices = Object.values(SupportedServices);
 
@@ -150,8 +150,10 @@ export class Chaos {
 
             this.chaosFunction = Utility.getRandom(chaosFunctions[this.service]);
 
-            console.log(`The chosen service is: ${this.service}`);
-            console.log(`The chosen function is: ${this.chaosFunction}`);
+            if (log) {
+                console.log(`The chosen service is: ${this.service}`);
+                console.log(`The chosen function is: ${this.chaosFunction}`);
+            }
 
             return {
                 service: this.service,
