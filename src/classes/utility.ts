@@ -20,24 +20,7 @@ export class Utility {
      * @returns {string}
      */
     static generateRandomNumber(length: number): string {
-        const add = 1;
-        let max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
-
-        if (length > max) {
-            return Utility.generateRandomNumber(max) + Utility.generateRandomNumber(length - max);
-        }
-
-        max = Math.pow(10, length + add);
-        const min = max / 10;
-        const number = Math.floor(Math.random() * (max - min + 1)) + min;
-
-        // @todo this is a hack
-        // There's something up with leading/trailing 0's that needs to be looked into.
-        if (number.toString().substring(add).length !== length) {
-            return this.generateRandomNumber(length);
-        }
-
-        return number.toString().substring(add);
+        return Math.floor(Math.pow(10, length - 1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1)).toString();
     }
 
     /**
@@ -118,11 +101,12 @@ export class Utility {
      */
     static validateUrl(url: string) {
         const pattern = new RegExp(
-            '^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+            '^((ft|htt)ps?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name and extension
             '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\:\\d+)?' + // port
+            '(\\/[-a-z\\d%@_.~+&:]*)*' + // path
+            '(\\?[;&a-z\\d%@_.,~+&:=-]*)?' + // query string
                 '(\\#[-a-z\\d_]*)?$',
             'i',
         ); // fragment locator

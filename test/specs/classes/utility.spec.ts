@@ -115,4 +115,18 @@ describe('utility', () => {
             done();
         });
     });
+
+    describe('validateUrl', () => {
+        it('should return true for a valid URL', (done) => {
+            const url = 'https://www.google.com';
+            expect(Utility.validateUrl(url)).toBeTruthy();
+            done();
+        });
+
+        it('should return false for an invalid URL', (done) => {
+            const url = 'url';
+            expect(Utility.validateUrl(url)).not.toBeTruthy();
+            done();
+        });
+    });
 });
