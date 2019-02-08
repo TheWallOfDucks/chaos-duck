@@ -65,19 +65,13 @@ describe('slack', () => {
     });
 
     describe('send', () => {
-        beforeEach(() => {
-            this.send = sinon.stub(slack, 'send').returns({});
-        });
-
-        afterEach(() => {
-            this.send.restore();
-        });
-
         it('should send a slack', async (done) => {
+            const send = sinon.stub(slack, 'send').returns({});
             process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
 
             const response = await slack.send(message);
             expect(response).toBeDefined();
+            send.restore();
             done();
         });
 
@@ -96,13 +90,13 @@ describe('slack', () => {
 
         it('should handle generic errors', async (done) => {
             process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
-
+            const send = sinon.stub(slack, 'send').throws(new Error('error'));
             try {
-                this.send.throws(new Error('error'));
                 await slack.send(message);
             } catch (error) {
                 expect(error.stack).toBeDefined();
                 expect(error.message).toBe('error');
+                send.restore();
             }
 
             done();
