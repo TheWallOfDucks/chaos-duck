@@ -12,6 +12,7 @@ describe('decorators', () => {
 
         it('should allow for multiple chaos functions to be mapped to the same class', async (done) => {
             expect(chaosFunctions['test'].length).toBe(2);
+            expect(chaosFunctions['test2'].length).toBe(2);
             done();
         });
     });
@@ -53,5 +54,19 @@ class Test {
     @chaosFunction()
     testFunction4() {
         return 'true';
+    }
+}
+
+class Test2 {
+    constructor() {}
+
+    @chaosFunction()
+    testFunction() {
+        return true;
+    }
+
+    @chaosFunction()
+    testFunction2() {
+        return false;
     }
 }
