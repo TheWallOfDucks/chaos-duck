@@ -222,6 +222,24 @@ describe('notification', () => {
             done();
         });
 
+        it('should receive an error', async (done) => {
+            process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
+            const notification = new Notification();
+            const environment = faker.random.word();
+            const uploadLocation = 'https://www.google.com';
+            const buildMessage = sinon.spy(notification, 'buildMessage');
+            const log = sinon.spy(console, 'log');
+
+            try {
+                await notification.send(stopRandomTask, environment, uploadLocation);
+            } catch (error) {
+                expect(buildMessage.calledWith('slack', stopRandomTask, environment, uploadLocation)).toBeTruthy();
+                expect(log.calledOnce).toBeTruthy();
+            }
+
+            done();
+        });
+
         it('should return an error if an invalid webhook url is provided', async (done) => {
             process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
             const notification = new Notification();

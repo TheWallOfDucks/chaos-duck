@@ -1,6 +1,6 @@
 import { chaosFunctions } from '../decorators/chaosFunction';
 import { SupportedServices } from '../config/supportedServices';
-import { ServiceNotFound, ChaosFunctionNotFound } from './errors';
+import { ChaosFunctionNotFound, InvalidServices } from './errors';
 import { EC2 } from '../services/ec2';
 import { ECS } from '../services/ecs';
 import { ElastiCache } from '../services/elasticache';
@@ -135,14 +135,10 @@ export class Chaos {
             const services = this.services.filter((service) => supportedServices.includes(service.toLowerCase()));
 
             if (services.length === 0) {
-                throw new ServiceNotFound('Provide a valid array of services to unleash chaos on');
+                throw new InvalidServices('Provide a valid array of services to unleash chaos on');
             }
 
             this.service = Utility.getRandom(this.services);
-
-            if (!this.service) {
-                throw new ServiceNotFound('Provide a valid array of services to unleash chaos on');
-            }
 
             if (!chaosFunctions[this.service] || chaosFunctions[this.service].length === 0) {
                 throw new ChaosFunctionNotFound(`Confirm that ${this.service} service has at least one function decorated with @chaosFunction()`);

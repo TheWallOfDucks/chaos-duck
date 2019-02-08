@@ -219,6 +219,24 @@ describe('chaos', () => {
         });
     });
 
+    describe('bad service', () => {
+        const chaos = new Chaos(['bad']);
+
+        it('should be instantiated', () => {
+            expect(chaos.services).toEqual(['bad']);
+        });
+
+        it('should return a ServiceNotFound error', async (done) => {
+            try {
+                const response = await chaos.invoke();
+                expect(response.result).toBe('Provide a valid array of services to unleash chaos on');
+            } catch (error) {
+                fail(error);
+            }
+            done();
+        });
+    });
+
     describe('multiple services', () => {
         const chaos = new Chaos(['ecs', 'rds', 'elasticache']);
 
@@ -249,17 +267,21 @@ describe('chaos', () => {
         beforeEach(() => {
             this.getRandom = sinon.spy(Utility, 'getRandom');
             this.log = sinon.spy(console, 'log');
+            this.service = sinon.spy(chaos, 'service', ['set']);
         });
 
         afterEach(() => {
             this.getRandom.restore();
             this.log.restore();
+            this.service.restore();
         });
 
         it('should return an error', async (done) => {
             const response = await chaos.invoke();
             expect(response.service).toBe('ecs');
             expect(response.result).toBe('ConfigError: Missing region in config');
+            expect(this.service.set.calledOnce).toBeTruthy();
+            expect(this.service.set.calledWith('ecs')).toBeTruthy();
             expect(this.getRandom.calledTwice).toBeTruthy();
             expect(this.getRandom.calledWith(['ecs'])).toBeTruthy();
             expect(this.log.calledTwice).toBeTruthy();
