@@ -15,20 +15,6 @@ export class Utility {
     }
 
     /**
-     * @description Returns a random number based on desired length
-     * @param {number} length
-     * @returns {string}
-     */
-    static generateRandomNumber(length: number): string {
-        const randomNum = (
-            Math.pow(10, length)
-                .toString()
-                .slice(length - 1) + Math.floor(Math.random() * Math.pow(10, length) + 1).toString()
-        ).slice(-length);
-        return randomNum;
-    }
-
-    /**
      * @description Returns the key in an object based on string value provided
      * @param {string} value
      * @returns {string}

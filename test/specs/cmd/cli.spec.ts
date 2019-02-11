@@ -28,7 +28,7 @@ describe('chaos-duck', () => {
         it('should create a duck.json file with supplied information', async (done) => {
             try {
                 const answers = {
-                    account: Utility.generateRandomNumber(12),
+                    account: '012345678912',
                     environment: faker.random.word(),
                     profile: 'default',
                     role: faker.random.word(),

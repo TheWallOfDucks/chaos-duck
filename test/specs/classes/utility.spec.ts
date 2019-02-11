@@ -18,15 +18,6 @@ describe('utility', () => {
         });
     });
 
-    describe('generateRandomNumber', () => {
-        it('should return a number of the desired length', (done) => {
-            const length = faker.random.number(50);
-            const number = Utility.generateRandomNumber(length);
-            expect(number.length).toBe(length);
-            done();
-        });
-    });
-
     describe('getServiceByValue', () => {
         it('should return formatted service name by value', (done) => {
             const service = Utility.getServiceByValue('ecs');
