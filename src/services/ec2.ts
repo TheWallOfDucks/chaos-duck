@@ -1,4 +1,5 @@
-import { EC2 as sdk } from 'aws-sdk';
+import { EC2 as sdk, AWSError } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
 import { Utility } from '../classes/utility';
 import { chaosFunction } from '../decorators/chaosFunction';
 
@@ -31,7 +32,7 @@ export class EC2 {
     }
 
     @chaosFunction()
-    async stopRandomEC2Instance() {
+    async stopRandomEC2Instance(): Promise<PromiseResult<sdk.StopInstancesResult, AWSError>> {
         try {
             const instances = await this.describeInstances();
             const reservation: sdk.Reservation = Utility.getRandom(instances.Reservations);

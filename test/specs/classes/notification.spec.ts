@@ -14,7 +14,7 @@ describe('notification', () => {
 
         it('should be disabled by default', (done) => {
             const notification = new Notification();
-            expect(notification.enabled).toBe(false);
+            expect(notification['enabled']).toBe(false);
             expect(notification['methods'].length).toBe(0);
             expect(notification['methods']).toEqual([]);
             done();
@@ -24,7 +24,7 @@ describe('notification', () => {
             process.env.SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/ABCDE/FGHIJKLMO/290348unfkje234';
 
             const notification = new Notification();
-            expect(notification.enabled).toBe(true);
+            expect(notification['enabled']).toBe(true);
             expect(notification['slack']).toBeDefined();
             expect(notification['slack']['buildMessage']).toBeDefined();
             expect(notification['slack']['send']).toBeDefined();
@@ -38,7 +38,7 @@ describe('notification', () => {
             process.env.EMAIL_TO = faker.internet.email();
 
             const notification = new Notification();
-            expect(notification.enabled).toBe(true);
+            expect(notification['enabled']).toBe(true);
             expect(notification['email']).toBeDefined();
             expect(notification['email']['buildMessage']).toBeDefined();
             expect(notification['email']['send']).toBeDefined();
@@ -51,7 +51,7 @@ describe('notification', () => {
             process.env.EMAIL_FROM = faker.internet.email();
 
             const notification = new Notification();
-            expect(notification.enabled).toBe(false);
+            expect(notification['enabled']).toBe(false);
             expect(notification['methods'].length).toBe(0);
             expect(notification['methods']).toEqual([]);
             done();
@@ -63,7 +63,7 @@ describe('notification', () => {
             process.env.EMAIL_TO = faker.internet.email();
 
             const notification = new Notification();
-            expect(notification.enabled).toBe(true);
+            expect(notification['enabled']).toBe(true);
             expect(notification['methods'].length).toBe(2);
             expect(notification['methods']).toEqual(['slack', 'email']);
             done();
@@ -148,7 +148,7 @@ describe('notification', () => {
 
             notification.send(stopRandomTask, environment, uploadLocation);
 
-            expect(notification.enabled).toBeFalsy();
+            expect(notification['enabled']).toBeFalsy();
             expect(buildMessage.called).toBeFalsy();
             expect(slack.called).toBeFalsy();
             slack.restore();
@@ -167,7 +167,7 @@ describe('notification', () => {
             });
 
             await notification.send(stopRandomTask, environment, uploadLocation, false);
-            expect(notification.enabled).toBeTruthy();
+            expect(notification['enabled']).toBeTruthy();
             expect(buildMessage.called).toBeTruthy();
             expect(buildMessage.calledOnceWith('slack', stopRandomTask, environment, uploadLocation)).toBeTruthy();
             buildMessage.restore();
@@ -190,7 +190,7 @@ describe('notification', () => {
 
             await notification.send(stopRandomTask, environment, uploadLocation, false);
 
-            expect(notification.enabled).toBeTruthy();
+            expect(notification['enabled']).toBeTruthy();
             expect(buildMessage.called).toBeTruthy();
             expect(buildMessage.calledOnceWith('email', stopRandomTask, environment, uploadLocation)).toBeTruthy();
             done();
@@ -215,7 +215,7 @@ describe('notification', () => {
 
             await notification.send(stopRandomTask, environment, uploadLocation, false);
 
-            expect(notification.enabled).toBeTruthy();
+            expect(notification['enabled']).toBeTruthy();
             expect(buildMessage.callCount).toBe(2);
             expect(buildMessage.calledWith('slack', stopRandomTask, environment, uploadLocation)).toBeTruthy();
             expect(buildMessage.calledWith('email', stopRandomTask, environment, uploadLocation)).toBeTruthy();

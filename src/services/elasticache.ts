@@ -1,4 +1,5 @@
-import { ElastiCache as sdk } from 'aws-sdk';
+import { ElastiCache as sdk, AWSError } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
 import { Utility } from '../classes/utility';
 import { chaosFunction } from '../decorators/chaosFunction';
 
@@ -31,7 +32,7 @@ export class ElastiCache {
     }
 
     @chaosFunction()
-    async failoverElasticache() {
+    async failoverElasticache(): Promise<PromiseResult<sdk.TestFailoverResult, AWSError>> {
         try {
             const clusters = await this.describeCacheClusters();
 

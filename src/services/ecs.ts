@@ -1,4 +1,5 @@
-import { ECS as sdk } from 'aws-sdk';
+import { ECS as sdk, AWSError } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
 import { Utility } from '../classes/utility';
 import { chaosFunction } from '../decorators/chaosFunction';
 
@@ -31,7 +32,7 @@ export class ECS {
     }
 
     @chaosFunction()
-    async stopRandomECSTask() {
+    async stopRandomECSTask(): Promise<PromiseResult<sdk.StopTaskResponse, AWSError>> {
         try {
             const clusters = await this.listClusters();
             const cluster: string = Utility.getRandom(clusters.clusterArns);
