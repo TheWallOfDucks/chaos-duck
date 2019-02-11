@@ -24,15 +24,15 @@ export class Notification {
         }
     }
 
-    get email() {
+    private get email() {
         return new Email();
     }
 
-    get enabled() {
+    private get enabled() {
         return this._enabled;
     }
 
-    set enabled(value: boolean) {
+    private set enabled(value: boolean) {
         this._enabled = value;
     }
 

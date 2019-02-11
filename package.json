@@ -1,13 +1,13 @@
 {
     "name": "chaos-duck",
     "version": "1.0.0",
-    "description": "Chaos Duck is a tool for testing resiliency and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
+    "description": "Chaos Duck is a tool for testing the high availability and recoverability of AWS-based architectures. It's a serverless implementation of Netflix Chaos Monkey.",
     "bin": "lib/src/cmd/index.js",
     "preferGlobal": true,
     "scripts": {
         "build": "rm -rf lib && tsc",
         "coverage": "nyc report",
-        "generate_docs": "typedoc --out docs/typedoc src/classes/*.ts --ignoreCompilerErrors --exclude src/lambda/*",
+        "generate_docs": "typedoc --out docs/typedoc src/**/*.ts --ignoreCompilerErrors",
         "link": "npm run build && npm link",
         "lint": "tslint -p .",
         "test": "npm run build ; nyc jasmine lib/test/specs/**/*.spec.js --config=./test/config/jasmine.json && nyc report"

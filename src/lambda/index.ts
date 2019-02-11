@@ -40,7 +40,7 @@ export const handler = async (event) => {
             console.log('error uploading result => ', error);
         }
 
-        if (notification.enabled) {
+        if (notification['enabled']) {
             try {
                 console.log('Sending notification(s)...');
                 await notification.send(result, environment, resultsUrl);
