@@ -47,10 +47,11 @@ Before getting started make sure you have [Node.js](https://nodejs.org) and [AWS
 
     ```json
     {
-        "environment": "sandbox",
         "account": "12345678912",
-        "role": "Sandbox-Developer",
+        "alias": "sandbox",
         "profile": "default",
+        "role": "Sandbox-Developer",
+        "services": "ECS,RDS,ElastiCache",
         "stage": "dev"
     }
     ```
@@ -80,13 +81,13 @@ chaos-duck config
 #### Supported properties
 
 - `account`: AWS account number
+- `alias`: Account alias. Can be any string used by you to identify an account
 - `chaosUrl`: The url to call when invoking Chaos Duck
     - This value will be ignored during deployments
 - `emailFrom`: The email address emails will be sent from
     - This email will need to be verified in AWS SES. Read more [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html)
 - `emailTo`: The email address emails will be sent to
     - This email will need to be verified in AWS SES. Read more [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html)    
-- `environment`: Environment name. Can be any string used by you to identify an environment
 - `profile`: Profile in your AWS .credentials file to use
     - Default: `default`
 - `role`: AWS role to assume during deploy. Whatever profile you specify needs to have access to assume this role
@@ -107,14 +108,14 @@ Example
 ```json
 {
     "account": "12345678912",
+    "alias": "sandbox",
     "chaosUrl": "https://abcde123.execute-api.us-east-1.amazonaws.com/dev/chaos",
     "emailFrom": "chaosduck@gmail.com",
     "emailTo": "development@acme.com",
-    "environment": "sandbox",
     "profile": "default",
     "role": "Sandbox-Developer",
     "schedule": "1 hour",
-    "services": "ECS,EC2,ElastiCache",
+    "services": "ECS,RDS,ElastiCache",
     "slackWebhookUrl": "https://hooks.slack.com/services/ABCDE123/FGHIJK456/laduhgfa98u234234",
     "stage": "dev"
 }
@@ -130,11 +131,11 @@ Usage: chaos-duck [options] [command]
 Chaos Duck 🦆
 
 Options:
-  -v, --version         output the version number
+  --version             output the version number
   -h, --help            output usage information
 
 Commands:
-  config|c              Setup Chaos Duck
+  config|c [options]    Setup Chaos Duck
   deploy|d [options]    Deploy Chaos Duck
   invoke|i [options]    Unleash Chaos Duck
   undeploy|u [options]  Undeploy Chaos Duck
