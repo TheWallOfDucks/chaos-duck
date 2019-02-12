@@ -76,10 +76,10 @@ export const deploy = async (cmd: any) => {
             if (code === 0) {
                 const body: IDuckConfig = {
                     account,
+                    alias,
                     chaosUrl,
                     emailFrom,
                     emailTo,
-                    alias,
                     profile,
                     role,
                     schedule,
