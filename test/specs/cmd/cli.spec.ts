@@ -29,7 +29,7 @@ describe('chaos-duck', () => {
             try {
                 const answers = {
                     account: '012345678912',
-                    environment: faker.random.word(),
+                    alias: faker.random.word(),
                     profile: 'default',
                     role: faker.random.word(),
                     stage: faker.random.word(),
@@ -45,9 +45,9 @@ describe('chaos-duck', () => {
                         ENTER,
                         answers.account,
                         ENTER,
-                        answers.profile,
+                        answers.alias,
                         ENTER,
-                        answers.environment,
+                        answers.profile,
                         ENTER,
                         answers.stage,
                         ENTER,
@@ -60,9 +60,9 @@ describe('chaos-duck', () => {
                     ],
                 );
 
-                const config = require('../../../../duck.json');
+                const config = require(`${process.cwd()}/duck.json`);
                 expect(config.account).toBe(answers.account);
-                expect(config.environment).toBe(answers.environment);
+                expect(config.alias).toBe(answers.alias);
                 expect(config.profile).toBe(answers.profile);
                 expect(config.role).toBe(answers.role);
                 expect(config.services).toBe(answers.services);
