@@ -8,7 +8,7 @@ const environment = process.env.AWS_ENV;
  * @description Lambda handler
  * @param {} event
  */
-export const handler = async (event) => {
+export const handler = async (event: any): Promise<{ statusCode: number; body: string }> => {
     try {
         let services: string[];
         let resultsUrl: string;
