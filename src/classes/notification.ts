@@ -64,8 +64,8 @@ export class Notification {
     /**
      * @description Sends messages for each desired notification method
      * @param {any} data
-     * @param {string} environment?
-     * @param {string} uploadLocation?
+     * @param {string} environment
+     * @param {string} uploadLocation
      * @param {boolean} log
      */
     async send(data: any, environment: string, uploadLocation: string, log = true) {
