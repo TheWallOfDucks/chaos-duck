@@ -70,18 +70,18 @@ const emailTo = {
     },
 };
 
-const environment = {
+const alias = {
     type: 'input',
-    name: 'environment',
+    name: 'alias',
     message: 'What is the name of your AWS account?',
     default: () => {
-        return config.environment || '';
+        return config.alias || '';
     },
-    validate: (environment: string) => {
-        if (environment === '') {
-            return 'Please enter the name of your AWS environment';
+    validate: (alias: string) => {
+        if (alias === '') {
+            return 'Please enter the alias of your AWS account';
         }
-        return environment !== '';
+        return alias !== '';
     },
 };
 
@@ -222,4 +222,4 @@ const stage = {
     },
 };
 
-export const prompts = [role, account, profile, environment, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];
+export const prompts = [role, account, alias, profile, stage, notifications, notificationProviders, slackWebhookUrl, emailFrom, emailTo, setSchedule, schedule, services];
