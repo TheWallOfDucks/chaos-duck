@@ -1,3 +1,6 @@
+/**
+ * @description Master list of supported services
+ */
 export enum SupportedServices {
     EC2 = 'ec2',
     ECS = 'ecs',

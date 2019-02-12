@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosPromise } from 'axios';
 import { Utility } from '../classes/utility';
 import { InvalidUrl } from '../classes/errors';
 import { IChaosResponse } from '../classes/chaos';
@@ -35,7 +35,14 @@ export class Slack {
         this._template = value;
     }
 
-    buildMessage(data: IChaosResponse, environment: string, uploadLocation: string) {
+    /**
+     * @description Builds a message to send through slack
+     * @param {IChaosResponse} data
+     * @param {string} environment
+     * @param {string} uploadLocation
+     * @returns any
+     */
+    buildMessage(data: IChaosResponse, environment: string, uploadLocation: string): any {
         const service = Utility.getServiceByValue(data.service);
         this.template.attachments[0].title = `The chosen service is: ${service}`;
         this.template.attachments[0].fields = [
@@ -63,6 +70,11 @@ export class Slack {
         return this.template;
     }
 
+    /**
+     * @description Sends a slack
+     * @param {any} data
+     * @returns {any} promise
+     */
     async send(data: any) {
         const url = process.env.SLACK_WEBHOOK_URL;
         if (!Utility.validateUrl(url)) throw new InvalidUrl(`${url} is not a valid url`);

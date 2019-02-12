@@ -1,6 +1,7 @@
 import { SES } from '../services/ses';
 import { InvalidEmail, InvalidUrl } from '../classes/errors';
-import { SES as sdk } from 'aws-sdk';
+import { SES as sdk, AWSError } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
 import { Utility } from '../classes/utility';
 
 /**
@@ -11,7 +12,13 @@ export class Email extends SES {
         super();
     }
 
-    buildMessage(environment: string, uploadLocation: string) {
+    /**
+     * @description Builds a message to send through email
+     * @param {string} environment
+     * @param {string} uploadLocation
+     * @returns {sdk.SendEmailRequest}
+     */
+    buildMessage(environment: string, uploadLocation: string): sdk.SendEmailRequest {
         const emailFrom = process.env.EMAIL_FROM;
         const emailTo = process.env.EMAIL_TO;
 
@@ -39,7 +46,12 @@ export class Email extends SES {
         return message;
     }
 
-    async send(message: any) {
+    /**
+     * @description Sends an email
+     * @param {sdk.SendEmailRequest} message
+     * @returns {sdk.SendEmailResponse} Promise
+     */
+    async send(message: sdk.SendEmailRequest): Promise<PromiseResult<sdk.SendEmailResponse, AWSError>> {
         try {
             return await this.sendEmail(message);
         } catch (error) {
