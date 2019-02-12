@@ -1,6 +1,7 @@
 import { Slack } from '../notification_providers/slack';
 import { Email } from '../notification_providers/email';
 import { InvalidNotificationMethod } from './errors';
+import { IChaosResponse } from './chaos';
 
 /**
  * @description Notification class is the main interface to deliver notifications to different channels.
@@ -36,7 +37,15 @@ export class Notification {
         this._enabled = value;
     }
 
-    buildMessage(method, data, environment?: string, uploadLocation?: string) {
+    /**
+     * @description Builds a message based on the desired notification method
+     * @param {string} method Notification method
+     * @param {IChaosResponse} data Response from chaos function
+     * @param {string} environment
+     * @param {string} uploadLocation
+     * @returns any
+     */
+    buildMessage(method: string, data: IChaosResponse, environment: string, uploadLocation: string): any {
         switch (method) {
             case 'slack':
                 return this.slack.buildMessage(data, environment, uploadLocation);
@@ -52,7 +61,14 @@ export class Notification {
         return new Slack();
     }
 
-    async send(data: any, environment?: string, uploadLocation?: string, log = true) {
+    /**
+     * @description Sends messages for each desired notification method
+     * @param {any} data
+     * @param {string} environment?
+     * @param {string} uploadLocation?
+     * @param {boolean} log
+     */
+    async send(data: any, environment: string, uploadLocation: string, log = true) {
         if (this.enabled) {
             try {
                 for (let i = 0; i < this.methods.length; i++) {

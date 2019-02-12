@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Utility } from '../classes/utility';
 import { InvalidUrl } from '../classes/errors';
+import { IChaosResponse } from '../classes/chaos';
 
 /**
  * @description This is the main interface for building and posting slack messages
@@ -34,7 +35,7 @@ export class Slack {
         this._template = value;
     }
 
-    buildMessage(data: any, environment: string, uploadLocation: string) {
+    buildMessage(data: IChaosResponse, environment: string, uploadLocation: string) {
         const service = Utility.getServiceByValue(data.service);
         this.template.attachments[0].title = `The chosen service is: ${service}`;
         this.template.attachments[0].fields = [
