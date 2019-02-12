@@ -134,3 +134,5 @@ export class EC2 {
 
 -   Add ability to support cron schedule rate
 -   Add ability to support multiple "to" email addresses
+-   Gracefully handle undeploy when the S3 results bucket is not empty
+    -   Currently it deletes the rest of the stack but then you must manually login, delete the bucket, and then delete the remaining stack, and then you can redeploy if you need to
