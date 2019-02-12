@@ -13,7 +13,11 @@ export class ElastiCache {
         this.elasticache = new sdk();
     }
 
-    private async describeCacheClusters() {
+    /**
+     * @description Lists all provisioned cache clusters
+     * @returns {sdk.CacheClusterMessage}
+     */
+    private async describeCacheClusters(): Promise<PromiseResult<sdk.CacheClusterMessage, AWSError>> {
         try {
             const describeCacheClusters = this.elasticache.describeCacheClusters({}).promise();
             return await describeCacheClusters;
@@ -22,7 +26,12 @@ export class ElastiCache {
         }
     }
 
-    private async describeReplicationGroups(ReplicationGroupId: string) {
+    /**
+     * @description Lists information about a given replication group
+     * @param {string} ReplicationGroupId
+     * @returns {sdk.ReplicationGroupMessage}
+     */
+    private async describeReplicationGroups(ReplicationGroupId: string): Promise<PromiseResult<sdk.ReplicationGroupMessage, AWSError>> {
         try {
             const describeReplicationGroups = this.elasticache.describeReplicationGroups({ ReplicationGroupId }).promise();
             return await describeReplicationGroups;
@@ -31,6 +40,10 @@ export class ElastiCache {
         }
     }
 
+    /**
+     * @description Fails over a random node in a replication group
+     * @returns {sdk.TestFailoverResult}
+     */
     @chaosFunction()
     async failoverElasticache(): Promise<PromiseResult<sdk.TestFailoverResult, AWSError>> {
         try {
@@ -49,7 +62,13 @@ export class ElastiCache {
         }
     }
 
-    private async testFailover(NodeGroupId: string, ReplicationGroupId: string) {
+    /**
+     * @description Fails over a node in a specified replication group
+     * @param {string} NodeGroupId
+     * @param {string} ReplicationGroupId
+     * @returns {sdk.TestFailoverResult}
+     */
+    private async testFailover(NodeGroupId: string, ReplicationGroupId: string): Promise<PromiseResult<sdk.TestFailoverResult, AWSError>> {
         try {
             console.log(`Testing failover for NodeGroupId: ${NodeGroupId} and ReplicationGroupId: ${ReplicationGroupId}`);
             const testFailover = this.elasticache.testFailover({ NodeGroupId, ReplicationGroupId }).promise();

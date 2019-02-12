@@ -131,7 +131,7 @@ export class Chaos {
     /**
      * @description Invokes a random chaos function
      * @param {boolean} log Determines if output is logged to console
-     * @returns {IChaosResponse} Promise
+     * @returns {IChaosResponse}
      */
     async invoke(log = true): Promise<IChaosResponse> {
         try {

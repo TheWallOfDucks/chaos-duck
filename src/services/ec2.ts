@@ -13,7 +13,11 @@ export class EC2 {
         this.ec2 = new sdk();
     }
 
-    private async describeInstances() {
+    /**
+     * @description Lists all relevant EC2 instances
+     * @returns {sdk.DescribeInstancesResult}
+     */
+    private async describeInstances(): Promise<PromiseResult<sdk.DescribeInstancesResult, AWSError>> {
         try {
             const describeInstances = this.ec2.describeInstances({}).promise();
             return await describeInstances;
@@ -22,7 +26,12 @@ export class EC2 {
         }
     }
 
-    private async stopInstances(InstanceIds: string[]) {
+    /**
+     * @description Stops the provided EBS backed EC2 instances
+     * @param {string[]} InstanceIds
+     * @returns {sdk.StopInstancesResult}
+     */
+    private async stopInstances(InstanceIds: string[]): Promise<PromiseResult<sdk.StopInstancesResult, AWSError>> {
         try {
             const stopInstances = this.ec2.stopInstances({ InstanceIds }).promise();
             return await stopInstances;
@@ -31,6 +40,10 @@ export class EC2 {
         }
     }
 
+    /**
+     * @description Stops a random EC2 instance
+     * @returns {sdk.StopInstancesResult}
+     */
     @chaosFunction()
     async stopRandomEC2Instance(): Promise<PromiseResult<sdk.StopInstancesResult, AWSError>> {
         try {

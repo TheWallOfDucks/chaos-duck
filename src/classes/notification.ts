@@ -43,7 +43,7 @@ export class Notification {
      * @param {IChaosResponse} data Response from chaos function
      * @param {string} environment
      * @param {string} uploadLocation
-     * @returns any
+     * @returns {any}
      */
     buildMessage(method: string, data: IChaosResponse, environment: string, uploadLocation: string): any {
         switch (method) {
@@ -67,6 +67,7 @@ export class Notification {
      * @param {string} environment
      * @param {string} uploadLocation
      * @param {boolean} log
+     * @returns {any}
      */
     async send(data: any, environment: string, uploadLocation: string, log = true) {
         if (this.enabled) {
