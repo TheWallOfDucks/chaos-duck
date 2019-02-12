@@ -5,6 +5,10 @@ const colors = require('colors');
 const fs = require('fs');
 const { spawn } = require('child_process');
 
+/**
+ * @description Calls deploy series in gulpfile to deploy stack to AWS account
+ * @param {any} cmd
+ */
 export const deploy = async (cmd: any) => {
     let account: string;
     let chaosUrl: string;

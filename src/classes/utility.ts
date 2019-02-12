@@ -1,5 +1,5 @@
 import { SupportedServices } from '../config/supportedServices';
-import { InvalidScheduleValue, InvalidScheduleUnit, InvalidUrl } from '../classes/errors';
+import { InvalidScheduleValue, InvalidScheduleUnit } from '../classes/errors';
 
 /**
  * @description Basic utility functions

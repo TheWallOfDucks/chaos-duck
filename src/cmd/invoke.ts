@@ -2,6 +2,10 @@ import axios from 'axios';
 import { InvalidUrl, InvalidServices } from '../classes/errors';
 import { Utility } from '../classes/utility';
 
+/**
+ * @description Invokes chaos duck lambda
+ * @param {any} cmd
+ */
 export const invoke = async (cmd: any) => {
     try {
         let chaosUrl: string;

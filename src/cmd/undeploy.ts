@@ -1,6 +1,10 @@
 const { spawn } = require('child_process');
 const colors = require('colors');
 
+/**
+ * @description Calls undeploy series in gulpfile to remove stack from AWS account
+ * @param {any} cmd
+ */
 export const undeploy = (cmd: any) => {
     let alias: string;
     let account: string;
