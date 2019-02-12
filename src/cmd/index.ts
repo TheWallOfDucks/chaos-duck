@@ -34,7 +34,7 @@ duck.command('config')
                         account: config.account,
                         emailFrom: config.emailFrom,
                         emailTo: config.emailTo,
-                        environment: config.environment,
+                        alias: config.alias,
                         profile: config.profile,
                         role: config.role,
                         schedule: config.schedule,
@@ -57,8 +57,8 @@ duck.command('config')
 duck.command('deploy')
     .alias('d')
     .option('-a, --account <account>', 'AWS account number')
+    .option('-al, --alias <alias>', 'Name of AWS account')
     .option('-c, --config <config>', 'If specified, will use options defined in json file provided')
-    .option('-e, --environment <environment>', 'Name of AWS environment')
     .option('--emailFrom <emailFrom>', 'The email to send notifications from')
     .option('--emailTo <emailTo>', 'The email to send notifications to')
     .option('-i, --schedule <schedule>', 'The rate at which to schedule Chaos Duck to run')
@@ -99,7 +99,7 @@ duck.command('invoke')
 duck.command('undeploy')
     .alias('u')
     .option('-c, --config <config>', 'If specified, will use options defined in json file provided')
-    .option('-e, --environment <environment>', 'Name of AWS environment')
+    .option('-al, --alias <alias>', 'Name of AWS account')
     .option('-a, --account <account>', 'AWS account number')
     .option('-r, --role <role>', 'AWS role')
     .option('-p, --profile <profile>', 'AWS profile')

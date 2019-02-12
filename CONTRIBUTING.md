@@ -15,7 +15,7 @@
 
 1. All code should be written in TypeScript following patterns demonstrated in the existing codebase. Don't be a hero.
 2. Do all work in your local forked branch and then make a pull request to the `master` branch
-3. Add me to all pull requests: caleb.duckwall@apiture.com
+3. Add me to all pull requests: calebduckwall@gmail.com
 4. Make sure all `pre-push` hooks are passing. Basically, your code should compile.
 5. Be sure your changes are tested and do not break the project for others.
     - Be sure to add/update unit tests for any changes
@@ -134,3 +134,5 @@ export class EC2 {
 
 -   Add ability to support cron schedule rate
 -   Add ability to support multiple "to" email addresses
+-   Gracefully handle undeploy when the S3 results bucket is not empty
+    -   Currently it deletes the rest of the stack but then you must manually login, delete the bucket, and then delete the remaining stack, and then you can redeploy if you need to

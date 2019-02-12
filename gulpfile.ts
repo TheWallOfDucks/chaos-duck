@@ -17,7 +17,7 @@ const generateAWSCredentials = () => {
 const getAccountAlias = () => {
     const result = execSync('aws iam list-account-aliases --max-items 1');
     const aliases = JSON.parse(result.toString());
-    const alias = options.environment || aliases.AccountAliases[0];
+    const alias = options.alias || aliases.AccountAliases[0];
 
     process.env.AWS_ENV = alias;
     return Promise.resolve(alias);
@@ -29,9 +29,9 @@ const serverlessDeploy = () => {
 };
 
 const undeploy = () => {
-    const result = execSync(`node_modules/.bin/serverless remove --environment ${options.environment} --stage ${options.stage}`, { stdio: 'inherit' });
+    const result = execSync(`node_modules/.bin/serverless remove --environment ${options.alias} --stage ${options.stage}`, { stdio: 'inherit' });
     return Promise.resolve(result);
 };
 
 exports.deploy = series(generateAWSCredentials, getAccountAlias, serverlessDeploy);
-exports.undeploy = undeploy;
+exports.undeploy = series(generateAWSCredentials, undeploy);

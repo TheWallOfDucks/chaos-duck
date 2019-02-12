@@ -128,7 +128,12 @@ export class Chaos {
         this._sts = value;
     }
 
-    async invoke(log = true) {
+    /**
+     * @description Invokes a random chaos function
+     * @param {boolean} log Determines if output is logged to console
+     * @returns {IChaosResponse} Promise
+     */
+    async invoke(log = true): Promise<IChaosResponse> {
         try {
             const supportedServices = Object.values(SupportedServices);
 
@@ -164,4 +169,10 @@ export class Chaos {
             };
         }
     }
+}
+
+export interface IChaosResponse {
+    service: string;
+    action: string;
+    result: any;
 }

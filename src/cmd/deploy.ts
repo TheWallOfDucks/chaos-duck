@@ -10,7 +10,7 @@ export const deploy = async (cmd: any) => {
     let chaosUrl: string;
     let emailFrom: string;
     let emailTo: string;
-    let environment: string;
+    let alias: string;
     let profile: string;
     let role: string;
     let schedule: string;
@@ -24,7 +24,7 @@ export const deploy = async (cmd: any) => {
             account = cmd.account;
             emailFrom = cmd.emailFrom;
             emailTo = cmd.emailTo;
-            environment = cmd.environment;
+            alias = cmd.alias;
             profile = cmd.profile || 'default';
             role = cmd.role;
             schedule = cmd.schedule;
@@ -36,7 +36,7 @@ export const deploy = async (cmd: any) => {
             account = conf.account;
             emailFrom = conf.emailFrom;
             emailTo = conf.emailTo;
-            environment = conf.environment;
+            alias = conf.alias;
             profile = conf.profile || 'default';
             role = conf.role;
             schedule = conf.schedule;
@@ -59,7 +59,7 @@ export const deploy = async (cmd: any) => {
             }
         }
 
-        const deploy = spawn('./node_modules/.bin/gulp', ['deploy', '-LL', `--environment=${environment}`, `--account=${account}`, `--role=${role}`, `--profile=${profile}`, `--stage=${stage}`]);
+        const deploy = spawn('./node_modules/.bin/gulp', ['deploy', '-LL', `--alias=${alias}`, `--account=${account}`, `--role=${role}`, `--profile=${profile}`, `--stage=${stage}`]);
 
         deploy.stdout.on('data', (data: Buffer) => {
             const output = data.toString().replace(/\n$/, '');
@@ -76,10 +76,10 @@ export const deploy = async (cmd: any) => {
             if (code === 0) {
                 const body: IDuckConfig = {
                     account,
+                    alias,
                     chaosUrl,
                     emailFrom,
                     emailTo,
-                    environment,
                     profile,
                     role,
                     schedule,

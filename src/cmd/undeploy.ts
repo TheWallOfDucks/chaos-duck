@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 const colors = require('colors');
 
 export const undeploy = (cmd: any) => {
-    let environment: string;
+    let alias: string;
     let account: string;
     let role: string;
     let profile: string;
@@ -11,21 +11,21 @@ export const undeploy = (cmd: any) => {
 
     try {
         if (cmd.account && cmd.role) {
-            environment = cmd.environment;
+            alias = cmd.alias;
             account = cmd.account;
             role = cmd.role;
             profile = cmd.profile || 'default';
             stage = cmd.stage || 'dev';
         } else {
             const conf = require(`${process.cwd()}/${config}`);
-            environment = conf.environment;
+            alias = conf.alias;
             account = conf.account;
             role = conf.role;
             profile = conf.profile || 'default';
             stage = conf.stage || 'dev';
         }
 
-        const undeploy = spawn('./node_modules/.bin/gulp', ['undeploy', '-LL', `--environment=${environment}`, `--account=${account}`, `--role=${role}`, `--profile=${profile}`, `--stage=${stage}`]);
+        const undeploy = spawn('./node_modules/.bin/gulp', ['undeploy', '-LL', `--alias=${alias}`, `--account=${account}`, `--role=${role}`, `--profile=${profile}`, `--stage=${stage}`]);
 
         undeploy.stdout.on('data', (data: Buffer) => {
             const output = data.toString().replace(/\n$/, '');
