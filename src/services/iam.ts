@@ -1,4 +1,5 @@
-import { IAM as sdk } from 'aws-sdk';
+import { IAM as sdk, AWSError } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
 
 export class IAM {
     private iam: sdk;
@@ -6,8 +7,11 @@ export class IAM {
     constructor() {
         this.iam = new sdk();
     }
-
-    async listAccountAliases() {
+    /**
+     * @description Lists account alias for the given account
+     * @returns {sdk.ListAccountAliasesResponse}
+     */
+    async listAccountAliases(): Promise<PromiseResult<sdk.ListAccountAliasesResponse, AWSError>> {
         try {
             const listAccountAliases = this.iam.listAccountAliases().promise();
             return await listAccountAliases;

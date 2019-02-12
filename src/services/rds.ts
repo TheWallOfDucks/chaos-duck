@@ -1,6 +1,7 @@
-import { RDS as sdk } from 'aws-sdk';
+import { RDS as sdk, AWSError } from 'aws-sdk';
 import { Utility } from '../classes/utility';
 import { chaosFunction } from '../decorators/chaosFunction';
+import { PromiseResult } from 'aws-sdk/lib/request';
 
 export class RDS {
     private rds: sdk;
@@ -9,7 +10,11 @@ export class RDS {
         this.rds = new sdk();
     }
 
-    private async describeDBClusters() {
+    /**
+     * @description Lists information about provisioned Aurora DB clusters
+     * @returns {sdk.DBClusterMessage}
+     */
+    private async describeDBClusters(): Promise<PromiseResult<sdk.DBClusterMessage, AWSError>> {
         try {
             const describeDBClusters = this.rds.describeDBClusters({}).promise();
             return await describeDBClusters;
@@ -18,7 +23,13 @@ export class RDS {
         }
     }
 
-    private async failoverDBCluster(DBClusterIdentifier: string, TargetDBInstanceIdentifier: string) {
+    /**
+     * @description Forces failover of the specified DB cluster. A failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer)
+     * @param {string} DBClusterIdentifier
+     * @param {string} TargetDBInstanceIdentifier
+     * @returns {sdk.FailoverDBClusterResult}
+     */
+    private async failoverDBCluster(DBClusterIdentifier: string, TargetDBInstanceIdentifier: string): Promise<PromiseResult<sdk.FailoverDBClusterResult, AWSError>> {
         try {
             console.log(`Testing failover for DBClusterIdentifier: ${DBClusterIdentifier} and TargetDBInstanceIdentifier: ${TargetDBInstanceIdentifier}`);
             const failover = this.rds.failoverDBCluster({ DBClusterIdentifier, TargetDBInstanceIdentifier }).promise();
@@ -28,8 +39,12 @@ export class RDS {
         }
     }
 
+    /**
+     * @description Fails over a random DB cluster
+     * @returns {sdk.FailoverDBClusterResult}
+     */
     @chaosFunction()
-    async failoverRandomDBCluster() {
+    async failoverRandomDBCluster(): Promise<PromiseResult<sdk.FailoverDBClusterResult, AWSError> | string> {
         const clusters = await this.describeDBClusters();
         const availableClusters: sdk.DBCluster[] = [];
 
