@@ -13,7 +13,11 @@ export class ECS {
         this.ecs = new sdk();
     }
 
-    private async listClusters() {
+    /**
+     * @description Lists ECS clusters
+     * @returns {sdk.ListClustersResponse}
+     */
+    private async listClusters(): Promise<PromiseResult<sdk.ListClustersResponse, AWSError>> {
         try {
             const listClusters = this.ecs.listClusters({}).promise();
             return await listClusters;
@@ -22,7 +26,12 @@ export class ECS {
         }
     }
 
-    private async listTasks(cluster: string) {
+    /**
+     * @description Lists tasks for a given ECS cluster
+     * @param {string} cluster
+     * @returns {sdk.ListTasksResponse}
+     */
+    private async listTasks(cluster: string): Promise<PromiseResult<sdk.ListTasksResponse, AWSError>> {
         try {
             const listTasks = this.ecs.listTasks({ cluster }).promise();
             return await listTasks;
@@ -31,6 +40,10 @@ export class ECS {
         }
     }
 
+    /**
+     * @description Stops a random ECS task
+     * @returns {sdk.StopTaskResponse}
+     */
     @chaosFunction()
     async stopRandomECSTask(): Promise<PromiseResult<sdk.StopTaskResponse, AWSError>> {
         try {
@@ -55,7 +68,13 @@ export class ECS {
         }
     }
 
-    private async stopTask(cluster: string, task: string) {
+    /**
+     * @description Stops a running ECS task
+     * @param {string} cluster
+     * @param {string} task
+     * @returns {sdk.StopTaskResponse}
+     */
+    private async stopTask(cluster: string, task: string): Promise<PromiseResult<sdk.StopTaskResponse, AWSError>> {
         try {
             const stopTask = this.ecs.stopTask({ cluster, task, reason: 'Stopped by chaos-duck' }).promise();
             return await stopTask;
