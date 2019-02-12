@@ -5,6 +5,7 @@ import { Utility } from '../classes/utility';
 /**
  * @description Invokes chaos duck lambda
  * @param {any} cmd
+ * @returns {any}
  */
 export const invoke = async (cmd: any) => {
     try {

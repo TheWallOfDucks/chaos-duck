@@ -1,5 +1,6 @@
 /**
  * @description This function returns a valid schedule object to deploy with serverless
+ * @returns {{rate: string; enabled: boolean; input: { body: any }}}
  */
 export const schedule = (): { rate: string; enabled: boolean; input: { body: any } } => {
     let rate: string = '1 hour';
