@@ -3,9 +3,6 @@ import { PromiseResult } from 'aws-sdk/lib/request';
 import { Utility } from '../classes/utility';
 import { chaosFunction } from '../decorators/chaosFunction';
 
-/**
- * @description EC2 service class
- */
 export class EC2 {
     private ec2: sdk;
 

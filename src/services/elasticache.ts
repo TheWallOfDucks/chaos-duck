@@ -3,9 +3,6 @@ import { PromiseResult } from 'aws-sdk/lib/request';
 import { Utility } from '../classes/utility';
 import { chaosFunction } from '../decorators/chaosFunction';
 
-/**
- * @description ElastiCache service class
- */
 export class ElastiCache {
     private elasticache: sdk;
 
