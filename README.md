@@ -1,4 +1,4 @@
-# chaos-duck 🦆
+# 🦆 chaos-duck
 
 ## Description
 
