@@ -49,7 +49,7 @@ export class Email extends SES {
     /**
      * @description Sends an email
      * @param {sdk.SendEmailRequest} message
-     * @returns {sdk.SendEmailResponse} Promise
+     * @returns {sdk.SendEmailResponse}
      */
     async send(message: sdk.SendEmailRequest): Promise<PromiseResult<sdk.SendEmailResponse, AWSError>> {
         try {

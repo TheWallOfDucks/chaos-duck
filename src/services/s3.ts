@@ -1,4 +1,5 @@
 import { S3 as sdk } from 'aws-sdk';
+import { IChaosResponse } from '../classes/chaos';
 
 const qs = require('querystring');
 
@@ -11,7 +12,12 @@ export class S3 {
         this.bucket = process.env.RESULTS_BUCKET;
     }
 
-    async uploadResult(result: any) {
+    /**
+     * @description Uploads response to results bucket
+     * @param {IChaosResponse} result
+     * @returns {sdk.ManagedUpload.SendData}
+     */
+    async uploadResult(result: IChaosResponse): Promise<sdk.ManagedUpload.SendData> {
         try {
             const uploadResult = this.s3
                 .upload({

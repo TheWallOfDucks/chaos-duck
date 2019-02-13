@@ -1,4 +1,5 @@
-import { SES as sdk } from 'aws-sdk';
+import { SES as sdk, AWSError } from 'aws-sdk';
+import { PromiseResult } from 'aws-sdk/lib/request';
 
 export class SES {
     private ses: sdk;
@@ -7,7 +8,12 @@ export class SES {
         this.ses = new sdk();
     }
 
-    async sendEmail(message: any) {
+    /**
+     * @description Sends an email
+     * @param {sdk.SendEmailRequest} message
+     * @returns {sdk.SendEmailResponse}
+     */
+    async sendEmail(message: sdk.SendEmailRequest): Promise<PromiseResult<sdk.SendEmailResponse, AWSError>> {
         try {
             const sendEmail = this.ses.sendEmail(message).promise();
             return await sendEmail;
