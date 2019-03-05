@@ -1,0 +1,40 @@
+{
+    "silent": true,
+    "extension": [
+      ".js"
+    ],
+    "include": [
+      "lib/src"
+    ],
+    "exclude": ["lib/src/cmd", "lib/src/services", "lib/src/config"],
+    "reporter": [
+      "text",
+      "text-summary",
+      "html",
+      "cobertura"
+    ],
+    "watermarks": {
+      "lines": [
+        90,
+        95
+      ],
+      "functions": [
+        90,
+        95
+      ],
+      "branches": [
+        90,
+        95
+      ],
+      "statements": [
+        90,
+        95
+      ]
+    },
+    "cache": true,
+    "per-file": true,
+    "lines": 90,
+    "statements": 90,
+    "functions": 90,
+    "branches": 90
+}

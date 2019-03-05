@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "ES2017",
+        "module": "commonjs",
+        "declaration": true,
+        "moduleResolution": "node",
+        "removeComments": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "outDir": "lib"
+    },
+    "include": ["index.ts", "src/**/*", "test/**/*"],
+    "exclude": ["./node_modules", "prettier.config.js"],
+    "compileOnSave": false
+}

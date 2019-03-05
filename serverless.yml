@@ -1,0 +1,41 @@
+service: chaos-duck
+
+package:
+  individually: false
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 1024
+  stage: ${env:AWS_STAGE}
+  iamManagedPolicies:
+    - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
+    - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
+    - 'arn:aws:iam::aws:policy/AmazonECS_FullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonElastiCacheFullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonEC2FullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonRDSFullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonSESFullAccess'
+    - 'arn:aws:iam::aws:policy/IAMReadOnlyAccess'
+    - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
+  region: us-east-1
+  versionFunctions: false
+  environment:
+    SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+    EMAIL_FROM: ${env:EMAIL_FROM}
+    EMAIL_TO: ${env:EMAIL_TO}
+    AWS_ENV: ${env:AWS_ENV}
+    RESULTS_BUCKET:
+      Ref: Results
+
+functions:
+  chaos:
+    handler: lib/src/lambda/index.handler
+    events:
+      - http:
+          path: chaos
+          method: post
+      - schedule: ${file(lib/src/config/schedule.js):schedule} #NOTE: there is a bug in Lambda that causes the UI not to show the correct enabled value. Look at CloudWatch to see correct value
+
+resources:
+  - ${file(src/config/s3.yml)}

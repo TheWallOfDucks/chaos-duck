@@ -1,0 +1,12 @@
+.DS_Store
+node_modules
+.vscode
+lib
+.serverless
+.env
+.environments
+docs
+duck.json
+test/reports/*.xml
+.nyc_output
+coverage
